@@ -25,11 +25,13 @@
                 'Longitude: ' + position.coords.longitude + '<br />' + '<hr />';
         };
 
-        function onSuccessAcce(acceleration) {
-            document.getElementById("accelerationX").textContent = "Acceleration X: " + acceleration.x;
-            document.getElementById("accelerationY").textContent = "Acceleration Y: " + acceleration.y;
-            document.getElementById("accelerationZ").textContent = "Acceleration Z: " + acceleration.z;
-            document.getElementById("timestamp").textContent = "Timestamp: " + acceleration.timestamp;
+        var onSuccessAcce = function(acceleration) {
+            var element = document.getElementById('acceleration');
+            element.innerHTML = 'Acceleration X: ' + acceleration.x + '<br />' +
+                'Acceleration Y: ' + acceleration.y + '<br />' +
+                'Acceleration Z: ' + acceleration.z + '<br />' +
+                'Timestamp: ' + acceleration.timestamp + '<br />' +
+                '<hr />';
         }
 
         // onError Callback receives a PositionError object
@@ -44,8 +46,8 @@
 
         var options = { frequency: 3000 };  // Update every 3 seconds
         
-        var watchID = navigator.geolocation.watchPosition(onSuccessGeo, onErrorGeo, { timeout: 30000 });
-        var watchID = navigator.accelerometer.watchAcceleration(onSuccessAcce, onErrorAcce, options);
+        var watchGeo = navigator.geolocation.watchPosition(onSuccessGeo, onErrorGeo, options);
+        var watchAcce = navigator.accelerometer.watchAcceleration(onSuccessAcce, onErrorAcce, options);
     };
 
     function onPause() {
