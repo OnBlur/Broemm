@@ -1,0 +1,13 @@
+{
+    "name": "BroemmVS",
+    "version": "1.0.0",
+    "private": true,
+    "dependencies": {
+        "cordova-plugin-geolocation": "^4.0.1"
+    },
+    "cordova": {
+        "plugins": {
+            "cordova-plugin-geolocation": {}
+        }
+    }
+}
