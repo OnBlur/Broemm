@@ -19,7 +19,7 @@
         listeningElement.setAttribute('style', 'display:none;');
         receivedElement.setAttribute('style', 'display:block;');
 
-        var onSuccess = function (position) {
+        var onSuccessGeo = function (position) {
             document.getElementById("latitude").textContent = "latitude: " + position.coords.latitude;
             document.getElementById("longitude").textContent = "longitude: " + position.coords.longitude;
             document.getElementById("altitude").textContent = "altitude: " + position.coords.altitude;
@@ -30,13 +30,27 @@
             document.getElementById("timestamp").textContent = "timestamp: " + position.coords.timestamp;
         };
 
+        function onSuccessAcce(acceleration) {
+            document.getElementById("accelerationX").textContent = "Acceleration X: " + acceleration.x;
+            document.getElementById("accelerationY").textContent = "Acceleration Y: " + acceleration.y;
+            document.getElementById("accelerationZ").textContent = "Acceleration Z: " + acceleration.z;
+            document.getElementById("timestamp").textContent = "Timestamp: " + acceleration.timestamp;
+        }
+
         // onError Callback receives a PositionError object
-        function onError(error) {
+        function onErrorGeo(error) {
             alert('code: ' + error.code + '\n' +
                 'message: ' + error.message + '\n');
         }
 
-        navigator.geolocation.getCurrentPosition(onSuccess, onError);
+        function onErrorAcce() {
+            alert('onError!');
+        }
+
+        var options = { frequency: 3000 };  // Update every 3 seconds
+
+        navigator.geolocation.getCurrentPosition(onSuccessGeo, onErrorGeo);
+        var watchID = navigator.accelerometer.watchAcceleration(onSuccessAcce, onErrorAcce, options);
     };
 
     function onPause() {
