@@ -19,6 +19,8 @@
         listeningElement.setAttribute('style', 'display:none;');
         receivedElement.setAttribute('style', 'display:block;');
 
+        var permissions = cordova.plugins.permissions;
+
         var onSuccessGeo = function (position) {
             var element = document.getElementById('geolocation');
             element.innerHTML = 'Latitude: ' + position.coords.latitude + '<br />' +
@@ -34,6 +36,13 @@
                 '<hr />';
         };
 
+        // Ask for geo permission
+        function success(status) {
+            if (!status.hasPermission) error();
+            // Run geotracker if permissions are valid
+            var watchGeo = navigator.geolocation.watchPosition(onSuccessGeo, onError, options);
+        }
+
         // onError Callback receives a Error object
         function onError(error) {
             alert('code: ' + error.code + '\n' +
@@ -41,8 +50,8 @@
         }
 
         var options = { frequency: 1000 };  // Update every second
-        
-        var watchGeo = navigator.geolocation.watchPosition(onSuccessGeo, onError, options);
+
+        permissions.requestPermission(permissions.ACCESS_FINE_LOCATION, success, onError);
         var watchAcce = navigator.accelerometer.watchAcceleration(onSuccessAcce, onError, options);
     };
 
