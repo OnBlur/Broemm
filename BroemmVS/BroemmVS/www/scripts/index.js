@@ -10,7 +10,7 @@
     function onDeviceReady() {
         // Handle the Cordova pause and resume events
         document.addEventListener( 'pause', onPause.bind( this ), false );
-        document.addEventListener( 'resume', onResume.bind( this ), false );
+        document.addEventListener('resume', onResume.bind(this), false);
         
         // TODO: Cordova has been loaded. Perform any initialization that requires Cordova here.
         var parentElement = document.getElementById('deviceready');
@@ -25,29 +25,25 @@
                 'Longitude: ' + position.coords.longitude + '<br />' + '<hr />';
         };
 
-        var onSuccessAcce = function(acceleration) {
+        var onSuccessAcce = function (acceleration) {
             var element = document.getElementById('acceleration');
             element.innerHTML = 'Acceleration X: ' + acceleration.x + '<br />' +
                 'Acceleration Y: ' + acceleration.y + '<br />' +
                 'Acceleration Z: ' + acceleration.z + '<br />' +
                 'Timestamp: ' + acceleration.timestamp + '<br />' +
                 '<hr />';
-        }
+        };
 
-        // onError Callback receives a PositionError object
-        function onErrorGeo(error) {
+        // onError Callback receives a Error object
+        function onError(error) {
             alert('code: ' + error.code + '\n' +
                 'message: ' + error.message + '\n');
         }
 
-        function onErrorAcce() {
-            alert('onError!');
-        }
-
-        var options = { frequency: 3000 };  // Update every 3 seconds
+        var options = { frequency: 1000 };  // Update every second
         
-        var watchGeo = navigator.geolocation.watchPosition(onSuccessGeo, onErrorGeo, options);
-        var watchAcce = navigator.accelerometer.watchAcceleration(onSuccessAcce, onErrorAcce, options);
+        var watchGeo = navigator.geolocation.watchPosition(onSuccessGeo, onError, options);
+        var watchAcce = navigator.accelerometer.watchAcceleration(onSuccessAcce, onError, options);
     };
 
     function onPause() {

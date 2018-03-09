@@ -1,11 +1,11 @@
 {
      "android": {
-         "release": {
-             "keystore": "",
-             "storePassword": "",
-             "alias": "",
-             "password" : "",
-             "keystoreType": ""
-         }
+      "release": {
+        "keystore": "broemm.keystore",
+        "storePassword": "123456",
+        "alias": "BROEMM",
+        "password": "123456",
+        "keystoreType": ""
+      }
      }
  }
