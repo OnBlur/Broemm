@@ -91,7 +91,7 @@
   <plugin name="cordova-plugin-geolocation" spec="^4.0.1" />
   <plugin name="cordova-plugin-device-motion" spec="^1.2.5" />
   <preference name="Orientation" value="portrait" />
-  <preference name="Fullscreen" value="True" />
+  <preference name="Fullscreen" value="False" />
   <engine name="android" spec="~5.2.1" />
   <engine name="ios" spec="4.2.0" />
   <engine name="windows" spec="4.4.2" />

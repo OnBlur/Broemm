@@ -30,6 +30,19 @@ body {
 }
 
 .app {
+    padding:15px;
+}
+
+#map {
+    height: 400px;
+    width: 100%;
+}
+
+#geolocation{
+
+}
+
+#acceleration{
 
 }
 
@@ -55,8 +68,7 @@ h1 {
     -webkit-border-radius:4px;
     color:#FFFFFF;
     font-size:12px;
-    margin:0px 30px;
-    padding:2px 0px;
+    padding:5px 5px;
 }
 
 .event.listening {
@@ -84,4 +96,5 @@ h1 {
 .blink {
     animation:fade 3000ms infinite;
     -webkit-animation:fade 3000ms infinite;
+    text-align:center;
 }
