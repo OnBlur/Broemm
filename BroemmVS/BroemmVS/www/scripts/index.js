@@ -21,63 +21,87 @@
 
         var permissions = cordova.plugins.permissions;
 
-        var Latitude = undefined;
-        var Longitude = undefined;
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
+        
+        var map = L.map('map').setView([53.2, 5.8], 10);
+
+        function setCoords(position) {
+            latitude = position.coords.latitude;
+            alert("setCoords: ");
+            Longitude = position.coords.longitude;
+        }
+
+        function onErrorGeo(error) {
+            alert('code: ' + error.code + '\n' +
+                'message: ' + error.message + '\n');
+        }
+
+        //function getMapLocation() {
+        //    navigator.geolocation.getCurrentPosition
+        //        (onMapSuccess, onError, { enableHighAccuracy: true });
+        //}
 
         function getMapLocation() {
-            navigator.geolocation.getCurrentPosition
-                (onMapSuccess, onError, { enableHighAccuracy: true });
-        }
+            var watchGeo = navigator.geolocation.watchPosition(setCoords, onErrorGeo, options);
 
-        // Success callback for get geo coordinates
-        var onMapSuccess = function (position) {
-            Latitude = position.coords.latitude;
-            Longitude = position.coords.longitude;
+            L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+
+            var marker = L.marker([53.2, 5.8]).addTo(map);
+            alert("getMapLocation: ");
+        }
+        
+        //// Success callback for get geo coordinates
+        //var onMapSuccess = function (position) {
+        //    Latitude = position.coords.latitude;
+        //    Longitude = position.coords.longitude;
             
-            getMap(Latitude, Longitude);
-        }
+        //    getMap(Latitude, Longitude);
+        //}
 
-        // Get map by using coordinates
-        function getMap(latitude, longitude) {
+        //// Get map by using coordinates
+        //function getMap(latitude, longitude) {
 
-            var mapOptions = {
-                center: new google.maps.LatLng(0, 0),
-                zoom: 1,
-                mapTypeId: google.maps.MapTypeId.ROADMAP
-            };
+        //    var mapOptions = {
+        //        center: new google.maps.LatLng(0, 0),
+        //        zoom: 1,
+        //        mapTypeId: google.maps.MapTypeId.ROADMAP
+        //    };
 
-            map = new google.maps.Map(document.getElementById("map"), mapOptions);
+        //    map = new google.maps.Map(document.getElementById("map"), mapOptions);
 
-            var latLong = new google.maps.LatLng(latitude, longitude);
+        //    var latLong = new google.maps.LatLng(latitude, longitude);
 
-            var marker = new google.maps.Marker({
-                position: latLong
-            });
+        //    var marker = new google.maps.Marker({
+        //        position: latLong
+        //    });
 
-            marker.setMap(map);
-            map.setZoom(15);
-            map.setCenter(marker.getPosition());
-        }
+        //    marker.setMap(map);
+        //    map.setZoom(15);
+        //    map.setCenter(marker.getPosition());
+        //}
 
-        // Success callback for watching your changing position
-        var onMapWatchSuccess = function (position) {
-            var updatedLatitude = position.coords.latitude;
-            var updatedLongitude = position.coords.longitude;
+        //// Success callback for watching your changing position
+        //var onMapWatchSuccess = function (position) {
+        //    var updatedLatitude = position.coords.latitude;
+        //    var updatedLongitude = position.coords.longitude;
             
-            if (updatedLatitude != Latitude && updatedLongitude != Longitude) {
+        //    if (updatedLatitude != Latitude && updatedLongitude != Longitude) {
 
-                Latitude = updatedLatitude;
-                Longitude = updatedLongitude;
+        //        Latitude = updatedLatitude;
+        //        Longitude = updatedLongitude;
 
-                getMap(updatedLatitude, updatedLongitude);
-            }    
-        }
+        //        getMap(updatedLatitude, updatedLongitude);
+        //    }    
+        //}
 
-        // Watch your changing position
-        function watchMapPosition() {
-            return navigator.geolocation.watchPosition
-                (onMapWatchSuccess, onMapError, { enableHighAccuracy: true });
-        }
+        //// Watch your changing position
+        //function watchMapPosition() {
+        //    return navigator.geolocation.watchPosition
+        //        (onMapWatchSuccess, onMapError, { enableHighAccuracy: true });
+        //}
 
         //var onSuccessGeo = function (position) {
         //    var element = document.getElementById('geolocation');
@@ -109,7 +133,7 @@
 
         var options = { frequency: 1000 };  // Update every second
 
-        permissions.requestPermission(permissions.ACCESS_FINE_LOCATION, success, onError); 
+        permissions.requestPermission(permissions.ACCESS_FINE_LOCATION, success, onError);
         var watchAcce = navigator.accelerometer.watchAcceleration(onSuccessAcce, onError, options);
     };
 
