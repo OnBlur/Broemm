@@ -27,6 +27,8 @@
 
         var firstPosition = [];
         var secondPosition = [];
+
+        var options = { timeout: 1000 }; // Update every second
         
         var accelerationId = document.getElementById('acceleration');
         var speedId = document.getElementById('speed');
@@ -45,7 +47,7 @@
             getTiles();
             lc.start();
 
-            var watchID = navigator.geolocation.watchPosition(setCoords, onError, { timeout: 10000 });
+            var watchID = navigator.geolocation.watchPosition(setCoords, onError, options);
         }
 
         function getTiles() {
@@ -65,7 +67,7 @@
                 '<hr />';
 
             fillVelo();
-            var watchChange = navigator.geolocation.watchPosition(setCoordsNew, onError, { timeout: 10000 });
+            var watchChange = navigator.geolocation.watchPosition(setCoordsNew, onError, options);
         }
 
         // Store new coords in secondPosition and check if the array is the same as firstPosition, 
@@ -96,13 +98,16 @@
                 Math.sin(dLon / 2) * Math.sin(dLon / 2);
             var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
             var d = R * c;
-            //alert(d * 1000);
-            velocity = d * 1000; // meters
-            return velocity; 
+            precisionRound(d * 1000, 3);
+        }
+
+        function precisionRound(number, precision) {
+            var factor = Math.pow(10, precision);
+            velocity = Math.round(number * factor) / factor;
         }
 
         function fillVelo() {
-            speedId.innerHTML = 'Speed: ' + velocity + '<br />' +
+            speedId.innerHTML = 'Speed: ' + velocity + 'm/s' + '<br />' +
                 '<hr />';
         };
         
@@ -123,11 +128,9 @@
 
         // onError Callback receives a Error object
         function onError(error) {
-            alert('code: ' + error.code + '\n' +
+            console.log('code: ' + error.code + '\n' +
                 'message: ' + error.message + '\n');
         }
-
-        var options = { frequency: 1000 };  // Update every second
 
         permissions.requestPermission(permissions.ACCESS_FINE_LOCATION, successPerm, onError);
         var watchAcce = navigator.accelerometer.watchAcceleration(onSuccessAcce, onError, options);
