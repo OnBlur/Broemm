@@ -64,6 +64,7 @@
                 'longitude: ' + longitude + '<br />' +
                 '<hr />';
 
+            fillVelo();
             var watchChange = navigator.geolocation.watchPosition(setCoordsNew, onError, { timeout: 10000 });
         }
 
@@ -97,7 +98,6 @@
             var d = R * c;
             //alert(d * 1000);
             velocity = d * 1000; // meters
-            fillVelo();
             return velocity; 
         }
 
