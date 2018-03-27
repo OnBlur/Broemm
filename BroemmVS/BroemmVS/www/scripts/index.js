@@ -21,9 +21,12 @@
 
         var permissions = cordova.plugins.permissions;
 
-        var Latitude = undefined;
-        var Longitude = undefined;
+        var latitude = undefined;
+        var longitude = undefined;
 
+        var firstPosition = [];
+        var secondPosition = [];
+        
         var accelerationId = document.getElementById('acceleration');
         var speedId = document.getElementById('speed');
         var map = L.map('map');
@@ -50,16 +53,48 @@
         }
         
         function setCoords(position) {
-            Latitude = position.coords.latitude;
-            Longitude = position.coords.longitude;
+            firstPosition = [position.coords.latitude, position.coords.longitude];
+            latitude = position.coords.latitude;
+            longitude = position.coords.longitude;
 
             var element = document.getElementById('geolocation');
-            element.innerHTML = 'Latitude: ' + Latitude + '<br />' +
-                'Longitude: ' + Longitude + '<br />' +
+            element.innerHTML = 'latitude: ' + latitude + '<br />' +
+                'longitude: ' + longitude + '<br />' +
                 '<hr />';
-            
-            //map = L.map('map').setView([Latitude, Longitude], 15);
-            //marker = L.marker([Latitude, Longitude]).addTo(map);
+
+            var watchChange = navigator.geolocation.watchPosition(setCoordsNew, onError, { timeout: 10000 });
+        }
+
+        // Store new coords in secondPosition and check if the array is the same as firstPosition, 
+        // if not then push the positions to measure algorithm
+        function setCoordsNew(position) {
+            secondPosition = [position.coords.latitude, position.coords.longitude];
+
+            var i = 0;
+
+            while (i < 2) {
+                if (firstPosition != secondPosition) {
+                    //firstPosition = secondPosition;
+                    measure(firstPosition[0], firstPosition[1], secondPosition[0], secondPosition[1]);
+                } else {
+                    break;
+                }
+                i++;
+            }
+        }
+
+        // Algorithm to calculate speed
+        function measure(lat1, lon1, lat2, lon2) {  // generally used geo measurement function
+            var R = 6378.137; // Radius of earth in KM
+            var dLat = lat2 * Math.PI / 180 - lat1 * Math.PI / 180;
+            var dLon = lon2 * Math.PI / 180 - lon1 * Math.PI / 180;
+            var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                Math.sin(dLon / 2) * Math.sin(dLon / 2);
+            var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            var d = R * c;
+            alert(d * 1000);
+            return d * 1000; // meters
         }
         
         var onSuccessAcce = function (acceleration) {
