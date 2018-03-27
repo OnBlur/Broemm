@@ -23,12 +23,14 @@
 
         var latitude = undefined;
         var longitude = undefined;
+        var velocity = 0;
 
         var firstPosition = [];
         var secondPosition = [];
         
         var accelerationId = document.getElementById('acceleration');
         var speedId = document.getElementById('speed');
+        
         var map = L.map('map');
         //var marker = undefined;
         
@@ -93,9 +95,16 @@
                 Math.sin(dLon / 2) * Math.sin(dLon / 2);
             var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
             var d = R * c;
-            alert(d * 1000);
-            return d * 1000; // meters
+            //alert(d * 1000);
+            velocity = d * 1000; // meters
+            fillVelo();
+            return velocity; 
         }
+
+        function fillVelo() {
+            speedId.innerHTML = 'Speed: ' + velocity + '<br />' +
+                '<hr />';
+        };
         
         var onSuccessAcce = function (acceleration) {
             accelerationId.innerHTML = 'Acceleration X: ' + acceleration.x + '<br />' +
