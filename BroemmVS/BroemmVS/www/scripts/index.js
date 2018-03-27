@@ -25,19 +25,21 @@
         var Longitude = undefined;
 
         var accelerationId = document.getElementById('acceleration');
+        var speedId = document.getElementById('speed');
         var map = L.map('map');
         //var marker = undefined;
         
         function getCoords() {
             var lc = L.control.locate({
                 locateOptions: {
-                    enableHighAccuracy: true
+                    enableHighAccuracy: true,
+                    maxZoom: 17
                 }
             }).addTo(map);
-
+            
             getTiles();
             lc.start();
-            
+
             var watchID = navigator.geolocation.watchPosition(setCoords, onError, { timeout: 10000 });
         }
 
