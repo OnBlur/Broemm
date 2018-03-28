@@ -125,7 +125,7 @@
 
         // Ask for geo permission
         function successPerm(status) {
-            if (!status.hasPermission) error();
+            if (!status.hasPermission) onError();
             // Run geotracker if permissions are valid
             getCoords();
         }
