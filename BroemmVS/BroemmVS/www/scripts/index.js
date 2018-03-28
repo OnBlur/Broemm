@@ -123,20 +123,13 @@
                 '<hr />';
         };
 
-        // Ask for geo permission
-        function successPerm(status) {
-            if (!status.hasPermission) onError();
-            // Run geotracker if permissions are valid
-            getCoords();
-        }
-
         // onError Callback receives a Error object
         function onError(error) {
             console.log('code: ' + error.code + '\n' +
                 'message: ' + error.message + '\n');
         }
 
-        permissions.requestPermission(permissions.ACCESS_FINE_LOCATION, successPerm, onError);
+        permissions.requestPermission(permissions.ACCESS_FINE_LOCATION, getCoords, onError);
         var watchAcce = navigator.accelerometer.watchAcceleration(onSuccessAcce, onError, options);
     };
 
