@@ -47,6 +47,7 @@
             getTiles();
             lc.start();
 
+            navigator.geolocation.getCurrentPosition(initializePosition, onError);
             var watchID = navigator.geolocation.watchPosition(setCoords, onError, options);
         }
 
@@ -55,9 +56,13 @@
                 attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             }).addTo(map);
         }
+
+        var initializePosition = function (position) {
+            firstPosition = [position.coords.latitude, position.coords.longitude];
+        }
         
         function setCoords(position) {
-            firstPosition = [position.coords.latitude, position.coords.longitude];
+            secondPosition = [position.coords.latitude, position.coords.longitude];
             latitude = position.coords.latitude;
             longitude = position.coords.longitude;
 
@@ -69,18 +74,17 @@
             fillVelo();
             var watchChange = navigator.geolocation.watchPosition(setCoordsNew, onError, options);
         }
-
+        
         // Store new coords in secondPosition and check if the array is the same as firstPosition, 
         // if not then push the positions to measure algorithm
         function setCoordsNew(position) {
-            secondPosition = [position.coords.latitude, position.coords.longitude];
 
             var i = 0;
 
             while (i < 2) {
                 if (firstPosition != secondPosition) {
-                    //firstPosition = secondPosition;
                     measure(firstPosition[0], firstPosition[1], secondPosition[0], secondPosition[1]);
+                    firstPosition = secondPosition;
                 } else {
                     break;
                 }
