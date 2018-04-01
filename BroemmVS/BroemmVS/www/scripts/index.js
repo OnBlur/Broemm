@@ -29,7 +29,8 @@
         var secondPosition = [];
 
         var options = { timeout: 1000 }; // Update every second
-        
+
+        var geolocationId = document.getElementById('geolocation');
         var accelerationId = document.getElementById('acceleration');
         var speedId = document.getElementById('speed');
         
@@ -66,19 +67,26 @@
             latitude = position.coords.latitude;
             longitude = position.coords.longitude;
 
-            var element = document.getElementById('geolocation');
-            element.innerHTML = 'latitude: ' + latitude + '<br />' +
-                'longitude: ' + longitude + '<br />' +
-                '<hr />';
-
+            fillGeo();
             fillVelo();
+
             var watchChange = navigator.geolocation.watchPosition(setCoordsNew, onError, options);
         }
+
+        function fillGeo() {
+            geolocationId.innerHTML = 'latitude: ' + latitude + '<br />' +
+                'longitude: ' + longitude + '<br />' +
+                '<hr />';
+        }
+
+        function fillVelo() {
+            speedId.innerHTML = 'Speed: ' + velocity + 'm/s' + '<br />' +
+                '<hr />';
+        };
         
         // Store new coords in secondPosition and check if the array is the same as firstPosition, 
         // if not then push the positions to measure algorithm
         function setCoordsNew(position) {
-
             var i = 0;
 
             while (i < 2) {
@@ -109,11 +117,6 @@
             var factor = Math.pow(10, precision);
             velocity = Math.round(number * factor) / factor;
         }
-
-        function fillVelo() {
-            speedId.innerHTML = 'Speed: ' + velocity + 'm/s' + '<br />' +
-                '<hr />';
-        };
         
         var onSuccessAcce = function (acceleration) {
             accelerationId.innerHTML = 'Acceleration X: ' + acceleration.x + '<br />' +
