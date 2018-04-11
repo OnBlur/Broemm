@@ -1,7 +1,6 @@
 // JavaScript source code
 function positionToVelocity(frequency) {
-    this.frequency = frequency;
-    this.velocity = velocity;
+    this.frequency = { timeout: frequency };
 
     // Error handling
     this.onError(error) {
@@ -13,24 +12,40 @@ function positionToVelocity(frequency) {
     }
 
     // Calculator
-    this.getPos = function () {
+    this.getCoordinates = function (onSuccess) {
+        navigator.geolocation.watchPosition(onSuccess, onError, frequency);
+    }
+
+    this.getPositions = function () {
         var pos1 = [];
         var pos2 = [];
-        var positions = [];
 
+        // calculations
+        this.getCoordinates(function () {
+            pos1 = [position.coords.latitude, position.coords.longitude];
+        });
+        this.getCoordinates(function () {
+            pos2 = [position.coords.latitude, position.coords.longitude];
+        });
+
+        var positions = [pos1, pos2];
         return positions;
     }
 
     this.calcDistance = function () {
+        var pos = this.getPos();
         var distance;
 
-        this.getPos();
+        // calculations
 
         return distance;
     }
 
     this.calcVelocity() {
-        this.calcDistance();
+        var d = this.calcDistance();
+        var velocity;
+
+        // calculations
 
         return velocity;
     }
@@ -52,5 +67,5 @@ function positionToVelocity(frequency) {
 }
 
 while (true) {
-    positionToVelocity();
+    positionToVelocity(1000);
 }
