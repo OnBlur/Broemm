@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <!--
+        Customize the content security policy in the meta tag below as needed. Add 'unsafe-inline' to default-src to enable inline JavaScript.
+        For details, see http://go.microsoft.com/fwlink/?LinkID=617521
+    -->
+
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+    <meta http-equiv="Content-Security-Policy" content="
+        default-src 'self' data: gap: *;
+        script-src 'self' 'unsafe-inline' 'unsafe-eval' *;
+        style-src 'self' 'unsafe-inline' 'unsafe-eval' *;
+        media-src 'self' 'unsafe-inline' 'unsafe-eval' *;
+        img-src 'self' 'unsafe-inline' 'unsafe-eval' *;
+    ">
+    <link rel="stylesheet" type="text/css" href="css/values.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css"
+          integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ=="
+          crossorigin="" />
+    <title>BroemmVS</title>
+</head>
+<body>
+    <div class="app">
+        <div id="map"></div>
+        <p id="geolocation"></p>
+        <p id="speed"></p>
+        <p id="acceleration"></p>
+        <div id="deviceready" class="blink">
+            <p class="event listening">Connecting to Device</p>
+            <p class="event received">Device is Ready</p>
+        </div>
+
+        <div class="navbar">
+            <a href="index.html">Home</a>
+            <a href="values.html" class="active">Values</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </div>
+    <!-- Make sure you put this AFTER Leaflet's CSS -->
+    <script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="scripts/platformOverrides.js"></script>
+    <script type="text/javascript" src="scripts/values.js"></script>
+</body>
+</html>

@@ -29,14 +29,6 @@ body {
     font-size: 12px;
 }
 
-.navbar {
-    background-color: #333;
-    overflow: hidden;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-}
-
 /* Style the links inside the navigation bar */
 .navbar a {
     float: left;
@@ -61,9 +53,21 @@ body {
 }
 
 .app {
-    /*padding:15px;*/
+    padding:15px;
 }
 
+#map {
+    height: 400px;
+    width: 100%;
+}
+
+#geolocation{
+
+}
+
+#acceleration{
+
+}
 
 @media screen and (min-aspect-ratio: 1/1) and (min-width:400px) {
     .app {
