@@ -19,10 +19,7 @@ body {
 }
 
 .app {
-    padding-top: 0;
-    padding-left: 0;
-    padding-bottom: 0;
-    padding-right: 0;
+    padding: 0;
 }
 
 @media screen and (min-aspect-ratio: 1/1) and (min-width:400px) {
@@ -31,4 +28,8 @@ body {
         padding: 75px 0px 75px 170px;
         margin: -90px 0px 0px -198px;
     }
+}
+
+.container {
+    padding: 15px;
 }
