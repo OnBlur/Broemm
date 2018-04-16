@@ -1,14 +1,11 @@
 #map {
-    height: 400px;
+    height: 200px;
     width: 100%;
 }
 
-#geolocation{
-
-}
-
-#acceleration{
-
+.recordButtons {
+    display: flex;
+    justify-content: center;
 }
 
 @media screen and (min-aspect-ratio: 1/1) and (min-width:400px) {
