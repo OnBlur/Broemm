@@ -49,7 +49,7 @@
         var map = L.map('map');
         //var marker = undefined;
         
-        function getCoords() {
+        function getMotion() {
             var lc = L.control.locate({
                 locateOptions: {
                     enableHighAccuracy: true,
@@ -61,7 +61,8 @@
             lc.start();
 
             navigator.geolocation.getCurrentPosition(initializePosition, onError);
-            var watchID = navigator.geolocation.watchPosition(setCoords, onError, options);
+            var watchAcce = navigator.accelerometer.watchAcceleration(onSuccessAcce, onError, options);
+            var watchPos = navigator.geolocation.watchPosition(setCoords, onError, options);
         }
 
         function getTiles() {
@@ -170,7 +171,7 @@
         function stopRecord() {
             alert("finished recording!");
             record = false;
-            navigator.accelerometer.clearWatch(hallo);
+            navigator.accelerometer.clearWatch(recordLoop);
         }
 
         function clearRecord() {
@@ -183,9 +184,7 @@
             console.log('code: ' + error.code + '\n' +
                 'message: ' + error.message + '\n');
         }
-        
-        var watchAcce = navigator.accelerometer.watchAcceleration(onSuccessAcce, onError, options);
-        permissions.requestPermission(permissions.ACCESS_FINE_LOCATION, getCoords, onError);
+        permissions.requestPermission(permissions.ACCESS_FINE_LOCATION, getMotion, onError);
     };
 
     function onPause() {
