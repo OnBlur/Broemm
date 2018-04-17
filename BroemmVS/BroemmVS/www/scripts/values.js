@@ -1,15 +1,11 @@
-﻿// For an introduction to the Blank template, see the following documentation:
-// http://go.microsoft.com/fwlink/?LinkID=397704
-// To debug code on page load in cordova-simulate or on Android devices/emulators: launch your app, set breakpoints, 
-// and then run "window.location.reload()" in the JavaScript Console.
-(function () {
+﻿(function () {
     "use strict";
 
-    document.addEventListener( 'deviceready', onDeviceReady.bind( this ), false );
+    document.addEventListener('deviceready', onDeviceReady.bind(this), false);
 
     function onDeviceReady() {
         // Handle the Cordova pause and resume events
-        document.addEventListener( 'pause', onPause.bind( this ), false );
+        document.addEventListener('pause', onPause.bind( this ), false );
         document.addEventListener('resume', onResume.bind(this), false);
         
         // TODO: Cordova has been loaded. Perform any initialization that requires Cordova here.
@@ -19,6 +15,7 @@
         listeningElement.setAttribute('style', 'display:none;');
         receivedElement.setAttribute('style', 'display:block;');
 
+        // Initialize variables
         var permissions = cordova.plugins.permissions;
 
         var latitude = undefined;
@@ -40,7 +37,7 @@
         var firstPosition = [];
         var secondPosition = [];
 
-        var options = { timeout: 1000 }; // Update every second
+        var options = { timeout: 1 }; // Update every second
 
         var jsonId = document.getElementById("json");
         var startRecordId = document.getElementById("startRecord");
@@ -51,7 +48,8 @@
         var speedId = document.getElementById('speed');
         
         var map = L.map('map');
-        
+
+        // Functions
         function getMotion() {
             var lc = L.control.locate({
                 locateOptions: {
@@ -169,7 +167,8 @@
         var startRecord = function (acceleration) {
             record = true;
 
-            while (record && obj.latitude != latitude || obj.longitude != longitude) {
+            //while (record /*&& obj.latitude != latitude || obj.longitude != longitude*/) {
+            if (record) {
                 var jsonStringify;
                 
                 obj.accelerationX = accelerationX;
@@ -180,9 +179,10 @@
                 
                 motionJson.motion.push({
                     'id': indexLoop,
-                    'latitude': latitude,
-                    'longitude': longitude,
-                    'speed': velocity,
+                    'timestamp': acceleration.timestamp,
+                    //'latitude': latitude,
+                    //'longitude': longitude,
+                    //'speed': velocity,
                     'accelerationX': accelerationX,
                     'accelerationY': accelerationY,
                     'accelerationZ': accelerationZ
@@ -193,10 +193,6 @@
                 // Converting the JSON string with JSON.stringify()
                 // then saving with localStorage in the name of session
                 localStorage.setItem('motionJson', JSON.stringify(motionJson));
-
-                // Example of how to transform the String generated through 
-                // JSON.stringify() and saved in localStorage in JSON object again
-                var restoredSession = JSON.parse(localStorage.getItem('motionJson'))
 
                 jsonStringify = JSON.stringify(motionJson)
                 fillJson(jsonStringify);
