@@ -1,6 +1,6 @@
 ﻿function positionTracker() {
     // Error handling
-    this.onError(error) {
+    this.onError = function(error) {
         // Error notification
         console.log(
             'code: ' + error.code + '\n' +
@@ -8,7 +8,9 @@
         );
     }
 
-    this.trackPosition(unit) {
+    this.trackPosition = function(unit) {
         /* code here */
+
+        /*return thisthing*/
     }
 }
