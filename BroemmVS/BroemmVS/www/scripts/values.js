@@ -25,19 +25,34 @@
         var longitude = undefined;
         var velocity = 0;
 
+        var accelerationX;
+        var accelerationY;
+        var accelerationZ;
+        var record = false;
+        var obj = new Object();
+        var recordLoop;
+        var indexLoop = 0;
+        var motionJson = {
+            'motion': [],
+            'state': true
+        };
+
         var firstPosition = [];
         var secondPosition = [];
 
         var options = { timeout: 1000 }; // Update every second
 
+        var jsonId = document.getElementById("json");
+        var startRecordId = document.getElementById("startRecord");
+        var stopRecordId = document.getElementById("stopRecord");
+        var clearRecordId = document.getElementById("clearRecord");
         var geolocationId = document.getElementById('geolocation');
         var accelerationId = document.getElementById('acceleration');
         var speedId = document.getElementById('speed');
         
         var map = L.map('map');
-        //var marker = undefined;
         
-        function getCoords() {
+        function getMotion() {
             var lc = L.control.locate({
                 locateOptions: {
                     enableHighAccuracy: true,
@@ -49,7 +64,8 @@
             lc.start();
 
             navigator.geolocation.getCurrentPosition(initializePosition, onError);
-            var watchID = navigator.geolocation.watchPosition(setCoords, onError, options);
+            var watchAcce = navigator.accelerometer.watchAcceleration(onSuccessAcce, onError, options);
+            var watchPos = navigator.geolocation.watchPosition(setCoords, onError, options);
         }
 
         function getTiles() {
@@ -67,6 +83,7 @@
             latitude = position.coords.latitude;
             longitude = position.coords.longitude;
 
+            roundOff();
             fillGeo();
             fillVelo();
 
@@ -110,30 +127,105 @@
                 Math.sin(dLon / 2) * Math.sin(dLon / 2);
             var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
             var d = R * c;
-            precisionRound(d * 1000, 3);
+            velocity = d * 1000;    // 1000 = m/s
+            roundOff();
         }
 
-        function precisionRound(number, precision) {
-            var factor = Math.pow(10, precision);
-            velocity = Math.round(number * factor) / factor;
-        }
-        
         var onSuccessAcce = function (acceleration) {
-            accelerationId.innerHTML = 'Acceleration X: ' + acceleration.x + '<br />' +
-                'Acceleration Y: ' + acceleration.y + '<br />' +
-                'Acceleration Z: ' + acceleration.z + '<br />' +
-                'Timestamp: ' + acceleration.timestamp + '<br />' +
+            accelerationX = acceleration.x
+            accelerationY = acceleration.y
+            accelerationZ = acceleration.z
+
+            roundOff();
+
+            accelerationId.innerHTML =
+                'Acceleration X: ' + accelerationX + '<br />' +
+                'Acceleration Y: ' + accelerationY + '<br />' +
+                'Acceleration Z: ' + accelerationZ + '<br />' +
                 '<hr />';
         };
+
+        function roundOff() {
+            latitude = precisionRound(latitude, 4);
+            longitude = precisionRound(longitude, 4);
+            velocity = precisionRound(velocity, 3);
+            accelerationX = precisionRound(accelerationX, 3);
+            accelerationY = precisionRound(accelerationY, 3);
+            accelerationZ = precisionRound(accelerationZ, 3);
+        }
+
+        function precisionRound(varName, precision) {
+            var factor = Math.pow(10, precision);
+            return Math.round(varName * factor) / factor;
+        }
+        
+        startRecordId.onclick = function () {
+            alert("started Recording! \n checking for changes in position");
+            recordLoop = navigator.accelerometer.watchAcceleration(startRecord, onError, options);
+        };
+        stopRecordId.onclick = function () { stopRecord(); };
+        clearRecordId.onclick = function () { clearRecord(); };
+
+        var startRecord = function (acceleration) {
+            record = true;
+
+            while (record && obj.latitude != latitude || obj.longitude != longitude) {
+                var jsonStringify;
+                
+                obj.accelerationX = accelerationX;
+                obj.accelerationY = accelerationY;
+                obj.accelerationZ = accelerationZ;
+                obj.latitude = latitude;
+                obj.longitude = longitude;
+                
+                motionJson.motion.push({
+                    'id': indexLoop,
+                    'latitude': latitude,
+                    'longitude': longitude,
+                    'speed': velocity,
+                    'accelerationX': accelerationX,
+                    'accelerationY': accelerationY,
+                    'accelerationZ': accelerationZ
+                });
+                indexLoop++;
+                //motionJson.motion.push({ jsonString });
+
+                // Converting the JSON string with JSON.stringify()
+                // then saving with localStorage in the name of session
+                localStorage.setItem('motionJson', JSON.stringify(motionJson));
+
+                // Example of how to transform the String generated through 
+                // JSON.stringify() and saved in localStorage in JSON object again
+                var restoredSession = JSON.parse(localStorage.getItem('motionJson'))
+
+                jsonStringify = JSON.stringify(motionJson)
+                fillJson(jsonStringify);
+            }
+        }
+
+        function fillJson(jsonStringify) {
+            while (json.firstChild) json.removeChild(json.firstChild);
+            jsonId.innerHTML += 'Json: ' + jsonStringify + '<hr />';
+        };
+
+        function stopRecord() {
+            alert("finished Recording!");
+            indexLoop = 0;
+            record = false;
+            navigator.accelerometer.clearWatch(recordLoop);
+        }
+
+        function clearRecord() {
+            while (json.firstChild) json.removeChild(json.firstChild);
+            alert("cleared records!");
+        }
 
         // onError Callback receives a Error object
         function onError(error) {
             console.log('code: ' + error.code + '\n' +
                 'message: ' + error.message + '\n');
         }
-
-        permissions.requestPermission(permissions.ACCESS_FINE_LOCATION, getCoords, onError);
-        var watchAcce = navigator.accelerometer.watchAcceleration(onSuccessAcce, onError, options);
+        permissions.requestPermission(permissions.ACCESS_FINE_LOCATION, getMotion, onError);
     };
 
     function onPause() {

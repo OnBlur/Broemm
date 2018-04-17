@@ -18,6 +18,17 @@
         var receivedElement = parentElement.querySelector('.received');
         listeningElement.setAttribute('style', 'display:none;');
         receivedElement.setAttribute('style', 'display:block;');
+
+        var jsonId = document.getElementById("json");
+        var getJsonId = document.getElementById("getJson");
+        var restoredSession = JSON.parse(localStorage.getItem('motionJson'))
+        var stringJson = JSON.stringify(restoredSession);
+
+        getJsonId.onclick = function () { fillJson(); };
+        
+        function fillJson() {
+            jsonId.innerHTML = 'Json: ' + stringJson + '<hr />';
+        };
     };
 
     function onPause() {

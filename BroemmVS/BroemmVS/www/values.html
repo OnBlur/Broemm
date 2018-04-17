@@ -45,14 +45,24 @@
         <div class="app">
             <div id="map"></div>
             <div class="container">
+                <div class="recordButtons">
+                    <button type="button" id="startRecord" class="startRecord" onclick="startRecord()">Start Recording</button>
+                    <button type="button" id="stopRecord" class="stopRecord" onclick="stopRecord()">Stop Recording</button>
+                    <button type="button" id="clearRecord" class="clearRecord" onclick="clearRecord()">Clear Records</button>
+                </div>
+
+                <p id="geolocation">Loading location...</p>
+                <p id="speed">Loading speed...</p>
+                <p id="acceleration">Loading acceleration...</p>
+
                 <div id="deviceready" class="blink">
                     <p class="event listening">Connecting to Device</p>
                     <p class="event received">Device is Ready</p>
                 </div>
-                <p id="geolocation">Loading location...</p>
-                <p id="speed">Loading speed...</p>
-                <p id="acceleration">Loading acceleration...</p>
+
+                <p id="json"></p>
             </div>
+
             <div class="navbar">
                 <a href="index.html">Home</a>
                 <a href="values.html" class="active">Values</a>
