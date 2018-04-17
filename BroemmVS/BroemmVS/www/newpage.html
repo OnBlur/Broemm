@@ -12,7 +12,7 @@
     <link rel="stylesheet" type="text/css" href="css/navbar.css">
 
     <!-- Tags specific for this page -->
-    <!--<script type="text/javascript" src="scripts/newpage.js" defer></script>-->
+    <script type="text/javascript" src="scripts/newpage.js" defer></script>
     <link rel="stylesheet" type="text/css" href="css/index.css">
 
     <title>New Page</title>
@@ -20,12 +20,15 @@
     <body>
         <div class="app">
             <div class="container">
-                <p>Hello</p>
-            </div>            
-            <div id="deviceready" class="blink">
-                <p class="event listening">Connecting to Device</p>
-                <p class="event received">Device is Ready</p>
+                <div id="deviceready" class="blink">
+                    <p class="event listening">Connecting to Device</p>
+                    <p class="event received">Device is Ready</p>
+                </div>
+
+                <button type="button" id="getJson" class="getJson" onclick="getJson()">Get local json</button>
+                <p id="json"></p>
             </div>
+
             <div class="navbar">
                 <a href="index.html">Home</a>
                 <a href="values.html">Values</a>
