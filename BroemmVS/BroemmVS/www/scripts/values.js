@@ -14,7 +14,7 @@
         var receivedElement = parentElement.querySelector('.received');
         listeningElement.setAttribute('style', 'display:none;');
         receivedElement.setAttribute('style', 'display:block;');
-
+        
         // Initialize variables
         var permissions = cordova.plugins.permissions;
 
@@ -26,13 +26,15 @@
         var accelerationY;
         var accelerationZ;
         var record = false;
-        var obj = new Object();
         var recordLoop;
-        var indexLoop = 0;
         var motionJson = {
             'motion': [],
             'state': true
         };
+        var ritten = [];
+        var rittenTeller = 1;
+        var indexLoop = 0
+        var indexJson = 0
 
         var firstPosition = [];
         var secondPosition = [];
@@ -43,6 +45,7 @@
         var startRecordId = document.getElementById("startRecord");
         var stopRecordId = document.getElementById("stopRecord");
         var clearRecordId = document.getElementById("clearRecord");
+        var saveToLocalStorageId = document.getElementById("saveToLocalStorage");
         var geolocationId = document.getElementById('geolocation');
         var accelerationId = document.getElementById('acceleration');
         var speedId = document.getElementById('speed');
@@ -144,25 +147,31 @@
         };
 
         function roundOff() {
-            latitude = precisionRound(latitude, 4);
-            longitude = precisionRound(longitude, 4);
+            latitude = precisionRound(latitude, 6);
+            longitude = precisionRound(longitude, 6);
             velocity = precisionRound(velocity, 3);
             accelerationX = precisionRound(accelerationX, 3);
             accelerationY = precisionRound(accelerationY, 3);
             accelerationZ = precisionRound(accelerationZ, 3);
         }
-
+        
         function precisionRound(varName, precision) {
             var factor = Math.pow(10, precision);
             return Math.round(varName * factor) / factor;
         }
-        
+
+        // Onclick buttons with functions
         startRecordId.onclick = function () {
+            var rit = 'rit' + rittenTeller;
+            ritten.push(rit);
+            rittenTeller++;
+
             alert("started Recording! \n checking for changes in position");
             recordLoop = navigator.accelerometer.watchAcceleration(startRecord, onError, options);
-        };
-        stopRecordId.onclick = function () { stopRecord(); };
-        clearRecordId.onclick = function () { clearRecord(); };
+        }
+        stopRecordId.onclick = function () { stopRecord(); }
+        clearRecordId.onclick = function () { clearRecord(); }
+        saveToLocalStorageId.onclick = function () { saveValuesToLocalStorage(); }
 
         var startRecord = function (acceleration) {
             record = true;
@@ -170,29 +179,24 @@
             //while (record /*&& obj.latitude != latitude || obj.longitude != longitude*/) {
             if (record) {
                 var jsonStringify;
-                
-                obj.accelerationX = accelerationX;
-                obj.accelerationY = accelerationY;
-                obj.accelerationZ = accelerationZ;
-                obj.latitude = latitude;
-                obj.longitude = longitude;
+                var d = getDate(d);
                 
                 motionJson.motion.push({
                     'id': indexLoop,
-                    'timestamp': acceleration.timestamp,
-                    //'latitude': latitude,
-                    //'longitude': longitude,
-                    //'speed': velocity,
+                    'timestamp': d,
+                    'latitude': latitude,
+                    'longitude': longitude,
+                    'speed': velocity,
                     'accelerationX': accelerationX,
                     'accelerationY': accelerationY,
                     'accelerationZ': accelerationZ
                 });
+                
                 indexLoop++;
-                //motionJson.motion.push({ jsonString });
-
+                
                 // Converting the JSON string with JSON.stringify()
                 // then saving with localStorage in the name of session
-                localStorage.setItem('motionJson', JSON.stringify(motionJson));
+                localStorage.setItem(ritten + indexJson, JSON.stringify(motionJson));
 
                 jsonStringify = JSON.stringify(motionJson)
                 fillJson(jsonStringify);
@@ -203,17 +207,33 @@
             while (json.firstChild) json.removeChild(json.firstChild);
             jsonId.innerHTML += 'Json: ' + jsonStringify + '<hr />';
         };
-
+        
         function stopRecord() {
-            alert("finished Recording!");
-            indexLoop = 0;
             record = false;
+            indexLoop = 0;
+            indexJson++;
+            
+            alert("finished Recording!");
             navigator.accelerometer.clearWatch(recordLoop);
         }
 
         function clearRecord() {
             while (json.firstChild) json.removeChild(json.firstChild);
             alert("cleared records!");
+        }
+
+        // Saving values to localstorage
+        function saveValuesToLocalStorage() {
+            var d = getDate(d);
+            var valueStorage = [d, ritten, latitude, longitude, velocity, accelerationX, accelerationY, accelerationZ];
+            localStorage.setItem("valueStorage", JSON.stringify(valueStorage));
+            alert("saved to localstorage" + valueStorage);
+        }
+
+        // Get current year, month, day, hour, minute, second and milisecond
+        function getDate(d) {
+            var d = new Date();
+            return d;
         }
 
         // onError Callback receives a Error object

@@ -19,16 +19,56 @@
         listeningElement.setAttribute('style', 'display:none;');
         receivedElement.setAttribute('style', 'display:block;');
 
-        var jsonId = document.getElementById("json");
-        var getJsonId = document.getElementById("getJson");
-        var restoredSession = JSON.parse(localStorage.getItem('motionJson'))
-        var stringJson = JSON.stringify(restoredSession);
+        // Initialize variables
+        // Buttons
+        var getRidesId = document.getElementById("getRides");
+        var fillValuesId = document.getElementById("fillValues");
+        var clearLocalStorageId = document.getElementById("clearLocalStorage");
 
-        getJsonId.onclick = function () { fillJson(); };
+        // P
+        var ridesId = document.getElementById("rides");
+        var valuesId = document.getElementById("values");
         
-        function fillJson() {
-            jsonId.innerHTML = 'Json: ' + stringJson + '<hr />';
-        };
+        var restoredSession = [];
+
+        // Functions
+        // Get all values from localStorage
+        var stringJson = JSON.parse(localStorage.getItem("valueStorage"));
+        var amoutRides = stringJson[1];
+
+        // Onclick buttons with functions
+        getRidesId.onclick = function () { getRides(); };
+        fillValuesId.onclick = function () { fillValues(); };
+
+        // Clear localStorage and check if its really cleared
+        clearLocalStorageId.onclick = function () {
+            localStorage.clear();
+            if (localStorage.length == 0) {
+                alert("Cleared");
+            }
+        }
+        
+        function getRides() {
+            var storageLenght = JSON.parse(localStorage.getItem('motionJson'));
+            var i = 0;
+
+            while (i < amoutRides.length) {
+                restoredSession[i] = JSON.parse(localStorage.getItem('motionJson' + i))
+                stringJson[i] = JSON.stringify(restoredSession[i]);
+
+                ridesId.innerHTML += 'Rit: ' + i + '<br />' + stringJson[i] + '<hr />';
+                i++;
+            }
+        }
+
+        function fillValues() {
+            if (stringJson.length >= 0) {
+                valuesId.innerHTML += 'Waarden: ' + '<br />' + stringJson + '<hr />';
+            } 
+            else {
+                alert("save de waarden eerst!")
+            }
+        }
     };
 
     function onPause() {
