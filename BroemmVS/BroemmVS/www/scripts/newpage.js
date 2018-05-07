@@ -28,10 +28,9 @@
         // Paragraphs
         var ridesId = document.getElementById("rides");
         var valuesId = document.getElementById("values");
-
-        //var rit;
-        var ritten = [];
-        var rittenTeller = 1;
+        
+        var rides = [];
+        var rideCounter = 1;
         var valueStorage = [];
         var amoutRides = [];
         var restoredSession = [];
@@ -60,16 +59,14 @@
             var i = 0;
 
             while (i < amoutRides.length) {
-                var rit = 'rit' + rittenTeller;
-                alert(rit);
-                ritten.push(rit);
-                alert(ritten);
+                var rit = 'rit' + rideCounter;
+                rides.push(rit);
 
-                restoredSession[i] = JSON.parse(localStorage.getItem(ritten[i]));
+                restoredSession[i] = JSON.parse(localStorage.getItem(rides[i]));
                 stringMotionJson[i] = JSON.stringify(restoredSession[i]);
 
-                ridesId.innerHTML += 'Rit: ' + rittenTeller + '<br />' + stringMotionJson[i] + '<hr />';
-                rittenTeller++;
+                ridesId.innerHTML += 'Rit: ' + rideCounter + '<br />' + stringMotionJson[i] + '<hr />';
+                rideCounter++;
                 i++;
             }
         }
