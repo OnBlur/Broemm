@@ -4,7 +4,6 @@
   <description>Bewuster Rijden Op Een Mobiele Meter</description>
   <author email="dev@cordova.apache.org" href="http://cordova.io">BROEMM</author>
   <vs:template-name>BlankJS</vs:template-name>
-  <vs:toolsetVersion>6.3.1</vs:toolsetVersion>
   <content src="index.html" />
   <access origin="*" />
   <preference name="SplashScreen" value="screen" />
@@ -92,9 +91,6 @@
   </platform>
   <preference name="Orientation" value="portrait" />
   <preference name="Fullscreen" value="False" />
-  <engine name="android" spec="~5.2.1" />
-  <engine name="ios" spec="4.2.0" />
-  <engine name="windows" spec="4.4.2" />
   <plugin name="cordova-plugin-device-orientation" spec="~1.0.7" />
   <plugin name="cordova-plugin-geolocation" spec="^2.4.3" />
   <plugin name="cordova-plugin-device-motion" spec="^2.0.1" />
