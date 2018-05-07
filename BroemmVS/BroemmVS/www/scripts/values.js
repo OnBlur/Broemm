@@ -31,10 +31,12 @@
             'motion': [],
             'state': true
         };
+
+        var rit;
         var ritten = [];
         var rittenTeller = 1;
         var indexLoop = 0
-        var indexJson = 0
+        //var indexJson = 0
 
         var firstPosition = [];
         var secondPosition = [];
@@ -45,7 +47,7 @@
         var startRecordId = document.getElementById("startRecord");
         var stopRecordId = document.getElementById("stopRecord");
         var clearRecordId = document.getElementById("clearRecord");
-        var saveToLocalStorageId = document.getElementById("saveToLocalStorage");
+        //var saveToLocalStorageId = document.getElementById("saveToLocalStorage");
         var geolocationId = document.getElementById('geolocation');
         var accelerationId = document.getElementById('acceleration');
         var speedId = document.getElementById('speed');
@@ -146,6 +148,7 @@
                 '<hr />';
         };
 
+        // Push values to precisionRound
         function roundOff() {
             latitude = precisionRound(latitude, 6);
             longitude = precisionRound(longitude, 6);
@@ -154,7 +157,8 @@
             accelerationY = precisionRound(accelerationY, 3);
             accelerationZ = precisionRound(accelerationZ, 3);
         }
-        
+
+        // Round off function
         function precisionRound(varName, precision) {
             var factor = Math.pow(10, precision);
             return Math.round(varName * factor) / factor;
@@ -162,16 +166,17 @@
 
         // Onclick buttons with functions
         startRecordId.onclick = function () {
-            var rit = 'rit' + rittenTeller;
+            rit = 'rit' + rittenTeller;
             ritten.push(rit);
+            
+            alert("Started " + rit);
             rittenTeller++;
 
-            alert("started Recording! \n checking for changes in position");
             recordLoop = navigator.accelerometer.watchAcceleration(startRecord, onError, options);
         }
         stopRecordId.onclick = function () { stopRecord(); }
         clearRecordId.onclick = function () { clearRecord(); }
-        saveToLocalStorageId.onclick = function () { saveValuesToLocalStorage(); }
+        //saveToLocalStorageId.onclick = function () { saveValuesToLocalStorage(); }
 
         var startRecord = function (acceleration) {
             record = true;
@@ -182,6 +187,7 @@
                 var d = getDate(d);
                 
                 motionJson.motion.push({
+                    //'ride': rit,
                     'id': indexLoop,
                     'timestamp': d,
                     'latitude': latitude,
@@ -191,12 +197,11 @@
                     'accelerationY': accelerationY,
                     'accelerationZ': accelerationZ
                 });
-                
                 indexLoop++;
                 
                 // Converting the JSON string with JSON.stringify()
                 // then saving with localStorage in the name of session
-                localStorage.setItem(ritten + indexJson, JSON.stringify(motionJson));
+                localStorage.setItem(ritten, JSON.stringify(motionJson));
 
                 jsonStringify = JSON.stringify(motionJson)
                 fillJson(jsonStringify);
@@ -207,32 +212,37 @@
             while (json.firstChild) json.removeChild(json.firstChild);
             jsonId.innerHTML += 'Json: ' + jsonStringify + '<hr />';
         };
-        
+
+        // Stop recording and save all current values and the number of times driven
         function stopRecord() {
             record = false;
             indexLoop = 0;
-            indexJson++;
-            
-            alert("finished Recording!");
+            //indexJson++;
+
+            alert("Finished " + rit);
             navigator.accelerometer.clearWatch(recordLoop);
+
+            var d = getDate(d);
+            var valueStorage = [d, ritten, latitude, longitude, velocity, accelerationX, accelerationY, accelerationZ];
+            localStorage.setItem("valueStorage", JSON.stringify(valueStorage));
         }
 
         function clearRecord() {
             while (json.firstChild) json.removeChild(json.firstChild);
-            alert("cleared records!");
+            alert("Cleared!");
         }
 
         // Saving values to localstorage
-        function saveValuesToLocalStorage() {
-            var d = getDate(d);
-            var valueStorage = [d, ritten, latitude, longitude, velocity, accelerationX, accelerationY, accelerationZ];
-            localStorage.setItem("valueStorage", JSON.stringify(valueStorage));
-            alert("saved to localstorage" + valueStorage);
-        }
+        //function saveValuesToLocalStorage() {
+        //    var d = getDate(d);
+        //    var valueStorage = [d, ritten, latitude, longitude, velocity, accelerationX, accelerationY, accelerationZ];
+        //    localStorage.setItem("valueStorage", JSON.stringify(valueStorage));
+        //    alert("saved to localstorage" + valueStorage);
+        //}
 
         // Get current year, month, day, hour, minute, second and milisecond
         function getDate(d) {
-            var d = new Date();
+            d = new Date();
             return d;
         }
 

@@ -25,48 +25,66 @@
         var fillValuesId = document.getElementById("fillValues");
         var clearLocalStorageId = document.getElementById("clearLocalStorage");
 
-        // P
+        // Paragraphs
         var ridesId = document.getElementById("rides");
         var valuesId = document.getElementById("values");
-        
+
+        //var rit;
+        var ritten = [];
+        var rittenTeller = 1;
+        var valueStorage = [];
+        var amoutRides = [];
         var restoredSession = [];
+        var stringMotionJson = [];
 
         // Functions
-        // Get all values from localStorage
-        var stringJson = JSON.parse(localStorage.getItem("valueStorage"));
-        var amoutRides = stringJson[1];
-
         // Onclick buttons with functions
-        getRidesId.onclick = function () { getRides(); };
+        getRidesId.onclick = function () {
+            getRides();
+        };
         fillValuesId.onclick = function () { fillValues(); };
+
+        // Get all values from localStorage
+        function getAll() {
+            if (localStorage.length == 0) {                                         // If localStorage is empty then show alert
+                alert("localStorage is empty");
+            }
+            else {
+                valueStorage = JSON.parse(localStorage.getItem("valueStorage"));    // Fill valueStorage with values from valueStorage localStorage
+                amoutRides = valueStorage[1];                                       // Get amount of rides from valueStorage at position 1
+            }
+        }
+        
+        function getRides() {
+            getAll();
+            var i = 0;
+
+            while (i < amoutRides.length) {
+                var rit = 'rit' + rittenTeller;
+                alert(rit);
+                ritten.push(rit);
+                alert(ritten);
+
+                restoredSession[i] = JSON.parse(localStorage.getItem(ritten[i]))
+                stringMotionJson[i] = JSON.stringify(restoredSession[i]);
+
+                ridesId.innerHTML += 'Rit: ' + rittenTeller + '<br />' + stringMotionJson[i] + '<hr />';
+                rittenTeller++;
+                i++;
+            }
+        }
+
+        // Check if 
+        function fillValues() {
+            getAll();
+            valuesId.innerHTML += 'Waarden: ' + '<br />' + valueStorage + '<hr />';
+        }
 
         // Clear localStorage and check if its really cleared
         clearLocalStorageId.onclick = function () {
             localStorage.clear();
             if (localStorage.length == 0) {
                 alert("Cleared");
-            }
-        }
-        
-        function getRides() {
-            var storageLenght = JSON.parse(localStorage.getItem('motionJson'));
-            var i = 0;
-
-            while (i < amoutRides.length) {
-                restoredSession[i] = JSON.parse(localStorage.getItem('motionJson' + i))
-                stringJson[i] = JSON.stringify(restoredSession[i]);
-
-                ridesId.innerHTML += 'Rit: ' + i + '<br />' + stringJson[i] + '<hr />';
-                i++;
-            }
-        }
-
-        function fillValues() {
-            if (stringJson.length >= 0) {
-                valuesId.innerHTML += 'Waarden: ' + '<br />' + stringJson + '<hr />';
-            } 
-            else {
-                alert("save de waarden eerst!")
             }
         }
     };
