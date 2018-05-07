@@ -5,15 +5,18 @@
     "dependencies": {
         "cordova-android": "5.2.1",
         "cordova-ios": "4.2.0",
-        "cordova-plugin-device-motion": "^1.2.5",
-        "cordova-plugin-geolocation": "^4.0.1",
+        "cordova-plugin-android-permissions": "^1.0.0",
+        "cordova-plugin-compat": "^1.2.0",
+        "cordova-plugin-device-motion": "^2.0.1",
+        "cordova-plugin-geolocation": "^2.4.3",
         "cordova-windows": "4.4.2",
         "leaflet.locatecontrol": "^0.62.0"
     },
     "cordova": {
         "plugins": {
             "cordova-plugin-geolocation": {},
-            "cordova-plugin-device-motion": {}
+            "cordova-plugin-device-motion": {},
+            "cordova-plugin-android-permissions": {}
         },
         "platforms": [
             "android",
