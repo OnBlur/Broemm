@@ -35,7 +35,7 @@
         var rit;
         var ritten = [];
         var rittenTeller = 1;
-        var indexLoop = 0
+        var indexLoop = 0;
         //var indexJson = 0
 
         var firstPosition = [];
@@ -79,7 +79,7 @@
 
         var initializePosition = function (position) {
             firstPosition = [position.coords.latitude, position.coords.longitude];
-        }
+        };
         
         function setCoords(position) {
             secondPosition = [position.coords.latitude, position.coords.longitude];
@@ -102,7 +102,7 @@
         function fillVelo() {
             speedId.innerHTML = 'Speed: ' + velocity + 'm/s' + '<br />' +
                 '<hr />';
-        };
+        }
         
         // Store new coords in secondPosition and check if the array is the same as firstPosition, 
         // if not then push the positions to measure algorithm
@@ -135,9 +135,9 @@
         }
 
         var onSuccessAcce = function (acceleration) {
-            accelerationX = acceleration.x
-            accelerationY = acceleration.y
-            accelerationZ = acceleration.z
+            accelerationX = acceleration.x;
+            accelerationY = acceleration.y;
+            accelerationZ = acceleration.z;
 
             roundOff();
 
@@ -168,14 +168,14 @@
         startRecordId.onclick = function () {
             rit = 'rit' + rittenTeller;
             ritten.push(rit);
-            
+
             alert("Started " + rit);
             rittenTeller++;
 
             recordLoop = navigator.accelerometer.watchAcceleration(startRecord, onError, options);
-        }
-        stopRecordId.onclick = function () { stopRecord(); }
-        clearRecordId.onclick = function () { clearRecord(); }
+        };
+        stopRecordId.onclick = function () { stopRecord(); };
+        clearRecordId.onclick = function () { clearRecord(); };
         //saveToLocalStorageId.onclick = function () { saveValuesToLocalStorage(); }
 
         var startRecord = function (acceleration) {
@@ -185,7 +185,7 @@
             if (record) {
                 var jsonStringify;
                 var d = getDate(d);
-                
+
                 motionJson.motion.push({
                     //'ride': rit,
                     'id': indexLoop,
@@ -198,20 +198,20 @@
                     'accelerationZ': accelerationZ
                 });
                 indexLoop++;
-                
+
                 // Converting the JSON string with JSON.stringify()
                 // then saving with localStorage in the name of session
                 localStorage.setItem(ritten, JSON.stringify(motionJson));
 
-                jsonStringify = JSON.stringify(motionJson)
+                jsonStringify = JSON.stringify(motionJson);
                 fillJson(jsonStringify);
             }
-        }
+        };
 
         function fillJson(jsonStringify) {
             while (json.firstChild) json.removeChild(json.firstChild);
             jsonId.innerHTML += 'Json: ' + jsonStringify + '<hr />';
-        };
+        }
 
         // Stop recording and save all current values and the number of times driven
         function stopRecord() {
@@ -252,13 +252,13 @@
                 'message: ' + error.message + '\n');
         }
         permissions.requestPermission(permissions.ACCESS_FINE_LOCATION, getMotion, onError);
-    };
+    }
 
     function onPause() {
         // TODO: This application has been suspended. Save application state here.
-    };
+    }
 
     function onResume() {
         // TODO: This application has been reactivated. Restore application state here.
-    };
+    }
 } )();

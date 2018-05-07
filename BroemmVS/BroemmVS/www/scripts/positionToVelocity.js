@@ -9,7 +9,7 @@ function positionToVelocity(frequency) {
             'code: ' + error.code + '\n' + 
             'message: ' + error.message + '\n'
         );
-    }
+    };
 
     // Calculator
     this.getCoordinates = function (onSuccess) {
@@ -48,7 +48,7 @@ function positionToVelocity(frequency) {
         // calculations
 
         return velocity;
-    }
+    };
 
     this.gpsCheck = function () {
         var permissions = cordova.plugins.permissions;

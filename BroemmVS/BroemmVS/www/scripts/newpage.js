@@ -65,7 +65,7 @@
                 ritten.push(rit);
                 alert(ritten);
 
-                restoredSession[i] = JSON.parse(localStorage.getItem(ritten[i]))
+                restoredSession[i] = JSON.parse(localStorage.getItem(ritten[i]));
                 stringMotionJson[i] = JSON.stringify(restoredSession[i]);
 
                 ridesId.innerHTML += 'Rit: ' + rittenTeller + '<br />' + stringMotionJson[i] + '<hr />';
@@ -86,14 +86,14 @@
             if (localStorage.length == 0) {
                 alert("Cleared");
             }
-        }
-    };
+        };
+    }
 
     function onPause() {
         // TODO: This application has been suspended. Save application state here.
-    };
+    }
 
     function onResume() {
         // TODO: This application has been reactivated. Restore application state here.
-    };
+    }
 } )();
