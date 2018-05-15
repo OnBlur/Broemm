@@ -18,36 +18,36 @@
         // Initialize variables
         var permissions = cordova.plugins.permissions;
 
-        var latitude = undefined;
-        var longitude = undefined;
+        var latitude;
+        var longitude;
+        var speed;
         var velocity = 0;
 
         var accelerationX;
         var accelerationY;
         var accelerationZ;
         var record = false;
+        var jsonStringify;
         var recordLoop;
         var motionJson = {
             'motion': [],
             'state': true
         };
 
-        var rit;
-        var ritten = [];
-        var rittenTeller = 1;
+        var ride;
+        var rides = [];
+        var rideCounter = 1;
         var indexLoop = 0;
-        //var indexJson = 0
 
         var firstPosition = [];
         var secondPosition = [];
 
-        var options = { timeout: 1 }; // Update every second
+        var options = { timeout: 100 }; // Update every second
 
         var jsonId = document.getElementById("json");
         var startRecordId = document.getElementById("startRecord");
         var stopRecordId = document.getElementById("stopRecord");
         var clearRecordId = document.getElementById("clearRecord");
-        //var saveToLocalStorageId = document.getElementById("saveToLocalStorage");
         var geolocationId = document.getElementById('geolocation');
         var accelerationId = document.getElementById('acceleration');
         var speedId = document.getElementById('speed');
@@ -67,10 +67,18 @@
             lc.start();
 
             navigator.geolocation.getCurrentPosition(initializePosition, onError);
-            var watchAcce = navigator.accelerometer.watchAcceleration(onSuccessAcce, onError, options);
+
+            // Calibrate the compass of the device by instructing the user to calibrate the compass
+            window.addEventListener("compassneedscalibration", function (event) {
+                // ask user to wave device in a figure-eight motion .   
+                event.preventDefault();
+            }, true);
+            
+            window.addEventListener("devicemotion", processEvent, true);
+            
             var watchPos = navigator.geolocation.watchPosition(setCoords, onError, options);
         }
-
+        
         function getTiles() {
             L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -85,6 +93,7 @@
             secondPosition = [position.coords.latitude, position.coords.longitude];
             latitude = position.coords.latitude;
             longitude = position.coords.longitude;
+            speed = position.coords.speed;          // Does not work, returns null
 
             roundOff();
             fillGeo();
@@ -100,7 +109,9 @@
         }
 
         function fillVelo() {
-            speedId.innerHTML = 'Speed: ' + velocity + 'm/s' + '<br />' +
+            speedId.innerHTML =
+                'Speed: ' + velocity + 'm/s' + '<br />' +
+                'Cordova Speed: ' + speed + '<br />' +
                 '<hr />';
         }
         
@@ -134,19 +145,20 @@
             roundOff();
         }
 
-        var onSuccessAcce = function (acceleration) {
-            accelerationX = acceleration.x;
-            accelerationY = acceleration.y;
-            accelerationZ = acceleration.z;
+        function processEvent(event) {
+            accelerationX = event.accelerationIncludingGravity.x;
+            accelerationY = event.accelerationIncludingGravity.y;
+            accelerationZ = event.accelerationIncludingGravity.z;
 
             roundOff();
 
+            // process the event object
             accelerationId.innerHTML =
                 'Acceleration X: ' + accelerationX + '<br />' +
                 'Acceleration Y: ' + accelerationY + '<br />' +
                 'Acceleration Z: ' + accelerationZ + '<br />' +
                 '<hr />';
-        };
+        }
 
         // Push values to precisionRound
         function roundOff() {
@@ -166,29 +178,25 @@
 
         // Onclick buttons with functions
         startRecordId.onclick = function () {
-            rit = 'rit' + rittenTeller;
-            ritten.push(rit);
+            record = true;
+            ride = 'ride' + rideCounter;
+            rides.push(ride);
 
-            alert("Started " + rit);
-            rittenTeller++;
+            alert("Started " + ride);
+            rideCounter++;
 
-            recordLoop = navigator.accelerometer.watchAcceleration(startRecord, onError, options);
+            startRecord();
         };
         stopRecordId.onclick = function () { stopRecord(); };
         clearRecordId.onclick = function () { clearRecord(); };
-        //saveToLocalStorageId.onclick = function () { saveValuesToLocalStorage(); }
-
-        var startRecord = function (acceleration) {
-            record = true;
-
-            //while (record /*&& obj.latitude != latitude || obj.longitude != longitude*/) {
+        
+        function startRecord() {
+            var d = getDate(d);
+            
             if (record) {
-                var jsonStringify;
-                var d = getDate(d);
-
                 motionJson.motion.push({
-                    //'ride': rit,
                     'id': indexLoop,
+                    'name': rides.slice(-1)[0],
                     'timestamp': d,
                     'latitude': latitude,
                     'longitude': longitude,
@@ -199,12 +207,9 @@
                 });
                 indexLoop++;
 
-                // Converting the JSON string with JSON.stringify()
-                // then saving with localStorage in the name of session
-                localStorage.setItem(ritten, JSON.stringify(motionJson));
-
                 jsonStringify = JSON.stringify(motionJson);
                 fillJson(jsonStringify);
+                setTimeout(startRecord, 1000);                  // Repeat this function after 1 sec
             }
         };
 
@@ -217,13 +222,22 @@
         function stopRecord() {
             record = false;
             indexLoop = 0;
-            //indexJson++;
 
-            alert("Finished " + rit);
-            navigator.accelerometer.clearWatch(recordLoop);
+            alert("Finished " + ride);
+            alert(jsonStringify);
+
+            // Converting the JSON string with JSON.stringify()
+            // then saving with localStorage in the name of session
+            localStorage.setItem(rides.slice(-1)[0], JSON.stringify(motionJson));
+
+            // Clear array
+            motionJson = {
+                'motion': [],
+                'state': true
+            };
 
             var d = getDate(d);
-            var valueStorage = [d, ritten, latitude, longitude, velocity, accelerationX, accelerationY, accelerationZ];
+            var valueStorage = [d, rides, latitude, longitude, velocity, accelerationX, accelerationY, accelerationZ];
             localStorage.setItem("valueStorage", JSON.stringify(valueStorage));
         }
 
@@ -231,14 +245,6 @@
             while (json.firstChild) json.removeChild(json.firstChild);
             alert("Cleared!");
         }
-
-        // Saving values to localstorage
-        //function saveValuesToLocalStorage() {
-        //    var d = getDate(d);
-        //    var valueStorage = [d, ritten, latitude, longitude, velocity, accelerationX, accelerationY, accelerationZ];
-        //    localStorage.setItem("valueStorage", JSON.stringify(valueStorage));
-        //    alert("saved to localstorage" + valueStorage);
-        //}
 
         // Get current year, month, day, hour, minute, second and milisecond
         function getDate(d) {

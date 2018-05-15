@@ -32,7 +32,7 @@
         var rides = [];
         var rideCounter = 1;
         var valueStorage = [];
-        var amoutRides = [];
+        var amountRides = [];
         var restoredSession = [];
         var stringMotionJson = [];
 
@@ -50,7 +50,8 @@
             }
             else {
                 valueStorage = JSON.parse(localStorage.getItem("valueStorage"));    // Fill valueStorage with values from valueStorage localStorage
-                amoutRides = valueStorage[1];                                       // Get amount of rides from valueStorage at position 1
+                amountRides = valueStorage[1];                                       // Get amount of rides from valueStorage at position 1
+                alert("rides: " + amountRides.length);
             }
         }
         
@@ -58,9 +59,9 @@
             getAll();
             var i = 0;
 
-            while (i < amoutRides.length) {
-                var rit = 'rit' + rideCounter;
-                rides.push(rit);
+            while (i < amountRides.length) {
+                var ride = 'ride' + rideCounter;
+                rides.push(ride);
 
                 restoredSession[i] = JSON.parse(localStorage.getItem(rides[i]));
                 stringMotionJson[i] = JSON.stringify(restoredSession[i]);
