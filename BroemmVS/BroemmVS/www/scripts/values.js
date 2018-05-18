@@ -38,6 +38,7 @@
         var rides = [];
         var rideCounter = 1;
         var indexLoop = 0;
+        var judgement = true;
 
         var firstPosition = [];
         var secondPosition = [];
@@ -192,8 +193,10 @@
         
         function startRecord() {
             var d = getDate(d);
+            judgement = true;
             
             if (record) {
+                assessor();
                 motionJson.motion.push({
                     'id': indexLoop,
                     'name': rides.slice(-1)[0],
@@ -203,19 +206,37 @@
                     'speed': velocity,
                     'accelerationX': accelerationX,
                     'accelerationY': accelerationY,
-                    'accelerationZ': accelerationZ
+                    'accelerationZ': accelerationZ,
+                    'assessor': judgement
                 });
                 indexLoop++;
 
                 jsonStringify = JSON.stringify(motionJson);
                 fillJson(jsonStringify);
-                setTimeout(startRecord, 1000);                  // Repeat this function after 1 sec
+                setTimeout(startRecord, 1000);                              // Repeat this function after 1 sec
             }
-        };
+        }
 
         function fillJson(jsonStringify) {
-            while (json.firstChild) json.removeChild(json.firstChild);
-            jsonId.innerHTML += 'Json: ' + jsonStringify + '<hr />';
+            while (json.firstChild) json.removeChild(json.firstChild);      // Removes previous innerHTML, so not to repeat
+            jsonId.innerHTML += 'Json: ' + jsonStringify;
+        }
+
+        function assessor() {
+            if (accelerationX < -1.9 || accelerationX > 1.9) {
+                var d = getDate(d);
+                var leftOrRight;
+
+                if (accelerationX < -1.9) {
+                    leftOrRight = "links";
+                    judgement = false;
+                }
+                else {
+                    leftOrRight = "rechts";
+                    judgement = false;
+                }
+                alert("fout bij id: " + indexLoop + " om " + d + " Je stuurt tever naar " + leftOrRight);
+            }
         }
 
         // Stop recording and save all current values and the number of times driven
@@ -224,7 +245,6 @@
             indexLoop = 0;
 
             alert("Finished " + ride);
-            alert(jsonStringify);
 
             // Converting the JSON string with JSON.stringify()
             // then saving with localStorage in the name of session
@@ -240,7 +260,7 @@
             var valueStorage = [d, rides, latitude, longitude, velocity, accelerationX, accelerationY, accelerationZ];
             localStorage.setItem("valueStorage", JSON.stringify(valueStorage));
         }
-
+        
         function clearRecord() {
             while (json.firstChild) json.removeChild(json.firstChild);
             alert("Cleared!");
