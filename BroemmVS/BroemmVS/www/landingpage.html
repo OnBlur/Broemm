@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+
+    <!-- Tags for entire app -->
+    <script type="text/javascript" src="cordova.js"></script>
+
+    <link rel="stylesheet" href="frameworks/animate.css">
+    <script type="text/javascript" src="frameworks/jquery-3.3.1.min.js"></script>
+    <!--<script type="text/javascript" src="frameworks/jquery.mobile-1.4.5.min.js"></script>-->
+    <script type="text/javascript" src="frameworks/hammer.min.js"></script>
+    <script type="text/javascript" src="frameworks/jquery.hammer.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css">
+    <link rel="stylesheet" type="text/css" href="css/navbar.css">
+
+    <!-- Tags specific for this page -->
+    <script type="text/javascript" src="scripts/landingpage.js" defer></script>
+    <link rel="stylesheet" type="text/css" href="css/elements.css">
+
+    <title>Landingpage</title>
+</head>
+<body>
+    <div class="app">
+        <div id="" class="container" style="padding-top: 0;">
+            <div class="header header-appname">BROEMM app</div>
+            <div class="stepmenu">
+                <div class="stepcircle active">1</div>
+                <div class="stepcircle">2</div>
+                <div class="stepcircle">3</div>
+                <div class="stepcircle">4</div>
+            </div>
+            <div id="step1" class="explanation" style="/*display: none;*/">
+                <h2>Navigatie</h2>
+                <p>Navigeer door de app door te swipen.</p>
+                <img class="animated infinite shake" src="images/Swipe-icon-wit-01-01.png" />
+            </div>
+            <div id="step2" class="explanation" style="/*display: none;*/">
+                <h2>Start een rit</h2>
+                <p>Klik op de startknop in het hoofdmenu om een rit te starten.</p>
+                <h2>Ontvang feedback</h2>
+                <ul>
+                    <li>Acceleratie</li>
+                    <li>Bochten</li>
+                    <li>Snelheid</li>
+                </ul>
+            </div>
+            <div id="step3" class="explanation" style="/*display: none;*/">
+                <p>Stop het overgebleven in de krat en verdien punten!</p>
+                <img class="beercrate" src="images/BierKrat.png" />
+            </div>
+            <div id="step4" class="explanation" style="/*display: none;*/">
+                <p>Vul je glas met de tap en start een nieuwe rit.</p>
+                <img class="beer" src="images/Bierglas.png" />
+                <p>Door op het glas te tikken kun je van menu's wisselen.</p>
+                <button>Verder</button>
+            </div>
+        </div>
+        <div id="swipeindicator">
+            <div class="ball ball1 active"></div>
+            <div class="ball ball2"></div>
+            <div class="ball ball3"></div>
+            <div class="ball ball4"></div>
+        </div>
+    </div>
+</body>
+</html>
