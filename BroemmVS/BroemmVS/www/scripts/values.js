@@ -94,7 +94,8 @@
             secondPosition = [position.coords.latitude, position.coords.longitude];
             latitude = position.coords.latitude;
             longitude = position.coords.longitude;
-            speed = position.coords.speed;          // Does not work, returns null
+            speed = position.coords.speed;
+            speed *= 3.6;
 
             roundOff();
             fillGeo();
@@ -111,8 +112,8 @@
 
         function fillVelo() {
             speedId.innerHTML =
-                'Speed: ' + velocity + 'm/s' + '<br />' +
-                'Cordova Speed: ' + speed + '<br />' +
+                'Speed: ' + velocity + 'km/h' + '<br />' +
+                'Cordova Speed: ' + speed + 'km/h' + '<br />' +
                 '<hr />';
         }
         
@@ -134,7 +135,7 @@
 
         // Algorithm to calculate speed
         function measure(lat1, lon1, lat2, lon2) {  // generally used geo measurement function
-            var R = 6378.137; // Radius of earth in KM
+            var R = 6378.137;       // Radius of earth in KM
             var dLat = lat2 * Math.PI / 180 - lat1 * Math.PI / 180;
             var dLon = lon2 * Math.PI / 180 - lon1 * Math.PI / 180;
             var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
@@ -142,7 +143,8 @@
                 Math.sin(dLon / 2) * Math.sin(dLon / 2);
             var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
             var d = R * c;
-            velocity = d * 1000;    // 1000 = m/s
+            velocity = d * 1000;            // 1000 = m/s
+            velocity *= 3.6;      // km/h
             roundOff();
         }
 
@@ -165,7 +167,8 @@
         function roundOff() {
             latitude = precisionRound(latitude, 6);
             longitude = precisionRound(longitude, 6);
-            velocity = precisionRound(velocity, 3);
+            velocity = precisionRound(velocity, 1);
+            speed = precisionRound(velocity, 1);
             accelerationX = precisionRound(accelerationX, 3);
             accelerationY = precisionRound(accelerationY, 3);
             accelerationZ = precisionRound(accelerationZ, 3);
@@ -203,7 +206,7 @@
                     'timestamp': d,
                     'latitude': latitude,
                     'longitude': longitude,
-                    'speed': velocity,
+                    'speed': speed,
                     'accelerationX': accelerationX,
                     'accelerationY': accelerationY,
                     'accelerationZ': accelerationZ,
@@ -223,20 +226,35 @@
         }
 
         function assessor() {
-            if (accelerationX < -1.9 || accelerationX > 1.9) {
-                var d = getDate(d);
-                var leftOrRight;
+            var leftOrRight;
+            var wrongTurn = [-0.5, 0.5];
+            var correctTurnRight = [-0.4, -0.2];
+            var correctTurnLeft = [0.4, 0.2];
 
-                if (accelerationX < -1.9) {
-                    leftOrRight = "links";
-                    judgement = false;
+            for (var i = 0; i < correctTurnRight.length; i++){
+                if (accelerationX > correctTurnRight[i] && accelerationX < correctTurnRight[i + 1]) {
+                    alert("Juist bocht naar rechts!");
                 }
-                else {
-                    leftOrRight = "rechts";
-                    judgement = false;
+                else if (accelerationX < correctTurnLeft[i] && accelerationX > correctTurnLeft[i + 1]) {
+                    alert("Juist bocht naar links!");
                 }
-                alert("fout bij id: " + indexLoop + " om " + d + " Je stuurt tever naar " + leftOrRight);
             }
+
+            if (accelerationX < wrongTurn[0]) {
+                leftOrRight = "links";
+                assessorAlert(leftOrRight)
+                judgement = false;
+            }
+            else if (accelerationX > wrongTurn[1]) {
+                leftOrRight = "rechts";
+                assessorAlert(leftOrRight)
+                judgement = false;
+            }
+        }
+
+        function assessorAlert(leftOrRight) {
+            var d = getDate(d);
+            alert("fout bij id: " + indexLoop + " om " + d + " Je stuurt tever naar " + leftOrRight + " met " + accelerationX);
         }
 
         // Stop recording and save all current values and the number of times driven
