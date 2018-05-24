@@ -20,16 +20,17 @@
                     console.log("gesture right detected");
 
                     /* Routeviewer slide in */
-                    $routeviewer.show();
-                    //$routeviewer.css("background", "blue");
+                    //$routeviewer.show();
+                    $routeviewer.css("display", "initial");
                     $routeviewer.removeClass("animated slideOutLeft");
                     $routeviewer.addClass("animated slideInLeft");
 
                     /* Assessor slide out */
-                    //$assessor.css("background", "yellow");
                     $assessor.removeClass("animated slideInRight");
                     $assessor.addClass("animated slideOutRight", function () {
-                        $assessor.hide();
+                        //$assessor.hide();
+                        $assessor.css("display", "none");
+
                         /*$(".ball1").toggleClass("active");
                         $(".ball2").toggleClass("active");*/
                     });
@@ -37,17 +38,18 @@
                     console.log("gesture left detected");
 
                     /* Routeviewer slide out */
-                    //$routeviewer.css("background", "red");
                     $routeviewer.removeClass("animated slideInLeft");
                     $routeviewer.addClass("animated slideOutLeft", function () {
-                        $routeviewer.hide();
+                        //$routeviewer.hide();
+                        $routeviewer.css("display", "none");
+
                         /*$(".ball1").toggleClass("active");
                         $(".ball2").toggleClass("active");*/
                     });
 
                     /* Assessor slide in */
-                    $assessor.show();
-                    //$assessor.css("background", "orange");
+                    //$assessor.show();
+                    $assessor.css("display", "initial");
                     $assessor.removeClass("animated slideOutRight");
                     $assessor.addClass("animated slideInRight");
                 };

@@ -181,6 +181,44 @@ animation-iteration-count: infinite;*/
     padding-left: 0;
 }
 
+/* Start/stopscreen - mainmenu.html */
+#startstopscreen {
+    /*...*/
+}
+    #startstopscreen img.beer {
+        width: auto;
+        height: 40vh;
+    }
+
+#startstop {
+    background: #6ABA36;
+    border: 5px solid #428616;
+    box-shadow: 0px 12px 12px #090909;
+    border-radius: 100%;
+    height: 25vh;
+    width: 25vh;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 7vh;
+    margin-bottom: 10vh;
+}
+    #startstop p {
+        font-size: 2em;
+        line-height: 25vh;
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+
+/* Scorescreen - mainmenu.html */
+#scorescreen .beercrate {
+    height: auto;
+    width: 50vw;
+}
+#beerflasks .beerflask {
+    width: auto;
+    height: 20vh;
+}
+
 /* Swipe indicator */
 #swipeindicator {
     text-align: center;
