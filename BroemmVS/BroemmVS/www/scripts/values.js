@@ -18,10 +18,16 @@
         // Initialize variables
         var permissions = cordova.plugins.permissions;
 
+        // Acceleration x for turns
+        var wrongTurn = [-0.5, 0.5];
+        var correctTurnRight = [-0.4, -0.2];
+        var correctTurnLeft = [0.4, 0.2];
+        var points = 100;
+
         var latitude;
         var longitude;
         var speed;
-        var velocity = 0;
+        //var velocity = 0;
 
         var accelerationX;
         var accelerationY;
@@ -40,8 +46,8 @@
         var indexLoop = 0;
         var judgement = true;
 
-        var firstPosition = [];
-        var secondPosition = [];
+        //var firstPosition = [];
+        //var secondPosition = [];
 
         var options = { timeout: 100 }; // Update every second
 
@@ -49,6 +55,7 @@
         var startRecordId = document.getElementById("startRecord");
         var stopRecordId = document.getElementById("stopRecord");
         var clearRecordId = document.getElementById("clearRecord");
+        var pointsId = document.getElementById("points");
         var geolocationId = document.getElementById('geolocation');
         var accelerationId = document.getElementById('acceleration');
         var speedId = document.getElementById('speed');
@@ -67,7 +74,7 @@
             getTiles();
             lc.start();
 
-            navigator.geolocation.getCurrentPosition(initializePosition, onError);
+            //navigator.geolocation.getCurrentPosition(initializePosition, onError);
 
             // Calibrate the compass of the device by instructing the user to calibrate the compass
             window.addEventListener("compassneedscalibration", function (event) {
@@ -76,7 +83,7 @@
             }, true);
             
             window.addEventListener("devicemotion", processEvent, true);
-            
+
             var watchPos = navigator.geolocation.watchPosition(setCoords, onError, options);
         }
         
@@ -86,67 +93,52 @@
             }).addTo(map);
         }
 
-        var initializePosition = function (position) {
-            firstPosition = [position.coords.latitude, position.coords.longitude];
-        };
+        //var initializePosition = function (position) {
+        //    firstPosition = [position.coords.latitude, position.coords.longitude];
+        //};
         
         function setCoords(position) {
-            secondPosition = [position.coords.latitude, position.coords.longitude];
+            //secondPosition = [position.coords.latitude, position.coords.longitude];
             latitude = position.coords.latitude;
             longitude = position.coords.longitude;
             speed = position.coords.speed;
             speed *= 3.6;
 
             roundOff();
-            fillGeo();
-            fillVelo();
-
-            var watchChange = navigator.geolocation.watchPosition(setCoordsNew, onError, options);
-        }
-
-        function fillGeo() {
-            geolocationId.innerHTML = 'latitude: ' + latitude + '<br />' +
-                'longitude: ' + longitude + '<br />' +
-                '<hr />';
-        }
-
-        function fillVelo() {
-            speedId.innerHTML =
-                'Speed: ' + velocity + 'km/h' + '<br />' +
-                'Cordova Speed: ' + speed + 'km/h' + '<br />' +
-                '<hr />';
+            
+            //var watchChange = navigator.geolocation.watchPosition(setCoordsNew, onError, options);
         }
         
-        // Store new coords in secondPosition and check if the array is the same as firstPosition, 
-        // if not then push the positions to measure algorithm
-        function setCoordsNew(position) {
-            var i = 0;
+        //// Store new coords in secondPosition and check if the array is the same as firstPosition, 
+        //// if not then push the positions to measure algorithm
+        //function setCoordsNew(position) {
+        //    var i = 0;
 
-            while (i < 2) {
-                if (firstPosition != secondPosition) {
-                    measure(firstPosition[0], firstPosition[1], secondPosition[0], secondPosition[1]);
-                    firstPosition = secondPosition;
-                } else {
-                    break;
-                }
-                i++;
-            }
-        }
+        //    while (i < 2) {
+        //        if (firstPosition != secondPosition) {
+        //            measure(firstPosition[0], firstPosition[1], secondPosition[0], secondPosition[1]);
+        //            firstPosition = secondPosition;
+        //        } else {
+        //            break;
+        //        }
+        //        i++;
+        //    }
+        //}
 
-        // Algorithm to calculate speed
-        function measure(lat1, lon1, lat2, lon2) {  // generally used geo measurement function
-            var R = 6378.137;       // Radius of earth in KM
-            var dLat = lat2 * Math.PI / 180 - lat1 * Math.PI / 180;
-            var dLon = lon2 * Math.PI / 180 - lon1 * Math.PI / 180;
-            var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-                Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-                Math.sin(dLon / 2) * Math.sin(dLon / 2);
-            var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-            var d = R * c;
-            velocity = d * 1000;            // 1000 = m/s
-            velocity *= 3.6;      // km/h
-            roundOff();
-        }
+        //// Algorithm to calculate speed
+        //function measure(lat1, lon1, lat2, lon2) {  // generally used geo measurement function
+        //    var R = 6378.137;       // Radius of earth in KM
+        //    var dLat = lat2 * Math.PI / 180 - lat1 * Math.PI / 180;
+        //    var dLon = lon2 * Math.PI / 180 - lon1 * Math.PI / 180;
+        //    var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        //        Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+        //        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+        //    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        //    var d = R * c;
+        //    velocity = d * 1000;            // 1000 = m/s
+        //    velocity *= 3.6;      // km/h
+        //    roundOff();
+        //}
 
         function processEvent(event) {
             accelerationX = event.accelerationIncludingGravity.x;
@@ -154,21 +146,18 @@
             accelerationZ = event.accelerationIncludingGravity.z;
 
             roundOff();
-
-            // process the event object
-            accelerationId.innerHTML =
-                'Acceleration X: ' + accelerationX + '<br />' +
-                'Acceleration Y: ' + accelerationY + '<br />' +
-                'Acceleration Z: ' + accelerationZ + '<br />' +
-                '<hr />';
+            fillGeo();
+            fillSpeed();
+            fillPoints();
+            fillAcc();
         }
 
         // Push values to precisionRound
         function roundOff() {
             latitude = precisionRound(latitude, 6);
             longitude = precisionRound(longitude, 6);
-            velocity = precisionRound(velocity, 1);
-            speed = precisionRound(velocity, 1);
+            //velocity = precisionRound(velocity, 1);
+            speed = precisionRound(speed, 1);
             accelerationX = precisionRound(accelerationX, 3);
             accelerationY = precisionRound(accelerationY, 3);
             accelerationZ = precisionRound(accelerationZ, 3);
@@ -210,6 +199,7 @@
                     'accelerationX': accelerationX,
                     'accelerationY': accelerationY,
                     'accelerationZ': accelerationZ,
+                    'points': points,
                     'assessor': judgement
                 });
                 indexLoop++;
@@ -227,10 +217,7 @@
 
         function assessor() {
             var leftOrRight;
-            var wrongTurn = [-0.5, 0.5];
-            var correctTurnRight = [-0.4, -0.2];
-            var correctTurnLeft = [0.4, 0.2];
-
+            
             for (var i = 0; i < correctTurnRight.length; i++){
                 if (accelerationX > correctTurnRight[i] && accelerationX < correctTurnRight[i + 1]) {
                     alert("Juist bocht naar rechts!");
@@ -254,16 +241,17 @@
 
         function assessorAlert(leftOrRight) {
             var d = getDate(d);
+            points -= 1;
             alert("fout bij id: " + indexLoop + " om " + d + " Je stuurt tever naar " + leftOrRight + " met " + accelerationX);
         }
 
         // Stop recording and save all current values and the number of times driven
         function stopRecord() {
+            alert("Finished " + ride + " met " + points + " punten");
             record = false;
             indexLoop = 0;
-
-            alert("Finished " + ride);
-
+            points = 100;
+            
             // Converting the JSON string with JSON.stringify()
             // then saving with localStorage in the name of session
             localStorage.setItem(rides.slice(-1)[0], JSON.stringify(motionJson));
@@ -275,7 +263,7 @@
             };
 
             var d = getDate(d);
-            var valueStorage = [d, rides, latitude, longitude, velocity, accelerationX, accelerationY, accelerationZ];
+            var valueStorage = [d, rides, latitude, longitude, speed, accelerationX, accelerationY, accelerationZ];
             localStorage.setItem("valueStorage", JSON.stringify(valueStorage));
         }
         
@@ -288,6 +276,32 @@
         function getDate(d) {
             d = new Date();
             return d;
+        }
+
+        function fillPoints() {
+            pointsId.innerHTML =
+                'Punten: ' + points;
+        }
+
+        function fillGeo() {
+            geolocationId.innerHTML = 'latitude: ' + latitude + '<br />' +
+                'longitude: ' + longitude + '<br />' +
+                '<hr />';
+        }
+
+        function fillSpeed() {
+            speedId.innerHTML =
+                //'Speed: ' + velocity + 'km/h' + '<br />' +
+                'Cordova Speed: ' + speed + 'km/h' + '<br />' +
+                '<hr />';
+        }
+
+        function fillAcc() {
+            accelerationId.innerHTML =
+                'Acceleration X: ' + accelerationX + '<br />' +
+                'Acceleration Y: ' + accelerationY + '<br />' +
+                'Acceleration Z: ' + accelerationZ + '<br />' +
+                '<hr />';
         }
 
         // onError Callback receives a Error object
