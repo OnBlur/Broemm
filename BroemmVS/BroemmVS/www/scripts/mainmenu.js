@@ -9,6 +9,7 @@
         $(document).ready(function () {
             console.log("Document is ready!");
 
+            /* Start/stop button */
             var $startstop = $("#startstop");
             var clicked = false;
 
@@ -29,6 +30,9 @@
                     clicked = false;
                 };
             });
+
+            /* Beer glass swipe */
+            // stuff
         });
     }
 })();
