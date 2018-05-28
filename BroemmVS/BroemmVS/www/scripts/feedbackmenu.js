@@ -41,8 +41,17 @@
                                 break;*/
                             case 2:
                                 $routeviewer.hide();
-                                $container.css("padding-top", 0);
                                 $assesspage1.show();
+                                /*$routeviewer.addClass("animated slideOutLeft", function () {
+                                    $routeviewer.hide();
+                                    // has an duration, so it can be animated!
+
+                                    $container.css("padding-top", 0);
+
+                                    $assesspage1.show();
+                                    $assesspage1.addClass("animated slideInRight");
+                                });*/
+
                                 $(".ball1").toggleClass("active");
                                 $(".ball2").toggleClass("active");
                                 break;
@@ -64,10 +73,7 @@
                         /*$routeviewer.removeClass("animated slideInLeft");
                         $routeviewer.addClass("animated slideOutLeft", function () {
                             //$routeviewer.hide();
-                            $routeviewer.css("display", "none");
-
-                            //$(".ball1").toggleClass("active");
-                            //$(".ball2").toggleClass("active");
+                            $routeviewer.css("display", "none");                            
                         });*/
 
                         /* Assessor slide in */
@@ -76,7 +82,7 @@
                         $assessor.removeClass("animated slideOutRight");
                         $assessor.addClass("animated slideInRight");*/
                     };
-                } else if (event.gesture.direction === 4) { // left -> right 
+                } else if (event.gesture.direction === 4) { // right <- left 
                     console.log("gesture right <- left detected");
 
                     if (currentpage > 1) {
@@ -84,8 +90,8 @@
                         console.log("page: " + currentpage);
 
                         switch (currentpage) {
-                            /*case 4:
-                                break;*/
+                            //case 4:
+                                //break;
                             case 3:
                                 $assesspage3.hide();
                                 $assesspage2.show();
