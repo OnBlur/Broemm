@@ -9,12 +9,13 @@
         $(document).ready(function () {
             console.log("Document is ready!");
 
-            var $app = $(".app");
+            var $body = $("body");
 
             var $container = $(".container");
             var $routeviewer = $("#routeviewer");
             var $assessor = $(".assessor");
 
+            /* Swipe */
             var $assesspage1 = $("#acceleration");     
             var $assesspage2 = $("#turns");
             var $assesspage3 = $("#speed");
@@ -26,7 +27,7 @@
             $assesspage2.hide();
             $assesspage3.hide();
 
-            $app.hammer().on("swipe", function (event) {
+            $body.hammer().on("swipe", function (event) {
                 //console.log(event.gesture.direction + " gesture detected");
                                 
                 if (event.gesture.direction === 2) { // right -> left
@@ -40,8 +41,9 @@
                             /*case 1:
                                 break;*/
                             case 2:
-                                $routeviewer.hide();
-                                $assesspage1.show();
+                                $routeviewer.hide("slow");
+                                $container.css("padding-top", 0);
+                                $assesspage1.show("slow");
                                 /*$routeviewer.addClass("animated slideOutLeft", function () {
                                     $routeviewer.hide();
                                     // has an duration, so it can be animated!
@@ -56,14 +58,14 @@
                                 $(".ball2").toggleClass("active");
                                 break;
                             case 3:
-                                $assesspage1.hide();
-                                $assesspage2.show();
+                                $assesspage1.hide("slow");
+                                $assesspage2.show("slow");
                                 $(".ball2").toggleClass("active");
                                 $(".ball3").toggleClass("active");
                                 break;
                             case 4:
-                                $assesspage2.hide();
-                                $assesspage3.show();
+                                $assesspage2.hide("slow");
+                                $assesspage3.show("slow");
                                 $(".ball3").toggleClass("active");
                                 $(".ball4").toggleClass("active");
                                 break;
@@ -93,21 +95,21 @@
                             //case 4:
                                 //break;
                             case 3:
-                                $assesspage3.hide();
-                                $assesspage2.show();
+                                $assesspage3.hide("slow");
+                                $assesspage2.show("slow");
                                 $(".ball4").toggleClass("active");
                                 $(".ball3").toggleClass("active");
                                 break;
                             case 2:
-                                $assesspage2.hide();
-                                $assesspage1.show();
+                                $assesspage2.hide("slow");
+                                $assesspage1.show("slow");
                                 $(".ball3").toggleClass("active");
                                 $(".ball2").toggleClass("active");
                                 break;
                             case 1:
-                                $assesspage1.hide();
+                                $assesspage1.hide("slow");
                                 $container.css("padding-top", "");
-                                $routeviewer.show();
+                                $routeviewer.show("slow");
                                 $(".ball2").toggleClass("active");
                                 $(".ball1").toggleClass("active");
                                 break;
@@ -132,19 +134,28 @@
                 };
             });            
 
-            /*//$routeviewer.hammer().bind("swipe", function () {
-            $routeviewer.hammer().bind("panleft", function () {
-                console.log("gesture left detected");
-                $routeviewer.css("background", "red");
-                $routeviewer.addClass("animated slideOutLeft");
-                //$routeviewer.addClass("routeview");
+            /* Dropdown */
+            var $street = $(".street"); 
+            var $triangle = $(".dropdown-triangle");
+            var $streetdropdown =   $(".street-dropdown");
+
+            $street.click(function () {
+                console.log("clicked!");
+
+                if ($(this).parent().find(".street-dropdown").is(':visible')) {
+                    // If the shown item is clicked again
+                    $(this).parent().find(".street-dropdown").hide("slow");
+                    $(this).find(".dropdown-triangle").css("transform", "none");
+                } else {
+                    // Hide all items
+                    $streetdropdown.hide("slow");
+                    $triangle.css("transform", "none");
+
+                    // Then show the clicked item
+                    $(this).parent().find(".street-dropdown").show("slow");
+                    $(this).find(".dropdown-triangle").css("transform", "rotate(180deg)");
+                }                
             });
-            $routeviewer.hammer().bind("panright", function () {
-                console.log("gesture right detected");
-                $routeviewer.css("background", "blue");
-                $routeviewer.removeClass("animated slideInLeft");
-                //$routeviewer.addClass("routeview");
-            });*/
         });
         
         /*
