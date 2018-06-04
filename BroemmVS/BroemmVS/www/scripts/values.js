@@ -60,19 +60,19 @@
         var accelerationId = document.getElementById('acceleration');
         var speedId = document.getElementById('speed');
         
-        var map = L.map('map');
+        //var map = L.map('map');
 
         // Functions
         function getMotion() {
-            var lc = L.control.locate({
-                locateOptions: {
-                    enableHighAccuracy: true,
-                    maxZoom: 17
-                }
-            }).addTo(map);
+            //var lc = L.control.locate({
+            //    locateOptions: {
+            //        enableHighAccuracy: true,
+            //        maxZoom: 17
+            //    }
+            //}).addTo(map);
             
-            getTiles();
-            lc.start();
+            //getTiles();
+            //lc.start();
 
             //navigator.geolocation.getCurrentPosition(initializePosition, onError);
 
@@ -87,11 +87,11 @@
             var watchPos = navigator.geolocation.watchPosition(setCoords, onError, options);
         }
         
-        function getTiles() {
-            L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-            }).addTo(map);
-        }
+        //function getTiles() {
+        //    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+        //        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+        //    }).addTo(map);
+        //}
 
         //var initializePosition = function (position) {
         //    firstPosition = [position.coords.latitude, position.coords.longitude];

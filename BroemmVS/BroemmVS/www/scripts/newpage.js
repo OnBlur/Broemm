@@ -36,12 +36,48 @@
         var restoredSession = [];
         var stringMotionJson = [];
 
+        var latitude = [];
+        var longitude = [];
+        var longAndLat = [];
+
+        //var map = L.map('map').setView([51.505, -0.09], 1);
+        //getTiles();
+
+        //function showData() {
+        //    var i = 0;
+        //    var myStyle = {
+        //        "color": "#ff7800",
+        //        "weight": 5,
+        //        "opacity": 0.65
+        //    };
+
+        //    while (i < latitude.length) {
+        //        alert(longAndLat);
+                
+        //        var myLines = [{
+        //            "type": "LineString",
+        //            "coordinates": [[-100, 40], [-105, 45], [-110, 55]]
+        //        }];
+                
+        //        L.geoJSON(myLines, { style: myStyle }).addTo(map);
+        //        i++;
+        //    }
+        //}
+        
+        //function getTiles() {
+        //    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+        //        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+        //    }).addTo(map);
+        //}
+        
         // Functions
         // Onclick buttons with functions
         getRidesId.onclick = function () {
             getRides();
+            
         };
         fillValuesId.onclick = function () { fillValues(); };
+
 
         // Get all values from localStorage
         function getAll() {
@@ -54,11 +90,11 @@
                 alert("rides: " + amountRides.length);
             }
         }
-        
+
         function getRides() {
             getAll();
             var i = 0;
-
+            
             while (i < amountRides.length) {
                 var ride = 'ride' + rideCounter;
                 rides.push(ride);
@@ -67,9 +103,19 @@
                 stringMotionJson[i] = JSON.stringify(restoredSession[i]);
 
                 ridesId.innerHTML += 'Rit: ' + rideCounter + '<br />' + stringMotionJson[i] + '<hr />';
+                
+                for (var y = 0; y < restoredSession[i].motion.length; y++) {
+                    var motions = restoredSession[i].motion[y];
+                    latitude.push(motions.latitude);
+                    longitude.push(motions.longitude);
+
+                    longAndLat.push([motions.latitude, motions.longitude]);
+                }
+
                 rideCounter++;
                 i++;
             }
+            //showData();
         }
 
         // Check if 
