@@ -27,97 +27,103 @@
     <body>
         <div class="app">
             <div class="container" id="routeviewer" style="/*display: none*/">
-                <div class="header header-route">Burgum > Leeuwarden</div>
+                <div class="header header-route">Burgum &rarr; Leeuwarden</div>
                 <div id="streettracks">
                     <div class="streetpoints">
                         <div class="street">
                             <div class="indicator negative"></div>
-                            <div class="street-text">Straat 1</div>
+                            <div class="street-text">Noordersingel</div>
                             <img class="dropdown-triangle" src="images/triangle.svg" />
                         </div>
                         <div class="street-dropdown">
-                            <div class="points-bar" style="width:100%">Acceleratie 25/25</div>
-                            <div class="points-bar" style="width: 90%">Bochten 25/25</div>
-                            <div class="points-bar" style="width: 80%">Snelheid 25/25</div>
+                            <div class="points-bar" style="width:100%">Acceleratie 10/10</div>
+                            <div class="points-bar" style="width: 90%">Bochten 9/10</div>
+                            <div class="points-bar" style="width: 80%">Snelheid 8/10</div>
+                        </div>
+                    </div>
+                    <div class="streetpoints">
+                        <div class="street">
+                            <div class="indicator positive"></div>
+                            <div class="street-text">Rijksstraatweg/N335</div>
+                            <img class="dropdown-triangle" src="images/triangle.svg" />
+                        </div>
+                        <div class="street-dropdown">
+                            <div class="points-bar" style="width: 70%">Acceleratie 7/10</div>
+                            <div class="points-bar" style="width: 60%">Bochten 6/10</div>
+                            <div class="points-bar" style="width: 50%">Snelheid 5/10</div>
                         </div>
                     </div>
                     <div class="streetpoints">
                         <div class="street">
                             <div class="indicator negative"></div>
-                            <div class="street-text">Straat 2</div>
+                            <div class="street-text">Groningerstraatweg</div>
                             <img class="dropdown-triangle" src="images/triangle.svg" />
                         </div>
                         <div class="street-dropdown">
-                            <div class="points-bar" style="width: 70%">Acceleratie 25/25</div>
-                            <div class="points-bar" style="width: 60%">Bochten 25/25</div>
-                            <div class="points-bar" style="width: 50%">Snelheid 25/25</div>
+                            <div class="points-bar" style="width: 40%">Acceleratie 4/10</div>
+                            <div class="points-bar" style="width: 30%">Bochten 3/10</div>
+                            <div class="points-bar" style="width: 20%">Snelheid 2/10</div>
                         </div>
                     </div>
                     <div class="streetpoints">
                         <div class="street">
-                            <div class="indicator negative"></div>
-                            <div class="street-text">Straat 3</div>
+                            <div class="indicator positive"></div>
+                            <div class="street-text">Tweebaksmarkt</div>
                             <img class="dropdown-triangle" src="images/triangle.svg" />
                         </div>
                         <div class="street-dropdown">
-                            <div class="points-bar" style="width: 40%">Acceleratie 25/25</div>
-                            <div class="points-bar" style="width: 30%">Bochten 25/25</div>
-                            <div class="points-bar" style="width: 20%">Snelheid 25/25</div>
-                        </div>
-                    </div>
-                    <div class="streetpoints">
-                        <div class="street">
-                            <div class="indicator negative"></div>
-                            <div class="street-text">Straat 4</div>
-                            <img class="dropdown-triangle" src="images/triangle.svg" />
-                        </div>
-                        <div class="street-dropdown">
-                            <div class="points-bar" style="width: 10%">Acceleratie 25/25</div>
-                            <div class="points-bar" style="width: 75%">Bochten 25/25</div>
-                            <div class="points-bar" style="width: 25%">Snelheid 25/25</div>
+                            <div class="points-bar" style="width: 10%">Acceleratie 1/10</div>
+                            <div class="points-bar" style="width: 75%">Bochten 75/100</div>
+                            <div class="points-bar" style="width: 25%">Snelheid 25/100</div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div id="acceleration" class="container assessor" style="/*display: none*/">
+            <div id="acceleration" class="container assessor" style="display: none">
                 <div class="header header-element">Acceleratie</div>
-                <div class="image">
-                    <img src="images/car gifs/acceleration/giphy-downsized-large.gif" />
-                </div>
+                <div class="image"><img src="images/car gifs/acceleration/giphy-downsized-large.gif" /></div>
                 <div class="header header-tips">Tips</div>
-                <ul class="tips">
-                    <li>Rustig optrekken</li>
-                    <li>Snel doorschakelen</li>
-                    <li>Constante snelheid aanhouden</li>
-                </ul>
+                <div class="tips">
+                    <ul>
+                        <li><div class="indicator positive"></div>Rustig optrekken</li>
+                        <li><div class="indicator positive"></div>Snel doorschakelen</li>
+                        <li><div class="indicator positive"></div>Constante snelheid aanhouden</li>
+                    </ul>
+                </div>
             </div>
 
-            <div id="turns" class="container assessor" style="/*display: none*/">
+            <div id="turns" class="container assessor" style="display: none">
                 <div class="header header-element">Bochten</div>
                 <div class="image">
                     <img src="images/car gifs/turns/1346863311_car_almost_hits_mad_during_handbrake_turn.gif" />
                 </div>
                 <div class="header header-tips">Tips</div>
-                <ul class="tips">
-                    <li>Bocht anticiperen</li>
-                    <li>V&oacute;&oacute;r de bocht afremmen</li>
-                    <li>Terugschakelen naar 2</li>
-                </ul>
+                <div class="tips">
+                    <ul>
+                        <li><div class="indicator positive"></div>Bocht anticiperen</li>
+                        <li><div class="indicator positive"></div>V&oacute;&oacute;r de bocht afremmen</li>
+                        <li><div class="indicator positive"></div>Terugschakelen naar 2</li>
+                    </ul>
+                </div>
             </div>
 
-            <div id="speed" class="container assessor" style="/*display: none*/">
+            <div id="speed" class="container assessor" style="display: none">
                 <div class="header header-element">Snelheid</div>
                 <div class="image">
                     <img src="images/car gifs/speed/landscape-1490615777-bugatti.gif" />
                 </div>
                 <div class="header header-tips">Tips</div>
-                <ul class="tips">
-                    <li>Bocht anticiperen</li>
-                    <li>V&oacute;&oacute;r de bocht afremmen</li>
-                    <li>Actieve rijhouding</li>
-                </ul>
-                <a class="button" href="mainmenu.html">Verder</a>
+                <div class="tips">
+                    <ul>
+                        <li><div class="indicator positive"></div>Bocht anticiperen</li>
+                        <li><div class="indicator positive"></div>V&oacute;&oacute;r de bocht afremmen</li>
+                        <li><div class="indicator positive"></div>Actieve rijhouding</li>
+                    </ul>
+                </div>
+                <div id="next">
+                    <a class="button" href="mainmenu.html">Verder</a>
+                </div>                
             </div>
 
             <div id="swipeindicator">
