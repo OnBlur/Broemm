@@ -41,9 +41,9 @@
                             /*case 1:
                                 break;*/
                             case 2:
-                                $routeviewer.hide("slow");
+                                $routeviewer.hide();
                                 $container.css("padding-top", 0);
-                                $assesspage1.show("slow");
+                                $assesspage1.show();
                                 /*$routeviewer.addClass("animated slideOutLeft", function () {
                                     $routeviewer.hide();
                                     // has an duration, so it can be animated!
@@ -58,14 +58,14 @@
                                 $(".ball2").toggleClass("active");
                                 break;
                             case 3:
-                                $assesspage1.hide("slow");
-                                $assesspage2.show("slow");
+                                $assesspage1.hide();
+                                $assesspage2.show();
                                 $(".ball2").toggleClass("active");
                                 $(".ball3").toggleClass("active");
                                 break;
                             case 4:
-                                $assesspage2.hide("slow");
-                                $assesspage3.show("slow");
+                                $assesspage2.hide();
+                                $assesspage3.show();
                                 $(".ball3").toggleClass("active");
                                 $(".ball4").toggleClass("active");
                                 break;
@@ -95,21 +95,21 @@
                             //case 4:
                                 //break;
                             case 3:
-                                $assesspage3.hide("slow");
-                                $assesspage2.show("slow");
+                                $assesspage3.hide();
+                                $assesspage2.show();
                                 $(".ball4").toggleClass("active");
                                 $(".ball3").toggleClass("active");
                                 break;
                             case 2:
-                                $assesspage2.hide("slow");
-                                $assesspage1.show("slow");
+                                $assesspage2.hide();
+                                $assesspage1.show();
                                 $(".ball3").toggleClass("active");
                                 $(".ball2").toggleClass("active");
                                 break;
                             case 1:
-                                $assesspage1.hide("slow");
+                                $assesspage1.hide();
                                 $container.css("padding-top", "");
-                                $routeviewer.show("slow");
+                                $routeviewer.show();
                                 $(".ball2").toggleClass("active");
                                 $(".ball1").toggleClass("active");
                                 break;
@@ -132,7 +132,10 @@
                         });*/
                     };
                 };
-            });            
+            });        
+
+            /* Dropdown points */
+            // do stuff
 
             /* Dropdown */
             var $street = $(".street"); 

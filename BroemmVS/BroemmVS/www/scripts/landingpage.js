@@ -59,7 +59,7 @@
                                 break;
                         };
                     };
-                } /*else if (event.gesture.direction === 4) { // right <- left 
+                } else if (event.gesture.direction === 4) { // right <- left 
                     console.log("gesture right <- left detected");
 
                     if (currentpage > 1) {
@@ -72,25 +72,27 @@
                             case 3:
                                 $step4.hide();
                                 $step3.show();
+                                $(".stepcircle4").removeClass("active");
                                 $(".ball4").toggleClass("active");
                                 $(".ball3").toggleClass("active");
                                 break;
                             case 2:
                                 $step3.hide();
                                 $step2.show();
+                                $(".stepcircle3").removeClass("active");
                                 $(".ball3").toggleClass("active");
                                 $(".ball2").toggleClass("active");
                                 break;
                             case 1:
                                 $step2.hide();
-                                //$container.css("padding-top", "");
                                 $step1.show();
+                                $(".stepcircle2").removeClass("active");
                                 $(".ball2").toggleClass("active");
                                 $(".ball1").toggleClass("active");
                                 break;
                         };
                     };
-                };*/
+                };
             });
         }); 
     }
