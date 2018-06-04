@@ -18,11 +18,12 @@
                     console.log("clicked! turn red!");
                     $startstop.css("background", "#C81A1A");
                     $startstop.css("border", "5px solid #AE1717");
-                    $("#startstop p").html("Stop");
+                    $("#startstop p").html("Stop rit");
 
                     clicked = true;
                 } else {
                     console.log("clicked! turn green again!");
+                    window.location.href = "feedbackmenu.html"; // Redirect
                     $startstop.css("background", "#6ABA36");
                     $startstop.css("border", "5px solid #428616");
                     $("#startstop p").html("Start");
