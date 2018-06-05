@@ -39,21 +39,27 @@
                             case 2:
                                 $step1.hide();
                                 $step2.show();
-                                $(".stepcircle2").addClass("active");
+                                $(".stepcircle1").toggleClass("active");
+                                $(".stepcircle2").toggleClass("active");
+                                $(".stepcircle2").addClass("done");
                                 $(".ball1").toggleClass("active");
                                 $(".ball2").toggleClass("active");
                                 break;
                             case 3:
                                 $step2.hide();
                                 $step3.show();
-                                $(".stepcircle3").addClass("active");
+                                $(".stepcircle2").toggleClass("active");
+                                $(".stepcircle3").toggleClass("active");
+                                $(".stepcircle3").addClass("done");
                                 $(".ball2").toggleClass("active");
                                 $(".ball3").toggleClass("active");
                                 break;
                             case 4:
                                 $step3.hide();
                                 $step4.show();
-                                $(".stepcircle4").addClass("active");
+                                $(".stepcircle3").toggleClass("active");
+                                $(".stepcircle4").toggleClass("active");
+                                $(".stepcircle4").addClass("done");
                                 $(".ball3").toggleClass("active");
                                 $(".ball4").toggleClass("active");
                                 break;
@@ -72,21 +78,27 @@
                             case 3:
                                 $step4.hide();
                                 $step3.show();
-                                $(".stepcircle4").removeClass("active");
+                                $(".stepcircle4").toggleClass("active");
+                                $(".stepcircle3").toggleClass("active");
+                                $(".stepcircle4").removeClass("done");
                                 $(".ball4").toggleClass("active");
                                 $(".ball3").toggleClass("active");
                                 break;
                             case 2:
                                 $step3.hide();
                                 $step2.show();
-                                $(".stepcircle3").removeClass("active");
+                                $(".stepcircle3").toggleClass("active");
+                                $(".stepcircle2").toggleClass("active");
+                                $(".stepcircle3").removeClass("done");
                                 $(".ball3").toggleClass("active");
                                 $(".ball2").toggleClass("active");
                                 break;
                             case 1:
                                 $step2.hide();
                                 $step1.show();
-                                $(".stepcircle2").removeClass("active");
+                                $(".stepcircle2").toggleClass("active");
+                                $(".stepcircle1").toggleClass("active");
+                                $(".stepcircle2").removeClass("done");
                                 $(".ball2").toggleClass("active");
                                 $(".ball1").toggleClass("active");
                                 break;

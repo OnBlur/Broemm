@@ -10,12 +10,181 @@
             console.log("Document is ready!");
 
             var $body = $("body");
-
             var $container = $(".container");
+
+            /* Generate streetpoints elements */
+            var $streettracks = $("#streettracks");
+
+            //var assessors = ["acceleration", "turns", "speed"];
+            //var streets = ["Noordersingel", "Rijksstraatweg/N335", "Groningerstraatweg", "Tweebaksmarkt"];
+
+            /*var points = [
+                [1,2,3],
+                [4,5,6],
+                [7,8,9],
+                [10, 0, 6]
+            ];*/
+            /*var points = {
+                "acceleration": {},
+                "turns": {},
+                "speed": {}
+            };*/
+            /*var points = {
+                "Noordersingel": {
+                    "acceleration": 0,
+                    "turns": 1,
+                    "speed": 2
+                }, 
+                "Rijksstraatweg/N335": {
+                    "acceleration": 3,
+                    "turns": 4,
+                    "speed": 5
+                }, 
+                "Groningerstraatweg": {
+                    "acceleration": 6,
+                    "turns": 7,
+                    "speed": 8
+                }, 
+                "Tweebaksmarkt": {
+                    "acceleration": 9,
+                    "turns": 10,
+                    "speed": -1
+                }
+            };*/
+            var journey = [
+                {
+                    streetName: "Noordersingel",
+                    assessor: {
+                        acceleration: {
+                            translation: "acceleratie",
+                            score: -1,
+                            max: 10
+                        },
+                        turns: {
+                            translation: "bochten",
+                            score: 0,
+                            max: 10
+                        },
+                        speed: {
+                            translation: "snelheid",
+                            score: 1,
+                            max: 10
+                        }
+                    }
+                },
+                {
+                    streetName: "Rijksstraatweg/N335",
+                    assessor: {
+                        acceleration: {
+                            translation: "acceleratie",
+                            score: 2,
+                            max: 10
+                        },
+                        turns: {
+                            translation: "bochten",
+                            score: 3,
+                            max: 10
+                        },
+                        speed: {
+                            translation: "snelheid",
+                            score: 4,
+                            max: 10
+                        }
+                    }
+                },
+                {
+                    streetName: "Groningerstraatweg",
+                    assessor: {
+                        acceleration: {
+                            translation: "acceleratie",
+                            score: 5,
+                            max: 10
+                        },
+                        turns: {
+                            translation: "bochten",
+                            score: 6,
+                            max: 10
+                        },
+                        speed: {
+                            translation: "snelheid",
+                            score: 7,
+                            max: 10
+                        }
+                    }
+                },
+                {
+                    streetName: "Tweebaksmarkt",
+                    assessor: {
+                        acceleration: {
+                            translation: "acceleratie",
+                            score: 8,
+                            max: 10
+                        },
+                        turns: {
+                            translation: "bochten",
+                            score: 9,
+                            max: 10
+                        },
+                        speed: {
+                            translation: "snelheid",
+                            score: 10,
+                            max: 10
+                        }
+                    }
+                },
+            ];
+            //console.log(journey[3]);
+            //console.log(journey[3].streetName);
+            //console.log(journey[3].acceleration.score);
+            //console.log(journey[3].acceleration.max);
+
+            for (var street in journey) {
+                var elements =
+                    `<div class="streetpoints">
+                        <div class="street">
+                            <div class="indicator negative"></div>
+                            <div class="street-text">` + journey[street].streetName + `</div>
+                            <img class="dropdown-triangle" src="images/triangle.svg" />
+                        </div>
+                        <div class="street-dropdown">`;
+                for (var assignment in journey[street].assessor) {
+                    var score = journey[street].assessor[assignment].score;
+                    var max = journey[street].assessor[assignment].max;
+                    var percentage = (100 * score) / max;
+                    elements +=
+                        `<div class="points-bar ` + assignment +
+                        //Object.keys(journey[street].assessor[assignment]) + 
+                        `" style="width: ` + percentage + `%">` +
+                        journey[street].assessor[assignment].translation + `: ` +
+                        score + `/` + max + `</div >`;
+                }
+                elements +=
+                    `   </div>
+                    </div>`;
+                $streettracks.append(elements);
+            };
+
+            /*for (var street in streets) {
+                //console.log(streets[street]);
+                var elements =
+                    `<div class="street">
+                        <div class="indicator negative"></div>
+                        <div class="street-text">` + streets[street] + `</div>
+                        <img class="dropdown-triangle" src="images/triangle.svg" />
+                    </div>
+                    <div class="street-dropdown">`;
+                for (var assessor in assessors) {
+                    //console.log(assessors[assessor]);
+                    elements += `<div class="points-bar ` + assessors[assessor] + `" style="width: 100 %">` + assessors[assessor] + ` 10/10</div>`;
+                }
+                elements += "</div>";
+                $streettracks.append(elements);
+            }*/
+
+            /* Swipe */
             var $routeviewer = $("#routeviewer");
             var $assessor = $(".assessor");
 
-            /* Swipe */
             var $assesspage1 = $("#acceleration");     
             var $assesspage2 = $("#turns");
             var $assesspage3 = $("#speed");
@@ -31,11 +200,11 @@
                 //console.log(event.gesture.direction + " gesture detected");
                                 
                 if (event.gesture.direction === 2) { // right -> left
-                    console.log("gesture right -> left detected");
+                    //console.log("gesture right -> left detected");
 
                     if (currentpage < totalpages) {
                         currentpage += 1;
-                        console.log("page: " + currentpage);
+                        //console.log("page: " + currentpage);
 
                         switch (currentpage) {
                             /*case 1:
@@ -85,11 +254,11 @@
                         $assessor.addClass("animated slideInRight");*/
                     };
                 } else if (event.gesture.direction === 4) { // right <- left 
-                    console.log("gesture right <- left detected");
+                    //console.log("gesture right <- left detected");
 
                     if (currentpage > 1) {
                         currentpage -= 1;
-                        console.log("page: " + currentpage);
+                        //console.log("page: " + currentpage);
 
                         switch (currentpage) {
                             //case 4:
@@ -143,7 +312,7 @@
             var $streetdropdown =   $(".street-dropdown");
 
             $street.click(function () {
-                console.log("clicked!");
+                //console.log("clicked!");
 
                 if ($(this).parent().find(".street-dropdown").is(':visible')) {
                     // If the shown item is clicked again
