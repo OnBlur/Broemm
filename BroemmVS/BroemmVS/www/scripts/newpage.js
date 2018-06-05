@@ -19,7 +19,6 @@
         listeningElement.setAttribute('style', 'display:none;');
         receivedElement.setAttribute('style', 'display:block;');
 
-        // Initialize variables
         // Buttons
         var getRidesId = document.getElementById("getRides");
         var fillValuesId = document.getElementById("fillValues");
@@ -29,55 +28,20 @@
         var ridesId = document.getElementById("rides");
         var valuesId = document.getElementById("values");
         
+        var valueStorage;
         var rides = [];
-        var rideCounter = 1;
-        var valueStorage = [];
-        var amountRides = [];
-        var restoredSession = [];
         var stringMotionJson = [];
+        var restoredSession = [];
 
-        var latitude = [];
-        var longitude = [];
-        var longAndLat = [];
-
-        //var map = L.map('map').setView([51.505, -0.09], 1);
-        //getTiles();
-
-        //function showData() {
-        //    var i = 0;
-        //    var myStyle = {
-        //        "color": "#ff7800",
-        //        "weight": 5,
-        //        "opacity": 0.65
-        //    };
-
-        //    while (i < latitude.length) {
-        //        alert(longAndLat);
-                
-        //        var myLines = [{
-        //            "type": "LineString",
-        //            "coordinates": [[-100, 40], [-105, 45], [-110, 55]]
-        //        }];
-                
-        //        L.geoJSON(myLines, { style: myStyle }).addTo(map);
-        //        i++;
-        //    }
-        //}
-        
-        //function getTiles() {
-        //    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-        //        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-        //    }).addTo(map);
-        //}
+        var lastLat;
+        var lastLon;
         
         // Functions
         // Onclick buttons with functions
         getRidesId.onclick = function () {
-            getRides();
-            
+            getAll();
+            getCityName();
         };
-        fillValuesId.onclick = function () { fillValues(); };
-
 
         // Get all values from localStorage
         function getAll() {
@@ -85,43 +49,60 @@
                 alert("localStorage is empty");
             }
             else {
-                valueStorage = JSON.parse(localStorage.getItem("valueStorage"));    // Fill valueStorage with values from valueStorage localStorage
-                amountRides = valueStorage[1];                                       // Get amount of rides from valueStorage at position 1
-                alert("rides: " + amountRides.length);
+                valueStorage = JSON.parse(localStorage.getItem("amountRides"));    // Fill valueStorage with values from valueStorage localStorage
+
+                for (var i = 1; i <= valueStorage; i++) {
+                    var ride = 'ride' + i;
+                    rides.push(ride);
+                }
+                alert("rides: " + valueStorage);
             }
         }
 
-        function getRides() {
-            getAll();
+        // Reverse Geocoding with Google Maps
+        function getReverseGeocodingData(lat, lng, rideCounter, stringMotionJson, i) {
+            var latlng = new google.maps.LatLng(lat, lng);
+
+            // This is making the Geocode request
+            var geocoder = new google.maps.Geocoder();
+            geocoder.geocode({ 'latLng': latlng }, function (results, status) {
+                if (status !== google.maps.GeocoderStatus.OK) {
+                    alert(status);
+                }
+                // This is checking to see if the Geoeode Status is OK before proceeding
+                if (status == google.maps.GeocoderStatus.OK) {
+                    var streetNameStart = (results[0].address_components[3].long_name);
+                    ridesId.innerHTML += 'Rit: ' + rideCounter + " | " + streetNameStart + " > " + "wolo" + '<br />' + stringMotionJson[i] + '<hr />';
+                }
+            });
+        }
+        
+        function getCityName() {
+            var streetNameStop;
+            var rideCounter = 1;
+            var latitude = [];
+            var longitude = [];
+            
             var i = 0;
             
-            while (i < amountRides.length) {
-                var ride = 'ride' + rideCounter;
-                rides.push(ride);
-
+            while (i < valueStorage) {
                 restoredSession[i] = JSON.parse(localStorage.getItem(rides[i]));
                 stringMotionJson[i] = JSON.stringify(restoredSession[i]);
-
-                ridesId.innerHTML += 'Rit: ' + rideCounter + '<br />' + stringMotionJson[i] + '<hr />';
                 
                 for (var y = 0; y < restoredSession[i].motion.length; y++) {
                     var motions = restoredSession[i].motion[y];
                     latitude.push(motions.latitude);
                     longitude.push(motions.longitude);
-
-                    longAndLat.push([motions.latitude, motions.longitude]);
                 }
+
+                getReverseGeocodingData(latitude[rideCounter], longitude[rideCounter], rideCounter, stringMotionJson, i);
 
                 rideCounter++;
                 i++;
             }
-            //showData();
-        }
-
-        // Check if 
-        function fillValues() {
-            getAll();
-            valuesId.innerHTML += 'Waarden: ' + '<br />' + valueStorage + '<hr />';
+            //lastLat = latitude.slice(-1)[0];
+            //lastLon = longitude.slice(-1)[0];
+            //alert(lastLat + LastLon);
         }
 
         // Clear localStorage and check if its really cleared
