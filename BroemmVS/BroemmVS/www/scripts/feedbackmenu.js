@@ -13,6 +13,12 @@
             var $app = $(".app");
             var $container = $(".container");
 
+            /* Add height dependent padding */
+            var $routeviewer = $("#routeviewer");
+            var $headerroute = $("#routeviewer .header-route");
+            var height = $headerroute.outerHeight() + 20;
+            $routeviewer.css("padding-top", height);
+
             /* Generate streetpoints elements */
             var $streettracks = $("#streettracks");
             var journey = [
@@ -152,7 +158,6 @@
 
             /* Swipe */
             var $assessor = $(".assessor");
-            var $routeviewer = $("#routeviewer");
 
             var $assesspage1 = $("#acceleration");     
             var $assesspage2 = $("#turns");
@@ -178,13 +183,13 @@
                         switch (currentpage) {
                             case 2:
                                 $routeviewer.hide();
-                                $container.css("padding-top", 0);
+                                //$container.css("padding-top", 0);
                                 $assesspage1.show();
                                 /*$routeviewer.addClass("animated slideOutLeft", function () {
                                     $routeviewer.hide();
                                     // has an duration, so it can be animated!
 
-                                    $container.css("padding-top", 0);
+                                    //$container.css("padding-top", 0);
 
                                     $assesspage1.show();
                                     $assesspage1.addClass("animated slideInRight");
@@ -244,7 +249,7 @@
                                 break;
                             case 1:
                                 $assesspage1.hide();
-                                $container.css("padding-top", "");
+                                //$container.css("padding-top", "");
                                 $routeviewer.show();
                                 $(".ball2").toggleClass("active");
                                 $(".ball1").toggleClass("active");
@@ -273,7 +278,7 @@
             /* Dropdown */
             var $street = $(".street"); 
             var $triangle = $(".dropdown-triangle");
-            var $streetdropdown =   $(".street-dropdown");
+            var $streetdropdown = $(".street-dropdown");
 
             $street.click(function () {
                 //console.log("clicked!");
