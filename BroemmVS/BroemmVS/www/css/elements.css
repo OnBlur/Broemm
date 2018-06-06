@@ -46,6 +46,7 @@ body {
     text-align: center;
     width: 100%;
     z-index: 1;
+    text-transform: capitalize;
 }
 button, 
 .button {
@@ -89,8 +90,10 @@ button,
     margin-right: 7px;
     /*text-align: left;*/
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
+    padding-left: 20px;
+    padding-right: 30px;
 }
 .indicator {
     /*margin-right: 16px;*/

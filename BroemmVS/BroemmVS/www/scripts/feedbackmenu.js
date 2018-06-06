@@ -10,47 +10,11 @@
             console.log("Document is ready!");
 
             var $body = $("body");
+            var $app = $(".app");
             var $container = $(".container");
 
             /* Generate streetpoints elements */
             var $streettracks = $("#streettracks");
-
-            //var assessors = ["acceleration", "turns", "speed"];
-            //var streets = ["Noordersingel", "Rijksstraatweg/N335", "Groningerstraatweg", "Tweebaksmarkt"];
-
-            /*var points = [
-                [1,2,3],
-                [4,5,6],
-                [7,8,9],
-                [10, 0, 6]
-            ];*/
-            /*var points = {
-                "acceleration": {},
-                "turns": {},
-                "speed": {}
-            };*/
-            /*var points = {
-                "Noordersingel": {
-                    "acceleration": 0,
-                    "turns": 1,
-                    "speed": 2
-                }, 
-                "Rijksstraatweg/N335": {
-                    "acceleration": 3,
-                    "turns": 4,
-                    "speed": 5
-                }, 
-                "Groningerstraatweg": {
-                    "acceleration": 6,
-                    "turns": 7,
-                    "speed": 8
-                }, 
-                "Tweebaksmarkt": {
-                    "acceleration": 9,
-                    "turns": 10,
-                    "speed": -1
-                }
-            };*/
             var journey = [
                 {
                     streetName: "Noordersingel",
@@ -133,13 +97,9 @@
                     }
                 },
             ];
-            //console.log(journey[3]);
-            //console.log(journey[3].streetName);
-            //console.log(journey[3].acceleration.score);
-            //console.log(journey[3].acceleration.max);
 
             for (var street in journey) {
-                var elements =
+                var streetpointsElements =
                     `<div class="streetpoints">
                         <div class="street">
                             <div class="indicator negative"></div>
@@ -151,39 +111,48 @@
                     var score = journey[street].assessor[assignment].score;
                     var max = journey[street].assessor[assignment].max;
                     var percentage = (100 * score) / max;
-                    elements +=
+                    streetpointsElements +=
                         `<div class="points-bar ` + assignment +
                         //Object.keys(journey[street].assessor[assignment]) + 
                         `" style="width: ` + percentage + `%">` +
                         journey[street].assessor[assignment].translation + `: ` +
                         score + `/` + max + `</div >`;
                 }
-                elements +=
+                streetpointsElements +=
                     `   </div>
                     </div>`;
-                $streettracks.append(elements);
+                $streettracks.append(streetpointsElements);
             };
 
-            /*for (var street in streets) {
-                //console.log(streets[street]);
-                var elements =
-                    `<div class="street">
-                        <div class="indicator negative"></div>
-                        <div class="street-text">` + streets[street] + `</div>
-                        <img class="dropdown-triangle" src="images/triangle.svg" />
-                    </div>
-                    <div class="street-dropdown">`;
-                for (var assessor in assessors) {
-                    //console.log(assessors[assessor]);
-                    elements += `<div class="points-bar ` + assessors[assessor] + `" style="width: 100 %">` + assessors[assessor] + ` 10/10</div>`;
-                }
-                elements += "</div>";
-                $streettracks.append(elements);
-            }*/
+            /* Generate assessor elements */
+            var assessorElements = "";
+            var assignments = Object.keys(journey[0].assessor);
+            //console.log(assignments);
+
+            for (var item in assignments) {
+                var assignment = assignments[item];
+                var translation = journey[0].assessor[assignments[item]].translation;
+                assessorElements += `
+                    <div id="` + assignment + `" class="container assessor" style="display: none">
+                        <div class="header header-element">` + translation + `</div>
+                        <div class="image"><img src="images/car gifs/acceleration/giphy-downsized-large.gif" /></div>
+                        <div class="header header-tips">Tips</div>
+                        <div class="tips">
+                            <ul>
+                                <li><div class="indicator positive"></div>Rustig optrekken</li>
+                                <li><div class="indicator positive"></div>Snel doorschakelen</li>
+                                <li><div class="indicator positive"></div>Constante snelheid aanhouden</li>
+                            </ul>
+                        </div>
+                    </div>`;
+            }
+            //console.log(assessorElements);
+            $app.append(assessorElements);
+            //$app.append(`<div style="background:blue">blub i'm a div</div>`);
 
             /* Swipe */
-            var $routeviewer = $("#routeviewer");
             var $assessor = $(".assessor");
+            var $routeviewer = $("#routeviewer");
 
             var $assesspage1 = $("#acceleration");     
             var $assesspage2 = $("#turns");
@@ -207,8 +176,6 @@
                         //console.log("page: " + currentpage);
 
                         switch (currentpage) {
-                            /*case 1:
-                                break;*/
                             case 2:
                                 $routeviewer.hide();
                                 $container.css("padding-top", 0);
@@ -301,10 +268,7 @@
                         });*/
                     };
                 };
-            });        
-
-            /* Dropdown points */
-            // do stuff
+            });
 
             /* Dropdown */
             var $street = $(".street"); 
@@ -329,45 +293,5 @@
                 }                
             });
         });
-        
-        /*
-        var routeviewer = document.getElementById('routeviewer');
-
-        // create a simple instance
-        // by default, it only adds horizontal recognizers
-        var mc = new Hammer(routeviewer);
-
-        // listen to events...
-
-        mc.on("panleft panright tap press", function (ev) {
-            console.log(ev.type + " gesture detected.");
-            //$routeviewer.addClass("animated slideOutLeft");
-
-            $routeviewer.addClass(function (index, currentClass) {
-                console.log("adding class!");
-                return "animated slideOutLeft";
-            });
-        });
-        */
-        /*
-        $(document).ready(function () {
-            console.log("Document is ready!");
-
-            var $app = $(".app");
-            var $container = $(".container");
-            var $routeviewer = $("#routeviewer");
-            var $headerroute = $(".header-route");
-            var $assessor = $("#assessor");
-
-                        
-            $(function () {
-                $routeviewer.on("swipe", swipeHandler);
-                function swipeHandler(event) {
-                    console.log("swipe!");
-                    $(event.target).addClass("animated slideOutLeft");
-                }
-            });
-        });
-        */
     }
 })();
