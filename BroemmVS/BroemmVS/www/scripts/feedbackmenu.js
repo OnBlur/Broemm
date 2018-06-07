@@ -27,7 +27,7 @@
                     assessor: {
                         acceleration: {
                             translation: "acceleratie",
-                            score: -1,
+                            score: 6,
                             max: 10
                         },
                         turns: {
@@ -104,30 +104,10 @@
                 },
             ];
 
-            /*for (var street in journey) {
-                var streetpointsElements =
-                    `<div class="streetpoints">
-                        <div class="street">
-                            <div class="indicator negative"></div>
-                            <div class="street-text">` + journey[street].streetName + `</div>
-                            <img class="dropdown-triangle" src="images/triangle.svg" />
-                        </div>
-                        <div class="street-dropdown">`;
-                for (var assignment in journey[street].assessor) {
-                    var score = journey[street].assessor[assignment].score;
-                    var max = journey[street].assessor[assignment].max;
-                    var percentage = (100 * score) / max;
-                    streetpointsElements +=
-                        `<div class="points-bar ` + assignment +
-                        `" style="width: ` + percentage + `%">` +
-                        journey[street].assessor[assignment].translation + `: ` +
-                        score + `/` + max + `</div >`;
-                }
-                streetpointsElements +=
-                    `   </div>
-                    </div>`;
-                $streettracks.append(streetpointsElements);
+            /*var assessorScores = {
+                // assignment: [score, score, score, score, score, etc]
             };*/
+                        
             for (var street in journey) {
                 /* street */
                 var indicator = "";
@@ -142,13 +122,23 @@
                     var max = journey[street].assessor[assignment].max;
                     var percentage = (100 * score) / max;
                     percentages.push(percentage);
+                    var barIndicator = "";
+
+                    if (percentage <= 50) {
+                        barIndicator = "negative";
+                    } else {
+                        barIndicator = "positive";
+                    };
 
                     pointbarElements +=
-                        `<div class="points-bar ` + assignment +
+                        `<div class="points-bar ` + /*barIndicator + ` ` +*/ assignment +
                         `" style="width: ` + percentage + `%">` +
                         journey[street].assessor[assignment].translation + `: ` +
                         score + `/` + max + `</div >`;
+
+                    //assessorScores[assignment] = [];
                 };
+                //console.log(assessorScores);
 
                 var sum = 0;
                 console.log("percentages: " + percentages);
@@ -169,7 +159,7 @@
                     `<div class="streetpoints">
                         <div class="street">
                             <div class="indicator ` + indicator + `"></div>
-                            <div class="street-text">` + streetName + ` (` + average + `%)</div>
+                            <div class="street-text">` + streetName + ` (` + Math.round(average) + `%)</div>
                             <img class="dropdown-triangle" src="images/triangle.svg" />
                         </div>
                         <div class="street-dropdown">` +
@@ -185,11 +175,12 @@
             //console.log(assignments);
 
             for (var item in assignments) {
+                console.log(assignments);
                 var assignment = assignments[item];
                 var translation = journey[0].assessor[assignments[item]].translation;
                 assessorElements += `
                     <div id="` + assignment + `" class="container assessor" style="display: none">
-                        <div class="header header-element">` + translation + `</div>
+                        <div class="header header-element` + headerIndicator + `">` + translation + `</div>
                         <div class="image"><img src="images/car gifs/acceleration/giphy-downsized-large.gif" /></div>
                         <div class="header header-tips">Tips</div>
                         <div class="tips">
