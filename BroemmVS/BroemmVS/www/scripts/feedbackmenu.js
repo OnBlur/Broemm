@@ -104,7 +104,7 @@
                 },
             ];
 
-            for (var street in journey) {
+            /*for (var street in journey) {
                 var streetpointsElements =
                     `<div class="streetpoints">
                         <div class="street">
@@ -119,13 +119,62 @@
                     var percentage = (100 * score) / max;
                     streetpointsElements +=
                         `<div class="points-bar ` + assignment +
-                        //Object.keys(journey[street].assessor[assignment]) + 
                         `" style="width: ` + percentage + `%">` +
                         journey[street].assessor[assignment].translation + `: ` +
                         score + `/` + max + `</div >`;
                 }
                 streetpointsElements +=
                     `   </div>
+                    </div>`;
+                $streettracks.append(streetpointsElements);
+            };*/
+            for (var street in journey) {
+                /* street */
+                var indicator = "";
+                var streetName = journey[street].streetName;
+
+                /* street-dropdown */
+                var pointbarElements = "";
+                var percentages = [];
+
+                for (var assignment in journey[street].assessor) {
+                    var score = journey[street].assessor[assignment].score;
+                    var max = journey[street].assessor[assignment].max;
+                    var percentage = (100 * score) / max;
+                    percentages.push(percentage);
+
+                    pointbarElements +=
+                        `<div class="points-bar ` + assignment +
+                        `" style="width: ` + percentage + `%">` +
+                        journey[street].assessor[assignment].translation + `: ` +
+                        score + `/` + max + `</div >`;
+                };
+
+                var sum = 0;
+                console.log("percentages: " + percentages);
+                for (var p in percentages) {
+                    console.log(percentages[p]);
+                    sum += percentages[p];
+                };
+                var average = sum / percentages.length;
+                console.log(average + " = " + sum + " / " + percentages.length);
+
+                if (average <= 50) {
+                    indicator = "negative";
+                } else {
+                    indicator = "positive";
+                };
+
+                var streetpointsElements =
+                    `<div class="streetpoints">
+                        <div class="street">
+                            <div class="indicator ` + indicator + `"></div>
+                            <div class="street-text">` + streetName + ` (` + average + `%)</div>
+                            <img class="dropdown-triangle" src="images/triangle.svg" />
+                        </div>
+                        <div class="street-dropdown">` +
+                            pointbarElements +
+                        `</div>
                     </div>`;
                 $streettracks.append(streetpointsElements);
             };
