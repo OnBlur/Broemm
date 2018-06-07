@@ -25,7 +25,7 @@ body {
     font-weight: bold;
     font-size: 22px;
     padding: 0;
-    padding-top: 80px; /* to be changed dynamically */
+    /*padding-top: 80px; to be changed dynamically */
     /*-webkit-animation-timing-function: cubic-bezier(0.4, 0.0, 0.2, 1);
     animation-timing-function: cubic-bezier(0.4, 0.0, 0.2, 1);
     -webkit-animation-duration: 0.5s; 
@@ -46,6 +46,7 @@ body {
     text-align: center;
     width: 100%;
     z-index: 1;
+    text-transform: capitalize;
 }
 button, 
 .button {
@@ -89,8 +90,10 @@ button,
     margin-right: 7px;
     /*text-align: left;*/
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
+    padding-left: 20px;
+    padding-right: 30px;
 }
 .indicator {
     /*margin-right: 16px;*/
@@ -121,6 +124,7 @@ button,
     padding-bottom: 20px;
     white-space: nowrap;
     /*height: 60px;*/
+    text-transform: capitalize;
 }
 /*.header-route {
     box-shadow: 0px 8px 16px #000000;
@@ -245,25 +249,54 @@ button,
         }*/
 .stepmenu {
     text-align: center;
-    width: 100%;
+    /*min-width: 55px;*/
     padding-top: 19px;
     padding-bottom: 19px;
 }
     .stepmenu .step-box {
         box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-        background: #7BD541;
-        border-radius: 100%;
+        display: flex;
+        background: #4F4F4F;
+        border-radius: 55px;
         height: 55px;
-        width: 55px;
+        min-width: 55px;
     }
         .stepmenu .step-box .stepcircle {
             line-height: 55px;
-            display: none;
+            border-radius: 0;
+            /*border-radius: 55px;*/
+            /*display: none;*/
             height: 55px;
             width: 55px;
+            font-size: 1.4em;
+            font-weight: normal;
         }
+            .stepmenu .step-box .stepcircle.done {
+                display: block;
+                background: #7BD541;
+                /*font-weight: bold;*/
+            }
+            .stepmenu .step-box .stepcircle:first-child {
+                /*border-top-left-radius: 55px;
+                border-bottom-left-radius: 55px;*/
+                border-top-left-radius: 5px;
+                border-bottom-left-radius: 5px;
+            }
+            .stepmenu .step-box .stepcircle:last-child {
+                /*border-top-right-radius: 55px;
+                border-bottom-right-radius: 55px;*/
+                border-top-right-radius: 5px;
+                border-bottom-right-radius: 5px;
+            }
             .stepmenu .step-box .stepcircle.active {
-                display: initial;
+                font-size: 1.65em;
+                font-weight: bold;
+                /*border-top-right-radius: 55px;
+                border-bottom-right-radius: 55px;*/
+                background-color: #6ABA36;
+                /*border-top-right-radius: 5px;
+                border-bottom-right-radius: 5px;*/
+                /*border-radius: 5px;*/
             }
 
 /* Step # - landingpage.html */
@@ -350,6 +383,7 @@ button,
         width: 13px;
         height: 13px;
         border-radius: 100%;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); 
     }
     #swipeindicator .ball.active {
         background: #ffffff;

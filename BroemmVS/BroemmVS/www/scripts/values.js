@@ -229,12 +229,12 @@
 
             if (accelerationX < wrongTurn[0]) {
                 leftOrRight = "links";
-                assessorAlert(leftOrRight)
+                assessorAlert(leftOrRight);
                 judgement = false;
             }
             else if (accelerationX > wrongTurn[1]) {
                 leftOrRight = "rechts";
-                assessorAlert(leftOrRight)
+                assessorAlert(leftOrRight);
                 judgement = false;
             }
         }
@@ -263,8 +263,8 @@
             };
 
             var d = getDate(d);
-            var valueStorage = [d, rides, latitude, longitude, speed, accelerationX, accelerationY, accelerationZ];
-            localStorage.setItem("valueStorage", JSON.stringify(valueStorage));
+            var valueStorage = rides.length;
+            localStorage.setItem("amountRides", JSON.stringify(valueStorage));
         }
         
         function clearRecord() {
