@@ -390,3 +390,18 @@ button,
         transition: background-color 0.5s ease;
         transition-delay: 0.15s;
     }
+
+
+/* Hidde's code */
+
+#bierglas .beer {
+    animation-duration: 1.4s;
+    /*padding toevoegen*/
+}
+
+.tap {
+    width: 72vw;
+    height: 49vh;
+    /*position: absolute;*/
+    justify-self: end;
+}
