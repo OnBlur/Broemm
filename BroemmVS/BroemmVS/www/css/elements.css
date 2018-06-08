@@ -126,6 +126,13 @@ button,
     /*height: 60px;*/
     text-transform: capitalize;
 }
+    .points-bar.positive {
+        background: #6ABA36;
+    }
+
+    .points-bar.negative {
+        background: #C81A1A;
+    }
 /*.header-route {
     box-shadow: 0px 8px 16px #000000;
     margin-bottom: 35px;
