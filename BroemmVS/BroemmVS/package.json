@@ -1,27 +1,30 @@
 {
-    "name": "BroemmVS",
-    "version": "1.0.0",
-    "private": true,
-    "dependencies": {
-        "cordova-android": "5.2.1",
-        "cordova-ios": "4.2.0",
-        "cordova-plugin-android-permissions": "^1.0.0",
-        "cordova-plugin-compat": "^1.2.0",
-        "cordova-plugin-device-orientation": "^2.0.1",
-        "cordova-plugin-geolocation": "^2.4.3",
-        "cordova-windows": "4.4.2",
-        "leaflet.locatecontrol": "^0.62.0"
+  "name": "BroemmVS",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "cordova-android": "^5.2.1",
+    "cordova-ios": "4.2.0",
+    "cordova-plugin-android-permissions": "^1.0.0",
+    "cordova-plugin-compat": "^1.2.0",
+    "cordova-plugin-device-orientation": "^2.0.1",
+    "cordova-plugin-geolocation": "^2.4.3",
+    "cordova-plugin-whitelist": "1.2.2",
+    "cordova-windows": "4.4.2",
+    "graceful-fs": "^4.1.11",
+    "local-reverse-geocoder": "^0.4.1"
+  },
+  "cordova": {
+    "plugins": {
+      "cordova-plugin-android-permissions": {},
+      "cordova-plugin-device-orientation": {},
+      "cordova-plugin-geolocation": {},
+      "cordova-plugin-whitelist": {}
     },
-    "cordova": {
-        "plugins": {
-            "cordova-plugin-android-permissions": {},
-            "cordova-plugin-device-orientation": {},
-            "cordova-plugin-geolocation": {}
-        },
-        "platforms": [
-            "android",
-            "ios",
-            "windows"
-        ]
-    }
+    "platforms": [
+      "android",
+      "ios",
+      "windows"
+    ]
+  }
 }

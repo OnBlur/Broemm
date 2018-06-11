@@ -33,8 +33,8 @@
         var stringMotionJson = [];
         var restoredSession = [];
 
-        var lastLat;
-        var lastLon;
+        var streetNameStart;
+        var streetNameStop;
         
         // Functions
         // Onclick buttons with functions
@@ -59,33 +59,58 @@
             }
         }
 
-        // Reverse Geocoding with Google Maps
-        function getReverseGeocodingData(lat, lng, rideCounter, stringMotionJson, i) {
-            var latlng = new google.maps.LatLng(lat, lng);
+        function reverseGeocodeQuery(lat, lon) {
+            var format = "json";
+            var zoom = 13;
 
-            // This is making the Geocode request
-            var geocoder = new google.maps.Geocoder();
-            geocoder.geocode({ 'latLng': latlng }, function (results, status) {
-                if (status !== google.maps.GeocoderStatus.OK) {
-                    alert(status);
+            var url = "https://nominatim.openstreetmap.org/reverse?format=" + format + "&lat=" + lat + "&lon=" + lon + "&zoom=" + zoom + "&addressdetails=1";
+            return url;
+        }
+
+        function makeRequest(url, done, rideCounter, stringMotionJson, i, bool) {
+            var xhr = new XMLHttpRequest();
+
+            xhr.open('Get', url);
+
+            xhr.onload = function () {
+                done(null, xhr.response, rideCounter, stringMotionJson, i, bool);
+            };
+
+            xhr.onerror = function () {
+                done(xhr.response);
+            };
+
+            xhr.send();
+        }
+
+        function yourCallBackFunction(err, data, rideCounter, stringMotionJson, i, bool) {
+            if (err) {
+                //Do something with the error 
+            } else {
+                var cityName = JSON.parse(data);
+
+                if (bool) {
+                    streetNameStop = cityName.address.suburb;
                 }
-                // This is checking to see if the Geoeode Status is OK before proceeding
-                if (status == google.maps.GeocoderStatus.OK) {
-                    var streetNameStart = (results[0].address_components[3].long_name);
-                    ridesId.innerHTML += 'Rit: ' + rideCounter + " | " + streetNameStart + " > " + "wolo" + '<br />' + stringMotionJson[i] + '<hr />';
+                else {
+                    streetNameStart = cityName.address.suburb;
+                    ridesId.innerHTML += 'Rit: ' + rideCounter + " | " + streetNameStart + " > " + streetNameStop + '<br />' + stringMotionJson[i] + '<hr />';
                 }
-            });
+                //data  is the json response that you recieved from the server
+            }
         }
         
         function getCityName() {
-            var streetNameStop;
             var rideCounter = 1;
             var latitude = [];
             var longitude = [];
-            
             var i = 0;
             
             while (i < valueStorage) {
+                var bool = true;
+                var url;
+                var data;
+
                 restoredSession[i] = JSON.parse(localStorage.getItem(rides[i]));
                 stringMotionJson[i] = JSON.stringify(restoredSession[i]);
                 
@@ -94,15 +119,18 @@
                     latitude.push(motions.latitude);
                     longitude.push(motions.longitude);
                 }
+                
+                url = reverseGeocodeQuery(latitude[longitude.length - 1], longitude[longitude.length - 1]);
+                data = makeRequest(url, yourCallBackFunction, rideCounter, stringMotionJson, i, bool);
 
-                getReverseGeocodingData(latitude[rideCounter], longitude[rideCounter], rideCounter, stringMotionJson, i);
+
+                bool = false;
+                url = reverseGeocodeQuery(latitude[i], longitude[i]);
+                data = makeRequest(url, yourCallBackFunction, rideCounter, stringMotionJson, i, bool);
 
                 rideCounter++;
                 i++;
             }
-            //lastLat = latitude.slice(-1)[0];
-            //lastLon = longitude.slice(-1)[0];
-            //alert(lastLat + LastLon);
         }
 
         // Clear localStorage and check if its really cleared

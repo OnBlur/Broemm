@@ -92,13 +92,12 @@
   <preference name="Orientation" value="portrait" />
   <preference name="Fullscreen" value="False" />
   <plugin name="cordova-plugin-device-orientation" spec="~2.0.1" />
-  <engine name="android" spec="~5.2.1" />
   <engine name="ios" spec="4.2.0" />
   <engine name="windows" spec="4.4.2" />
   <vs:toolsetVersion>6.3.1</vs:toolsetVersion>
-  <engine name="android" spec="5.2.1" />
   <engine name="ios" spec="4.2.0" />
   <engine name="windows" spec="4.4.2" />
+  <engine name="android" spec="~5.2.1" />
   <plugin name="cordova-plugin-geolocation" spec="^2.4.3" />
   <plugin name="cordova-plugin-android-permissions" spec="^1.0.0" />
 </widget>
