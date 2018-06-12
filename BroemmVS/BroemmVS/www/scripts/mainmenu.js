@@ -9,25 +9,21 @@
         $(document).ready(function () {
             console.log("Document is ready!");
 
-
             $("#bierglas .beer").hammer().on("swipe", function (event) {
                 console.log(event.gesture.direction + " gesture detected");
 
                 if (event.gesture.direction === 2) {
                     //swipe to left
-                    window.location.href = "feedbackmenu.html"; // Redirect       
-                                   
+                    $(".tap").css("display", "block");
+                    $("#startstop").css("display", "none");
                 }
 
                 else if (event.gesture.direction === 4) {
-                   //swipe to right
-                    $(".tap").css("display", "block");
-                    $("#startstop").css("display", "none");
+                    //swipe to right
+                    window.location.href = "feedbackmenu.html"; // Redirect
                 };
             });
-
-
-
+            
             /* Start/stop button */
             var $startstop = $("#startstop");
             var clicked = false;

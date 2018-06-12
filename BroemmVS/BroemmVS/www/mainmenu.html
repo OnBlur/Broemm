@@ -27,18 +27,20 @@
 <body>
     <div class="app">
         <div id="startstopscreen" class="container" style="padding-top: 0;">
-            <div id="startstop">
+            <div id="startstop" claas="animated slideOutUp">
                 <p>Start</p>
             </div>
-            <img class="tap" src="images/tapfixed.png" style="display: none;" />
-            
+
+            <div class="tap animated slideInRight" style="display: none">
+                <img src="images/tapfixed.png" />
+            </div>
             <div id="bierglas">
                 <img class="animated infinite pulse beer" src="images/Bierglas.png" />
             </div>
 
-        </div>
-        <div id="startbutton">
-            <p>Start</p>
+            <div id="startstop" style="display: none">
+                <p>Stop</p>
+            </div>
         </div>
         <div id="scorescreen" class="container" style="display: none;">
             <div id="beerflasks">
