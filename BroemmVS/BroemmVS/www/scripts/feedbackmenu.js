@@ -178,6 +178,7 @@
                 console.log(assignments);
                 var assignment = assignments[item];
                 var translation = journey[0].assessor[assignments[item]].translation;
+                var headerIndicator = "";
                 assessorElements += `
                     <div id="` + assignment + `" class="container assessor" style="display: none">
                         <div class="header header-element` + headerIndicator + `">` + translation + `</div>
