@@ -403,7 +403,7 @@ button,
 
 #bierglas .beer {
     animation-duration: 1.4s;
-    /*padding toevoegen*/
+    /*transition: width 2s;*/
 }
 
 .tap {
