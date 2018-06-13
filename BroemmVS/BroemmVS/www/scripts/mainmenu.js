@@ -11,21 +11,26 @@
 
             var totalpages = 3;
             var currentpage = 2;  // middle
+            var displayScore = false;
 
+            var $startstopscreen = $("#startstopscreen");
             var $startstop = $("#startstop");
-            var $tap = $(".tap");
+            var $beertap = $("#beertap");
+            var $beerglass = $("#beerglass");
+            var $beerflasks = $("#beerflasks");
+            var $beercrate = $("#beercrate");
 
-            /*$("#bierglas .beer").hammer().on("swipedown", function (event) {
+            /*$("#beerglass .beer").hammer().on("swipedown", function (event) {
                 console.log("swipe down gesture detected");
             }*/
-            var $beer = $("#bierglas .beer");
+            var $beer = $("#beerglass #beer");
             var beerhammer = $beer.hammer();
             $beer.data('hammer').get('swipe').set({ direction: Hammer.DIRECTION_ALL });
 
             beerhammer.on("swipe", function (event) {
                 console.log(event.gesture.direction + " gesture detected");
 
-                if (event.gesture.direction === 2) { // right -> left
+                if (event.gesture.direction === 2 && displayScore == false) { // right -> left
                     console.log("gesture right -> left detected");
 
                     if (currentpage < totalpages) {
@@ -41,13 +46,13 @@
                                 //$startstop.removeClass("slideinDown");
                                 $startstop.css("display", "none");
 
-                                $tap.css("display", "block");
-                                //$tap.removeClass("slideOutLeft");
-                                //$tap.addClass("slideInRight");
+                                $beertap.css("display", "block");
+                                //$beertap.removeClass("slideOutLeft");
+                                //$beertap.addClass("slideInRight");
                                 break;
                         };
                     };
-                } else if (event.gesture.direction === 4) { // right <- left 
+                } else if (event.gesture.direction === 4 && displayScore == false) { // right <- left 
                     console.log("gesture right <- left detected");
 
                     if (currentpage > 1) {
@@ -60,9 +65,9 @@
                                 //$startstop.addClass("slideinDown");
                                 $startstop.css("display", "block");
 
-                                //$tap.removeClass("slideInRight");
-                                //$tap.addClass("slideOutLeft");
-                                $tap.css("display", "none");
+                                //$beertap.removeClass("slideInRight");
+                                //$beertap.addClass("slideOutLeft");
+                                $beertap.css("display", "none");
                                 break;
                             case 1:
                                 window.location.href = "feedbackmenu.html"; // Redirect
@@ -71,6 +76,33 @@
                     };
                 } else if (event.gesture.direction === 8) {
                     console.log("gesture top -> bottom detected");
+                    displayScore = true;
+
+                    //$startstop.removeClass("slideinDown");
+                    //$startstop.addClass("slideOutUp");
+
+                    //$startstop.one('webkitAnimationEnd oanimationend msAnimationEnd animationend', function (e) {
+                        $startstopscreen.css("grid-template-rows", "40vh 30vh 30vh");
+                        $startstop.css("display", "none");
+                        $beer.css("height", "30vh");
+                        $beerflasks.css("display", "block");
+                        $beercrate.css("display", "block");
+                    //});
+                    
+                } else if (event.gesture.direction === 16 && displayScore == true) {
+                    console.log("gesture top <- bottom detected");
+                    displayScore = false;
+
+                    //$startstop.removeClass("slideOutUp");
+                    //$startstop.addClass("slideinDown");
+
+                    //$startstop.one('webkitAnimationEnd oanimationend msAnimationEnd animationend', function (e) {
+                        $startstopscreen.css("grid-template-rows", "40vh 60vh");
+                        $startstop.css("display", "block");
+                        $beer.css("height", "40vh");
+                        $beerflasks.css("display", "none");
+                        $beercrate.css("display", "none");
+                    //});
                 };
             });
             
@@ -83,7 +115,7 @@
                     //console.log("clicked! turn red!");
                     $startstop.css("background", "#C81A1A");
                     $startstop.css("border", "5px solid #AE1717");
-                    $("#bierglas .beer").animate({ height: "50vh" });
+                    $("#beerglass .beer").animate({ height: "50vh" });
                     $("#startstop p").html("Stop rit");
 
                     clicked = true;
@@ -92,7 +124,7 @@
                     window.location.href = "feedbackmenu.html"; // Redirect
                     $startstop.css("background", "#6ABA36");
                     $startstop.css("border", "5px solid #428616");
-                    $("#bierglas .beer").animate({height: "40vh"});
+                    $("#beerglass .beer").animate({height: "40vh"});
                     $("#startstop p").html("Start");
 
                     clicked = false;

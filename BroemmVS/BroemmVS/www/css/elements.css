@@ -17,25 +17,15 @@ body {
 .app {
     padding: 0;
 }
+
 /* Main */
 .container {
     font-family: Ubuntu, sans-serif;
     color: #ffffff;
-    /*text-align: center;*/
     font-weight: bold;
     font-size: 22px;
     padding: 0;
-    /*padding-top: 80px; to be changed dynamically */
-    /*-webkit-animation-timing-function: cubic-bezier(0.4, 0.0, 0.2, 1);
-    animation-timing-function: cubic-bezier(0.4, 0.0, 0.2, 1);
-    -webkit-animation-duration: 0.5s; 
-    animation-duration: 0.5s; 
-    -webkit-animation-delay: 0s;
-    animation-delay: 0s;*/
-    /*-webkit-animation-iteration-count: infinite;
-            animation-iteration-count: infinite;*/
     display: grid;
-    /*grid-template-columns: 100vw;*/
     align-items: center;
     justify-items: center;
 }
@@ -82,13 +72,10 @@ button,
 .street {
     background: #4F4F4F;
     border-radius: 15px;
-    /*padding-left: 16px;*/
     padding-top: 24px;
     padding-bottom: 22px;
-    /*margin-bottom: 4px;*/
     margin-left: 7px;
     margin-right: 7px;
-    /*text-align: left;*/
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -96,7 +83,6 @@ button,
     padding-right: 30px;
 }
 .indicator {
-    /*margin-right: 16px;*/
     width: 36px;
     height: 36px;
     border-radius: 100%;
@@ -129,63 +115,9 @@ button,
     .points-bar.positive {
         background: #6ABA36;
     }
-
     .points-bar.negative {
         background: #C81A1A;
     }
-/*.header-route {
-    box-shadow: 0px 8px 16px #000000;
-    margin-bottom: 35px;
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 100%;
-}
-
-.indicator {
-    margin-right: 16px;
-    width: 36px;
-    height: 36px;
-    border-radius: 100%;
-}
-
-.indicator.positive {
-    background: #6ABA36;
-}
-
-.indicator.negative {
-    background: #C81A1A;
-}
-
-.street {
-    background: #4F4F4F;
-    border-radius: 15px;
-    padding-left: 16px;
-    padding-top: 24px;
-    padding-bottom: 22px;
-    margin-bottom: 4px;
-    margin-left: 7px;
-    margin-right: 7px;
-    text-align: left;
-}
-
-.street > div {
-    display: inline-block;
-}
-
-.street-dropdown {
-    margin-left: 23px;
-    margin-right: 19px;
-}
-
-.points-bar {
-    font-size: 22px;
-    background: #6ABA36;
-    border: 1px solid #303030;
-    box-sizing: border-box;
-    padding-top: 24px;
-    padding-bottom: 22px;
-}*/
 
 /* Driving assessor - feedbackmenu.html */
 .assessor {
@@ -206,10 +138,6 @@ button,
     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.5);
 }
 .tips {
-    /*margin-top: 50px;*/
-    /*list-style-image: url('/android_asset/www/images/ellipse.png');*/
-    /*display: flex;*/
-    /*flex-direction: column;*/
     justify-self: start;
 }
     .tips ul li {
@@ -232,31 +160,8 @@ button,
     text-transform: uppercase;
     background: none;
 }
-/*.stepmenu {
-    text-align: center;
-    width: 100%;
-    padding-top: 19px;
-    padding-bottom: 19px;
-}
-    .stepmenu .stepcircle {
-        display: inline-block;
-        background: #4F4F4F;
-        width: 55px;
-        height: 55px;
-        line-height: 55px;
-        border-radius: 100%;
-        margin-left: 12px;
-        margin-right: 12px;
-        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    }
-        .stepmenu .stepcircle.active {
-            background: #7BD541;
-            transition: background-color 0.5s ease;
-            transition-delay: 0.15s;
-        }*/
 .stepmenu {
     text-align: center;
-    /*min-width: 55px;*/
     padding-top: 19px;
     padding-bottom: 19px;
 }
@@ -271,8 +176,6 @@ button,
         .stepmenu .step-box .stepcircle {
             line-height: 55px;
             border-radius: 0;
-            /*border-radius: 55px;*/
-            /*display: none;*/
             height: 55px;
             width: 55px;
             font-size: 1.4em;
@@ -281,29 +184,21 @@ button,
             .stepmenu .step-box .stepcircle.done {
                 display: block;
                 background: #7BD541;
-                /*font-weight: bold;*/
             }
             .stepmenu .step-box .stepcircle:first-child {
-                /*border-top-left-radius: 55px;
-                border-bottom-left-radius: 55px;*/
                 border-top-left-radius: 5px;
                 border-bottom-left-radius: 5px;
             }
             .stepmenu .step-box .stepcircle:last-child {
-                /*border-top-right-radius: 55px;
-                border-bottom-right-radius: 55px;*/
                 border-top-right-radius: 5px;
                 border-bottom-right-radius: 5px;
             }
             .stepmenu .step-box .stepcircle.active {
                 font-size: 1.65em;
                 font-weight: bold;
-                /*border-top-right-radius: 55px;
-                border-bottom-right-radius: 55px;*/
                 background-color: #6ABA36;
                 border-top-right-radius: 5px;
                 border-bottom-right-radius: 5px;
-                /*border-radius: 5px;*/
             }
 
 /* Step # - landingpage.html */
@@ -324,7 +219,7 @@ button,
         .explanation img.beercrate {
             margin-top: 10vh;
         }
-        .explanation img.beer {
+        .explanation img#beer {
             width: auto;
             height: 30vh;
         }
@@ -340,7 +235,7 @@ button,
 #startstopscreen {
     grid-template-rows: 40vh 60vh;
 }
-    #startstopscreen img.beer {
+    #startstopscreen img#beer {
         width: auto;
         height: 40vh;
     }
@@ -351,10 +246,6 @@ button,
     border-radius: 100%;
     height: 25vh;
     width: 25vh;
-    /*margin-left: auto;*/
-    /*margin-right: auto;*/
-    /*margin-top: 7vh;*/
-    /*margin-bottom: 10vh;*/
 }
     #startstop p {
         font-size: 2em;
@@ -364,14 +255,31 @@ button,
         text-align: center;
     }
 
+/* Tap - mainmenu.html */
+#beertap {
+    justify-self: end;
+}
+    #beertap #tap {
+        width: 60vw;
+    }
+
+#beerglass #beer {
+    animation-duration: 1.4s;
+    /*transition: width 2s;*/
+}
+
 /* Scorescreen - mainmenu.html */
-#scorescreen .beercrate {
+#beerflasks {
+    display: flex;
+    justify-content: space-evenly;
+}
+    #beerflasks .beerflask {
+        width: auto;
+        height: 20vh;
+    }
+#beercrate .crate {
     height: auto;
     width: 50vw;
-}
-#beerflasks .beerflask {
-    width: auto;
-    height: 20vh;
 }
 
 /* Swipe indicator */
@@ -396,19 +304,4 @@ button,
         background: #ffffff;
         transition: background-color 0.5s ease;
         transition-delay: 0.15s;
-    }
-
-
-/* Hidde's code */
-
-#bierglas .beer {
-    animation-duration: 1.4s;
-    /*transition: width 2s;*/
-}
-
-.tap {
-    justify-self: end;
-}
-    .tap img {
-        width: 60vw;
     }
