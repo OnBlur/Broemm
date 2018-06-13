@@ -26,12 +26,13 @@
 
         var latitude;
         var longitude;
+        var cityNameJson;
+        var streetNameJson;
         var speed;
-        //var velocity = 0;
-
         var accelerationX;
         var accelerationY;
         var accelerationZ;
+
         var record = false;
         var jsonStringify;
         var recordLoop;
@@ -46,9 +47,6 @@
         var indexLoop = 0;
         var judgement = true;
 
-        //var firstPosition = [];
-        //var secondPosition = [];
-
         var options = { timeout: 100 }; // Update every second
 
         var jsonId = document.getElementById("json");
@@ -59,22 +57,9 @@
         var geolocationId = document.getElementById('geolocation');
         var accelerationId = document.getElementById('acceleration');
         var speedId = document.getElementById('speed');
-        
-        //var map = L.map('map');
 
         // Functions
         function getMotion() {
-            //var lc = L.control.locate({
-            //    locateOptions: {
-            //        enableHighAccuracy: true,
-            //        maxZoom: 17
-            //    }
-            //}).addTo(map);
-            
-            //getTiles();
-            //lc.start();
-
-            //navigator.geolocation.getCurrentPosition(initializePosition, onError);
 
             // Calibrate the compass of the device by instructing the user to calibrate the compass
             window.addEventListener("compassneedscalibration", function (event) {
@@ -86,59 +71,26 @@
 
             var watchPos = navigator.geolocation.watchPosition(setCoords, onError, options);
         }
-        
-        //function getTiles() {
-        //    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-        //        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-        //    }).addTo(map);
-        //}
 
-        //var initializePosition = function (position) {
-        //    firstPosition = [position.coords.latitude, position.coords.longitude];
-        //};
-        
         function setCoords(position) {
-            //secondPosition = [position.coords.latitude, position.coords.longitude];
-            latitude = position.coords.latitude;
-            longitude = position.coords.longitude;
+            //if (latitude !== position.coords.latitude || longitude !== position.coords.longitude || record) {
+            //    alert(latitude + " not the same as " + position.coords.latitude);
+                latitude = position.coords.latitude;
+                longitude = position.coords.longitude;
+                //if (record) {
+                    var url = reverseGeocodeQuery(latitude, longitude);
+                    var data = makeRequest(url, yourCallBackFunction);
+                //}
+            //}
+            //else {
+            //    alert("same, skipped!");
+            //}
+
             speed = position.coords.speed;
             speed *= 3.6;
 
             roundOff();
-            
-            //var watchChange = navigator.geolocation.watchPosition(setCoordsNew, onError, options);
         }
-        
-        //// Store new coords in secondPosition and check if the array is the same as firstPosition, 
-        //// if not then push the positions to measure algorithm
-        //function setCoordsNew(position) {
-        //    var i = 0;
-
-        //    while (i < 2) {
-        //        if (firstPosition != secondPosition) {
-        //            measure(firstPosition[0], firstPosition[1], secondPosition[0], secondPosition[1]);
-        //            firstPosition = secondPosition;
-        //        } else {
-        //            break;
-        //        }
-        //        i++;
-        //    }
-        //}
-
-        //// Algorithm to calculate speed
-        //function measure(lat1, lon1, lat2, lon2) {  // generally used geo measurement function
-        //    var R = 6378.137;       // Radius of earth in KM
-        //    var dLat = lat2 * Math.PI / 180 - lat1 * Math.PI / 180;
-        //    var dLon = lon2 * Math.PI / 180 - lon1 * Math.PI / 180;
-        //    var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-        //        Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-        //        Math.sin(dLon / 2) * Math.sin(dLon / 2);
-        //    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        //    var d = R * c;
-        //    velocity = d * 1000;            // 1000 = m/s
-        //    velocity *= 3.6;      // km/h
-        //    roundOff();
-        //}
 
         function processEvent(event) {
             accelerationX = event.accelerationIncludingGravity.x;
@@ -154,9 +106,8 @@
 
         // Push values to precisionRound
         function roundOff() {
-            latitude = precisionRound(latitude, 6);
-            longitude = precisionRound(longitude, 6);
-            //velocity = precisionRound(velocity, 1);
+            latitude = precisionRound(latitude, 7);
+            longitude = precisionRound(longitude, 7);
             speed = precisionRound(speed, 1);
             accelerationX = precisionRound(accelerationX, 3);
             accelerationY = precisionRound(accelerationY, 3);
@@ -182,6 +133,41 @@
         };
         stopRecordId.onclick = function () { stopRecord(); };
         clearRecordId.onclick = function () { clearRecord(); };
+
+        // Get URL for reverse geocoding
+        function reverseGeocodeQuery(lat, lon) {
+            var format = "jsonv2";
+
+            var url = "https://nominatim.openstreetmap.org/reverse?format=" + format + "&lat=" + lat + "&lon=" + lon;
+            return url;
+        }
+
+        // Get Json with the url
+        function makeRequest(url, done) {
+            var xhr = new XMLHttpRequest();
+
+            xhr.open('Get', url);
+            xhr.onload = function () {
+                done(null, xhr.response);
+            };
+            xhr.onerror = function () {
+                done(xhr.response);
+            };
+
+            xhr.send();
+        }
+
+        // Get cityname and streetname from the Json
+        function yourCallBackFunction(err, data) {
+            if (err) {
+                //Do something with the error 
+            } else {
+                var cityName = JSON.parse(data);
+                cityNameJson = cityName.address.suburb;
+                streetNameJson = cityName.address.road;
+                //data  is the json response that you recieved from the server
+            }
+        }
         
         function startRecord() {
             var d = getDate(d);
@@ -195,6 +181,8 @@
                     'timestamp': d,
                     'latitude': latitude,
                     'longitude': longitude,
+                    'cityName': cityNameJson,
+                    'streetName': streetNameJson,
                     'speed': speed,
                     'accelerationX': accelerationX,
                     'accelerationY': accelerationY,
@@ -207,7 +195,7 @@
                 jsonStringify = JSON.stringify(motionJson);
                 fillJson(jsonStringify);
                 setTimeout(startRecord, 1000);                              // Repeat this function after 1 sec
-            }
+            }   
         }
 
         function fillJson(jsonStringify) {
@@ -264,7 +252,7 @@
 
             var d = getDate(d);
             var valueStorage = rides.length;
-            localStorage.setItem("amountRides", JSON.stringify(valueStorage));
+            localStorage.setItem("amountRides", valueStorage);
         }
         
         function clearRecord() {
@@ -291,7 +279,6 @@
 
         function fillSpeed() {
             speedId.innerHTML =
-                //'Speed: ' + velocity + 'km/h' + '<br />' +
                 'Cordova Speed: ' + speed + 'km/h' + '<br />' +
                 '<hr />';
         }

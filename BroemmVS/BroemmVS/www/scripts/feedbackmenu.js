@@ -5,25 +5,20 @@
 
     function onDeviceReady() {
         console.log("works as intended");
+        var routeCityId = document.getElementById("routeCity");
+        var journey = [];
 
-        $(document).ready(function () {
-            console.log("Document is ready!");
+        // Get last localstorage json
+        var restoredAllRides = JSON.parse(localStorage.getItem("amountRides"));
+        var ride = 'ride' + restoredAllRides;
 
-            var $body = $("body");
-            var $app = $(".app");
-            var $container = $(".container");
+        var restoredSession = JSON.parse(localStorage.getItem(ride));
 
-            /* Add height dependent padding */
-            var $routeviewer = $("#routeviewer");
-            var $headerroute = $("#routeviewer .header-route");
-            var height = $headerroute.outerHeight() + 20;
-            $routeviewer.css("padding-top", height);
+        for (var y = 0; y < restoredSession.motion.length; y++) {
+            var streetName = restoredSession.motion[y].streetName;
 
-            /* Generate streetpoints elements */
-            var $streettracks = $("#streettracks");
-            var journey = [
-                {
-                    streetName: "Noordersingel",
+            var feed = {
+                streetName: streetName,
                     assessor: {
                         acceleration: {
                             translation: "acceleratie",
@@ -41,69 +36,110 @@
                             max: 10
                         }
                     }
-                },
-                {
-                    streetName: "Rijksstraatweg/N335",
-                    assessor: {
-                        acceleration: {
-                            translation: "acceleratie",
-                            score: 2,
-                            max: 10
-                        },
-                        turns: {
-                            translation: "bochten",
-                            score: 3,
-                            max: 10
-                        },
-                        speed: {
-                            translation: "snelheid",
-                            score: 4,
-                            max: 10
-                        }
-                    }
-                },
-                {
-                    streetName: "Groningerstraatweg",
-                    assessor: {
-                        acceleration: {
-                            translation: "acceleratie",
-                            score: 5,
-                            max: 10
-                        },
-                        turns: {
-                            translation: "bochten",
-                            score: 6,
-                            max: 10
-                        },
-                        speed: {
-                            translation: "snelheid",
-                            score: 7,
-                            max: 10
-                        }
-                    }
-                },
-                {
-                    streetName: "Tweebaksmarkt",
-                    assessor: {
-                        acceleration: {
-                            translation: "acceleratie",
-                            score: 8,
-                            max: 10
-                        },
-                        turns: {
-                            translation: "bochten",
-                            score: 9,
-                            max: 10
-                        },
-                        speed: {
-                            translation: "snelheid",
-                            score: 10,
-                            max: 10
-                        }
-                    }
-                },
-            ];
+            }
+            journey.push(feed);
+        }
+        var streetNamesLenght = restoredSession.motion.length;
+        routeCityId.innerHTML = restoredSession.motion[0].streetName + " &rarr; " + restoredSession.motion[streetNamesLenght - 1].streetName;
 
+        $(document).ready(function () {
+            console.log("Document is ready!");
+
+            var $body = $("body");
+            var $app = $(".app");
+            var $container = $(".container");
+
+            /* Add height dependent padding */
+            var $routeviewer = $("#routeviewer");
+            var $headerroute = $("#routeviewer .header-route");
+            var height = $headerroute.outerHeight() + 20;
+            $routeviewer.css("padding-top", height);
+
+            /* Generate streetpoints elements */
+            var $streettracks = $("#streettracks");
+            //var journey = [
+            //    {
+            //        streetName: "Noordersingel",
+            //        assessor: {
+            //            acceleration: {
+            //                translation: "acceleratie",
+            //                score: 6,
+            //                max: 10
+            //            },
+            //            turns: {
+            //                translation: "bochten",
+            //                score: 0,
+            //                max: 10
+            //            },
+            //            speed: {
+            //                translation: "snelheid",
+            //                score: 1,
+            //                max: 10
+            //            }
+            //        }
+            //    },
+            //    {
+            //        streetName: "Rijksstraatweg/N335",
+            //        assessor: {
+            //            acceleration: {
+            //                translation: "acceleratie",
+            //                score: 2,
+            //                max: 10
+            //            },
+            //            turns: {
+            //                translation: "bochten",
+            //                score: 3,
+            //                max: 10
+            //            },
+            //            speed: {
+            //                translation: "snelheid",
+            //                score: 4,
+            //                max: 10
+            //            }
+            //        }
+            //    },
+            //    {
+            //        streetName: "Groningerstraatweg",
+            //        assessor: {
+            //            acceleration: {
+            //                translation: "acceleratie",
+            //                score: 5,
+            //                max: 10
+            //            },
+            //            turns: {
+            //                translation: "bochten",
+            //                score: 6,
+            //                max: 10
+            //            },
+            //            speed: {
+            //                translation: "snelheid",
+            //                score: 7,
+            //                max: 10
+            //            }
+            //        }
+            //    },
+            //    {
+            //        streetName: "Tweebaksmarkt",
+            //        assessor: {
+            //            acceleration: {
+            //                translation: "acceleratie",
+            //                score: 8,
+            //                max: 10
+            //            },
+            //            turns: {
+            //                translation: "bochten",
+            //                score: 9,
+            //                max: 10
+            //            },
+            //            speed: {
+            //                translation: "snelheid",
+            //                score: 10,
+            //                max: 10
+            //            }
+            //        }
+            //    },
+            //];
+            
             /*var assessorScores = {
                 // assignment: [score, score, score, score, score, etc]
             };*/

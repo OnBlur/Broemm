@@ -32,9 +32,6 @@
         var rides = [];
         var stringMotionJson = [];
         var restoredSession = [];
-
-        var streetNameStart;
-        var streetNameStop;
         
         // Functions
         // Onclick buttons with functions
@@ -45,11 +42,11 @@
 
         // Get all values from localStorage
         function getAll() {
-            if (localStorage.length == 0) {                                         // If localStorage is empty then show alert
+            if (localStorage.length === 0) {                                         // If localStorage is empty then show alert
                 alert("localStorage is empty");
             }
             else {
-                valueStorage = JSON.parse(localStorage.getItem("amountRides"));    // Fill valueStorage with values from valueStorage localStorage
+                valueStorage = localStorage.getItem("amountRides");    // Fill valueStorage with values from valueStorage localStorage
 
                 for (var i = 1; i <= valueStorage; i++) {
                     var ride = 'ride' + i;
@@ -58,76 +55,27 @@
                 alert("rides: " + valueStorage);
             }
         }
-
-        function reverseGeocodeQuery(lat, lon) {
-            var format = "json";
-            var zoom = 13;
-
-            var url = "https://nominatim.openstreetmap.org/reverse?format=" + format + "&lat=" + lat + "&lon=" + lon + "&zoom=" + zoom + "&addressdetails=1";
-            return url;
-        }
-
-        function makeRequest(url, done, rideCounter, stringMotionJson, i, bool) {
-            var xhr = new XMLHttpRequest();
-
-            xhr.open('Get', url);
-
-            xhr.onload = function () {
-                done(null, xhr.response, rideCounter, stringMotionJson, i, bool);
-            };
-
-            xhr.onerror = function () {
-                done(xhr.response);
-            };
-
-            xhr.send();
-        }
-
-        function yourCallBackFunction(err, data, rideCounter, stringMotionJson, i, bool) {
-            if (err) {
-                //Do something with the error 
-            } else {
-                var cityName = JSON.parse(data);
-
-                if (bool) {
-                    streetNameStop = cityName.address.suburb;
-                }
-                else {
-                    streetNameStart = cityName.address.suburb;
-                    ridesId.innerHTML += 'Rit: ' + rideCounter + " | " + streetNameStart + " > " + streetNameStop + '<br />' + stringMotionJson[i] + '<hr />';
-                }
-                //data  is the json response that you recieved from the server
-            }
-        }
         
         function getCityName() {
             var rideCounter = 1;
-            var latitude = [];
-            var longitude = [];
+            var cities = [];
+            var startCity = [];
+            var endCity = [];
             var i = 0;
             
             while (i < valueStorage) {
-                var bool = true;
-                var url;
-                var data;
 
                 restoredSession[i] = JSON.parse(localStorage.getItem(rides[i]));
                 stringMotionJson[i] = JSON.stringify(restoredSession[i]);
                 
                 for (var y = 0; y < restoredSession[i].motion.length; y++) {
                     var motions = restoredSession[i].motion[y];
-                    latitude.push(motions.latitude);
-                    longitude.push(motions.longitude);
+
+                    cities.push(motions.cityName);
+                    alert(cities);
                 }
-                
-                url = reverseGeocodeQuery(latitude[longitude.length - 1], longitude[longitude.length - 1]);
-                data = makeRequest(url, yourCallBackFunction, rideCounter, stringMotionJson, i, bool);
 
-
-                bool = false;
-                url = reverseGeocodeQuery(latitude[i], longitude[i]);
-                data = makeRequest(url, yourCallBackFunction, rideCounter, stringMotionJson, i, bool);
-
+                ridesId.innerHTML += 'Rit: ' + rideCounter + " | " + cities[0] + " > " + cities[cities.length - 1] + '<br />' + stringMotionJson[i] + '<hr />';
                 rideCounter++;
                 i++;
             }
@@ -136,7 +84,7 @@
         // Clear localStorage and check if its really cleared
         clearLocalStorageId.onclick = function () {
             localStorage.clear();
-            if (localStorage.length == 0) {
+            if (localStorage.length === 0) {
                 alert("Cleared");
             }
         };
