@@ -322,6 +322,11 @@ button,
         width: auto;
         height: 40vh;
     }
+
+#json{
+    display: none;
+}
+
 #startstop {
     background: #6ABA36;
     border: 5px solid #428616;
