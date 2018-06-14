@@ -167,8 +167,7 @@
                     };
 
                     pointbarElements +=
-                        `<div class="points-bar ` + /*barIndicator + ` ` +*/ assignment +
-                        `" style="width: ` + percentage + `%">` +
+                        `<div class="points-bar ` + /*barIndicator + ` ` +*/ assignment + `" style="width: ` + percentage + `%">` +
                         journey[street].assessor[assignment].translation + `: ` +
                         score + `/` + max + `</div >`;
 
@@ -182,20 +181,29 @@
                     console.log(percentages[p]);
                     sum += percentages[p];
                 };
-                var average = sum / percentages.length;
-                console.log(average + " = " + sum + " / " + percentages.length);
+                var average = restoredSession.motion[street].assessor;
+                //var average = sum / percentages.length;
+                //console.log(average + " = " + sum + " / " + percentages.length);
 
-                if (average <= 50) {
+                if (average != true){
                     indicator = "negative";
-                } else {
+                }
+                else {
                     indicator = "positive";
-                };
+                }
+
+                //if (average <= 50) {
+                //    indicator = "negative";
+                //} else {
+                //    indicator = "positive";
+                //};
 
                 var streetpointsElements =
                     `<div class="streetpoints">
                         <div class="street">
                             <div class="indicator ` + indicator + `"></div>
-                            <div class="street-text">` + streetName + ` (` + Math.round(average) + `%)</div>
+                            <!-- <div class="street-text">` + streetName + ` (` + Math.round(average) + `%)</div> -->
+                            <div class="street-text">` + streetName + ` (` + restoredSession.motion[street].points + `%)</div>
                             <img class="dropdown-triangle" src="images/triangle.svg" />
                         </div>
                         <div class="street-dropdown">` +
@@ -212,19 +220,28 @@
 
             for (var item in assignments) {
                 console.log(assignments);
+                var gifs = ["images/car gifs/acceleration/1.gif", "images/car gifs/turns/1.gif", "images/car gifs/speed/1.gif"];
+
+                var tipsSnelheid = ["Probeer &eacute;&eacute;n snelheid aan te houden", "Kijk ver vooruit!", "Door eerder je snelheid te regelen, zul je minder stilstaan"];
+                var tipsBochten = ["Regel voor de bocht al je snelheid","Doorzie de bocht. hoe verder je kijkt des te mooier de bocht","Bij het uitrijden van de bocht mag je gas bijgeven"];
+                var tipsVertragen = ["Door eerder te vertragen cre&euml;er je overzicht", "Probeer abrupt remmen te voorkomen", "Probeer de auto meer uit te laten rollen"];
+
+                var allTips = [tipsSnelheid, tipsBochten, tipsVertragen];
+                var ello = allTips[item];
+
                 var assignment = assignments[item];
                 var translation = journey[0].assessor[assignments[item]].translation;
                 var headerIndicator = "";
                 assessorElements += `
                     <div id="` + assignment + `" class="container assessor" style="display: none">
                         <div class="header header-element` + headerIndicator + `">` + translation + `</div>
-                        <div class="image"><img src="images/car gifs/acceleration/giphy-downsized-large.gif" /></div>
+                        <div class="image"><img src="` + gifs[item] + `" /></div>
                         <div class="header header-tips">Tips</div>
                         <div class="tips">
                             <ul>
-                                <li><div class="indicator positive"></div>Rustig optrekken</li>
+                                <!--<li><div class="indicator positive"></div>Rustig optrekken</li>
                                 <li><div class="indicator positive"></div>Snel doorschakelen</li>
-                                <li><div class="indicator positive"></div>Constante snelheid aanhouden</li>
+                                <li><div class="indicator positive"></div>Constante snelheid aanhouden</li>-->
                             </ul>
                         </div>
                     </div>`;

@@ -72,7 +72,6 @@
                     var motions = restoredSession[i].motion[y];
 
                     cities.push(motions.cityName);
-                    alert(cities);
                 }
 
                 ridesId.innerHTML += 'Rit: ' + rideCounter + " | " + cities[0] + " > " + cities[cities.length - 1] + '<br />' + stringMotionJson[i] + '<hr />';
