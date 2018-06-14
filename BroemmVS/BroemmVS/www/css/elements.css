@@ -138,7 +138,6 @@ button,
     padding-top: 20px;
     height: 75vh;
     overflow-y: scroll;
-    box-shadow: 0px 8px 16px #000000;
 }
     #routeviewer #overview > div {
         width: 80%;
@@ -150,7 +149,7 @@ button,
         /*background: #303030;*/
         box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.5);
         border-radius: 10px;
-        margin-bottom: 14px;
+        margin-bottom: 20px;
         padding-top: 15px;
         padding-bottom: 15px;
         /*width: 80%;*/
@@ -183,9 +182,24 @@ button,
         #routeviewer #overview div .date {
             grid-area: date;
         }
-    #routeviewer #overview #swipebar {
-        background: #ffffff;
+
+/* Swipe bar */
+#swipebar {
+    background-color: #4F4F4F;
+    width: 100%;
+    box-shadow: 0px 8px 16px #000000;
+    margin-bottom: 7px;
+    display: grid;
+    height: 5vh;
+
+}
+    #swipebar #bar {
+        background-color: #ffffff;
         height: 5px;
+        place-self: center;
+        padding-left: 20px;
+        padding-right: 20px;
+        width: 80%;
     }
 
 /* Driving assessor - feedbackmenu.html */

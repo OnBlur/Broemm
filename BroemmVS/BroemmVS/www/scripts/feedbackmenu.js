@@ -59,109 +59,158 @@
             var $burgermenu = $(".header-route img");
             var $streettracks = $("#streettracks");
             var $overview = $("#overview");
-            var menuClicked = false;
+            var $swipebar = $("#swipebar");
+            var $swipeindicator = $("#swipeindicator");
+            //var toggled = false;
+            var displayOverview = false;
+
+            console.log("before function");
+            function toggleOverview() {
+                console.log("toggle!");
+
+                $streettracks.toggle();
+                $overview.toggle();
+                $swipebar.toggle();
+
+                if (displayOverview == false) {
+                    var height = $headerroute.outerHeight();
+                    //toggled = true;
+                    displayOverview = true;
+                } else {
+                    var height = $headerroute.outerHeight() + 20;
+                    //toggled = false;
+                    displayOverview = false;
+                }
+                $routeviewer.css("padding-top", height);
+                //console.log("toggle: " + toggled);
+            };
 
             $burgermenu.click(function () {
+                toggleOverview();
+            });
+
+            var swipebarhammer = $swipebar.hammer();
+            $swipebar.data('hammer').get('swipe').set({ direction: Hammer.DIRECTION_ALL });
+            swipebarhammer.on("swipe", function (event) {
+                console.log("swiped bar!");
+                if (event.gesture.direction === 8) {
+                    console.log("top <- bottom");
+                    toggleOverview();
+                }                
+            });
+
+            var swipeindicatorhammer = $swipeindicator.hammer();
+            $swipeindicator.data('hammer').get('swipe').set({ direction: Hammer.DIRECTION_ALL });
+            swipeindicatorhammer.on("swipe", function (event) {
+                console.log("swiped indicator!");
+                if (event.gesture.direction === 8) {
+                    console.log("top <- bottom");
+                    toggleOverview();
+                }                
+            });
+
+            /*$burgermenu.click(function () {
                 //console.log("clicked!");
                 $streettracks.toggle();
                 $overview.toggle();
+                $swipebar.toggle();
 
-                if (menuClicked == false) {
+                if (toggled == false) {
                     var height = $headerroute.outerHeight();
-                    menuClicked = true;
+                    toggled = true;
                 } else {
                     var height = $headerroute.outerHeight() + 20;
-                    menuClicked = false;
+                    toggled = false;
                 }
                 $routeviewer.css("padding-top", height);
-                //console.log("clicked: " + menuClicked);
-            });
+                //console.log("clicked: " + toggled);
+            });*/
 
 
             /* Generate streetpoints elements */
             var $streettracks = $("#streettracks");
-            //var journey = [
-            //    {
-            //        streetName: "Noordersingel",
-            //        assessor: {
-            //            acceleration: {
-            //                translation: "acceleratie",
-            //                score: 6,
-            //                max: 10
-            //            },
-            //            turns: {
-            //                translation: "bochten",
-            //                score: 0,
-            //                max: 10
-            //            },
-            //            speed: {
-            //                translation: "snelheid",
-            //                score: 1,
-            //                max: 10
-            //            }
-            //        }
-            //    },
-            //    {
-            //        streetName: "Rijksstraatweg/N335",
-            //        assessor: {
-            //            acceleration: {
-            //                translation: "acceleratie",
-            //                score: 2,
-            //                max: 10
-            //            },
-            //            turns: {
-            //                translation: "bochten",
-            //                score: 3,
-            //                max: 10
-            //            },
-            //            speed: {
-            //                translation: "snelheid",
-            //                score: 4,
-            //                max: 10
-            //            }
-            //        }
-            //    },
-            //    {
-            //        streetName: "Groningerstraatweg",
-            //        assessor: {
-            //            acceleration: {
-            //                translation: "acceleratie",
-            //                score: 5,
-            //                max: 10
-            //            },
-            //            turns: {
-            //                translation: "bochten",
-            //                score: 6,
-            //                max: 10
-            //            },
-            //            speed: {
-            //                translation: "snelheid",
-            //                score: 7,
-            //                max: 10
-            //            }
-            //        }
-            //    },
-            //    {
-            //        streetName: "Tweebaksmarkt",
-            //        assessor: {
-            //            acceleration: {
-            //                translation: "acceleratie",
-            //                score: 8,
-            //                max: 10
-            //            },
-            //            turns: {
-            //                translation: "bochten",
-            //                score: 9,
-            //                max: 10
-            //            },
-            //            speed: {
-            //                translation: "snelheid",
-            //                score: 10,
-            //                max: 10
-            //            }
-            //        }
-            //    },
-            //];
+            /*var journey = [
+                {
+                    streetName: "Noordersingel",
+                    assessor: {
+                        acceleration: {
+                            translation: "acceleratie",
+                            score: 6,
+                            max: 10
+                        },
+                        turns: {
+                            translation: "bochten",
+                            score: 0,
+                            max: 10
+                        },
+                        speed: {
+                            translation: "snelheid",
+                            score: 1,
+                            max: 10
+                        }
+                    }
+                },
+                {
+                    streetName: "Rijksstraatweg/N335",
+                    assessor: {
+                        acceleration: {
+                            translation: "acceleratie",
+                            score: 2,
+                            max: 10
+                        },
+                        turns: {
+                            translation: "bochten",
+                            score: 3,
+                            max: 10
+                        },
+                        speed: {
+                            translation: "snelheid",
+                            score: 4,
+                            max: 10
+                        }
+                    }
+                },
+                {
+                    streetName: "Groningerstraatweg",
+                    assessor: {
+                        acceleration: {
+                            translation: "acceleratie",
+                            score: 5,
+                            max: 10
+                        },
+                        turns: {
+                            translation: "bochten",
+                            score: 6,
+                            max: 10
+                        },
+                        speed: {
+                            translation: "snelheid",
+                            score: 7,
+                            max: 10
+                        }
+                    }
+                },
+                {
+                    streetName: "Tweebaksmarkt",
+                    assessor: {
+                        acceleration: {
+                            translation: "acceleratie",
+                            score: 8,
+                            max: 10
+                        },
+                        turns: {
+                            translation: "bochten",
+                            score: 9,
+                            max: 10
+                        },
+                        speed: {
+                            translation: "snelheid",
+                            score: 10,
+                            max: 10
+                        }
+                    }
+                },
+            ];*/
             
             /*var assessorScores = {
                 // assignment: [score, score, score, score, score, etc]
@@ -292,7 +341,7 @@
             $body.hammer().on("swipe", function (event) {
                 //console.log(event.gesture.direction + " gesture detected");
                                 
-                if (event.gesture.direction === 2) { // right -> left
+                if (event.gesture.direction === 2 && displayOverview == false) { // right -> left
                     //console.log("gesture right -> left detected");
 
                     if (currentpage < totalpages) {
