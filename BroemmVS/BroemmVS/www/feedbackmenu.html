@@ -27,68 +27,125 @@
     <body>
         <div class="app">
             <div class="container" id="routeviewer" style="/*display: none*/">
-                <div id="routeCity" class="header header-route">laden...</div>
-                <div id="streettracks">
-                    <!-- <div class="streetpoints">
-                        <div class="street">
-                            <div class="indicator negative"></div>
-                            <div class="street-text">Noordersingel</div>
-                            <img class="dropdown-triangle" src="images/triangle.svg" />
-                        </div>
-                        <div class="street-dropdown">
-                            <div class="points-bar" style="width:100%">Acceleratie 10/10</div>
-                            <div class="points-bar" style="width: 90%">Bochten 9/10</div>
-                            <div class="points-bar" style="width: 80%">Snelheid 8/10</div>
-                        </div>
-                    </div> -->
+                <div class="header header-route">
+                    <img src="images/burgermenu.png"/>
+                    <span id="routeCity">Laden...</span>
+                </div>
+                <div id="streettracks" style="/*display: none*/"></div>
+                <div id="overview" style="display: none">
+                    <div class="high">
+                        <div class="tracknumber">21</div>
+                        <span class="track">Burgum &rarr; Leeuwarden</span>
+                        <span class="date">16 juni 2018</span>
+                    </div>
+                    <div class="low">
+                        <div class="tracknumber">20</div>
+                        <span class="track">Burgum &rarr; Leeuwarden</span>
+                        <span class="date">15 juni 2018</span>
+                    </div>
+                    <div class="high">
+                        <div class="tracknumber">19</div>
+                        <span class="track">Burgum &rarr; Leeuwarden</span>
+                        <span class="date">14 juni 2018</span>
+                    </div>
+                    <div class="medium">
+                        <div class="tracknumber">19</div>
+                        <span class="track">Burgum &rarr; Leeuwarden</span>
+                        <span class="date">12 juni 2018</span>
+                    </div>
+                    <div class="low">
+                        <div class="tracknumber">18</div>
+                        <span class="track">Burgum &rarr; Leeuwarden</span>
+                        <span class="date">11 juni 2018</span>
+                    </div>
+                    <div class="high">
+                        <div class="tracknumber">17</div>
+                        <span class="track">Burgum &rarr; Leeuwarden</span>
+                        <span class="date">10 juni 2018</span>
+                    </div>
+                    <div class="medium">
+                        <div class="tracknumber">16</div>
+                        <span class="track">Burgum &rarr; Leeuwarden</span>
+                        <span class="date">9 juni 2018</span>
+                    </div>
+                    <div class="high">
+                        <div class="tracknumber">15</div>
+                        <span class="track">Burgum &rarr; Leeuwarden</span>
+                        <span class="date">8 juni 2018</span>
+                    </div>
+                    <div class="high">
+                        <div class="tracknumber">14</div>
+                        <span class="track">Burgum &rarr; Leeuwarden</span>
+                        <span class="date">7 juni 2018</span>
+                    </div>
+                    <div class="high">
+                        <div class="tracknumber">13</div>
+                        <span class="track">Burgum &rarr; Leeuwarden</span>
+                        <span class="date">6 juni 2018</span>
+                    </div>
+                    <div class="high">
+                        <div class="tracknumber">12</div>
+                        <span class="track">Burgum &rarr; Leeuwarden</span>
+                        <span class="date">5 juni 2018</span>
+                    </div>
+                    <div class="high">
+                        <div class="tracknumber">11</div>
+                        <span class="track">Burgum &rarr; Leeuwarden</span>
+                        <span class="date">4 juni 2018</span>
+                    </div>
+                    <div class="high">
+                        <div class="tracknumber">10</div>
+                        <span class="track">Burgum &rarr; Leeuwarden</span>
+                        <span class="date">3 juni 2018</span>
+                    </div>
+                    <div class="high">
+                        <div class="tracknumber">9</div>
+                        <span class="track">Burgum &rarr; Leeuwarden</span>
+                        <span class="date">2 juni 2018</span>
+                    </div>
+                    <div class="high">
+                        <div class="tracknumber">8</div>
+                        <span class="track">Burgum &rarr; Leeuwarden</span>
+                        <span class="date">1 juni 2018</span>
+                    </div>
+                    <div class="high">
+                        <div class="tracknumber">7</div>
+                        <span class="track">Burgum &rarr; Leeuwarden</span>
+                        <span class="date">31 mei 2018</span>
+                    </div>
+                    <div class="high">
+                        <div class="tracknumber">6</div>
+                        <span class="track">Burgum &rarr; Leeuwarden</span>
+                        <span class="date">30 mei 2018</span>
+                    </div>
+                    <div class="high">
+                        <div class="tracknumber">5</div>
+                        <span class="track">Burgum &rarr; Leeuwarden</span>
+                        <span class="date">29 mei 2018</span>
+                    </div>
+                    <div class="high">
+                        <div class="tracknumber">4</div>
+                        <span class="track">Burgum &rarr; Leeuwarden</span>
+                        <span class="date">28 mei 2018</span>
+                    </div>
+                    <div class="high">
+                        <div class="tracknumber">3</div>
+                        <span class="track">Burgum &rarr; Leeuwarden</span>
+                        <span class="date">27 mei 2018</span>
+                    </div>
+                    <div class="high">
+                        <div class="tracknumber">2</div>
+                        <span class="track">Burgum &rarr; Leeuwarden</span>
+                        <span class="date">26 mei 2018</span>
+                    </div>
+                    <div class="high">
+                        <div class="tracknumber">1</div>
+                        <span class="track">Burgum &rarr; Leeuwarden</span>
+                        <span class="date">25 mei 2018</span>
+                    </div>
+                    <div id="swipebar">&nbsp;</div>
                 </div>
             </div>
-
-            <!-- <div id="acceleration" class="container assessor" style="display: none">
-                <div class="header header-element">Acceleratie</div>
-                <div class="image"><img src="images/car gifs/acceleration/giphy-downsized-large.gif" /></div>
-                <div class="header header-tips">Tips</div>
-                <div class="tips">
-                    <ul>
-                        <li><div class="indicator positive"></div>Rustig optrekken</li>
-                        <li><div class="indicator positive"></div>Snel doorschakelen</li>
-                        <li><div class="indicator positive"></div>Constante snelheid aanhouden</li>
-                    </ul>
-                </div>
-            </div>-->
-
-            <!-- <div id="turns" class="container assessor" style="display: none">
-                <div class="header header-element">Bochten</div>
-                <div class="image">
-                    <img src="images/car gifs/turns/1346863311_car_almost_hits_mad_during_handbrake_turn.gif" />
-                </div>
-                <div class="header header-tips">Tips</div>
-                <div class="tips">
-                    <ul>
-                        <li><div class="indicator positive"></div>Bocht anticiperen</li>
-                        <li><div class="indicator positive"></div>V&oacute;&oacute;r de bocht afremmen</li>
-                        <li><div class="indicator positive"></div>Terugschakelen naar 2</li>
-                    </ul>
-                </div>
-            </div> -->
-
-            <!-- <div id="speed" class="container assessor" style="display: none">
-                <div class="header header-element">Snelheid</div>
-                <div class="image">
-                    <img src="images/car gifs/speed/landscape-1490615777-bugatti.gif" />
-                </div>
-                <div class="header header-tips">Tips</div>
-                <div class="tips">
-                    <ul>
-                        <li><div class="indicator positive"></div>Bocht anticiperen</li>
-                        <li><div class="indicator positive"></div>V&oacute;&oacute;r de bocht afremmen</li>
-                        <li><div class="indicator positive"></div>Actieve rijhouding</li>
-                    </ul>
-                </div>
-                <div id="next">
-                    <a class="button" href="mainmenu.html">Verder</a>
-                </div>                
-            </div> -->
 
             <div id="swipeindicator">
                 <div class="ball ball1 active"></div>

@@ -63,7 +63,17 @@ button,
     left: 0;
     top: 0;
     width: 100%;
+    display: flex;
+    justify-content: space-between;
 }
+    .header-route img {
+        height: 1em;
+        padding-left: 1em;
+        align-self: center;
+    }
+    .header-route span {
+        padding-right: 1em;
+    }
 #streettracks {
     display: grid;
     grid-gap: 4px;
@@ -117,6 +127,65 @@ button,
     }
     .points-bar.negative {
         background: #C81A1A;
+    }
+
+/* Overview - feedbackmenu.html */
+#routeviewer #overview {
+    background-color: #4F4F4F;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding-top: 20px;
+    height: 75vh;
+    overflow-y: scroll;
+    box-shadow: 0px 8px 16px #000000;
+}
+    #routeviewer #overview > div {
+        width: 80%;
+        align-self: center;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+    #routeviewer #overview > div:not(#swipebar) {
+        /*background: #303030;*/
+        box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.5);
+        border-radius: 10px;
+        margin-bottom: 14px;
+        padding-top: 15px;
+        padding-bottom: 15px;
+        /*width: 80%;*/
+        /*align-self: center;*/
+        display: grid;
+        grid-template: 
+            "number track"   auto
+            "number date"    auto /
+            2em     auto;
+        grid-column-gap: 15px;
+    }
+        #routeviewer #overview div.high {
+            background: #6ABA36;
+        }
+        #routeviewer #overview div.medium {
+            background: #FFA500;
+        }
+        #routeviewer #overview div.low {
+            background: #C81A1A;
+        }
+
+        #routeviewer #overview div .tracknumber {
+            grid-area: number;
+            font-size: 2em;
+            place-self: center;
+        }
+        #routeviewer #overview div .track {
+            grid-area: track;
+        }
+        #routeviewer #overview div .date {
+            grid-area: date;
+        }
+    #routeviewer #overview #swipebar {
+        background: #ffffff;
+        height: 5px;
     }
 
 /* Driving assessor - feedbackmenu.html */

@@ -55,6 +55,29 @@
             var height = $headerroute.outerHeight() + 20;
             $routeviewer.css("padding-top", height);
 
+            /* Display track overview */
+            var $burgermenu = $(".header-route img");
+            var $streettracks = $("#streettracks");
+            var $overview = $("#overview");
+            var menuClicked = false;
+
+            $burgermenu.click(function () {
+                //console.log("clicked!");
+                $streettracks.toggle();
+                $overview.toggle();
+
+                if (menuClicked == false) {
+                    var height = $headerroute.outerHeight();
+                    menuClicked = true;
+                } else {
+                    var height = $headerroute.outerHeight() + 20;
+                    menuClicked = false;
+                }
+                $routeviewer.css("padding-top", height);
+                //console.log("clicked: " + menuClicked);
+            });
+
+
             /* Generate streetpoints elements */
             var $streettracks = $("#streettracks");
             //var journey = [
@@ -212,6 +235,9 @@
                     </div>`;
                 $streettracks.append(streetpointsElements);
             };
+
+            /* Generate overview elements */
+            // code here
 
             /* Generate assessor elements */
             var assessorElements = "";
