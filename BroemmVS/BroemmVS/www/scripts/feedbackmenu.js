@@ -227,7 +227,6 @@
                 var tipsVertragen = ["Door eerder te vertragen cre&euml;er je overzicht", "Probeer abrupt remmen te voorkomen", "Probeer de auto meer uit te laten rollen"];
 
                 var allTips = [tipsSnelheid, tipsBochten, tipsVertragen];
-                var ello = allTips[item];
 
                 var assignment = assignments[item];
                 var translation = journey[0].assessor[assignments[item]].translation;
@@ -239,9 +238,9 @@
                         <div class="header header-tips">Tips</div>
                         <div class="tips">
                             <ul>
-                                <!--<li><div class="indicator positive"></div>Rustig optrekken</li>
+                                <li><div class="indicator positive"></div>Rustig optrekken</li>
                                 <li><div class="indicator positive"></div>Snel doorschakelen</li>
-                                <li><div class="indicator positive"></div>Constante snelheid aanhouden</li>-->
+                                <li><div class="indicator positive"></div>Constante snelheid aanhouden</li>
                             </ul>
                         </div>
                     </div>`;
