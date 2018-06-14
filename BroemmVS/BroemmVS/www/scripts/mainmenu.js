@@ -12,6 +12,7 @@
             var totalpages = 3;
             var currentpage = 2;  // middle
             var displayScore = false;
+            var displayTap = false;
 
             var $startstopscreen = $("#startstopscreen");
             var $startstop = $("#startstop");
@@ -28,10 +29,10 @@
             $beer.data('hammer').get('swipe').set({ direction: Hammer.DIRECTION_ALL });
 
             beerhammer.on("swipe", function (event) {
-                console.log(event.gesture.direction + " gesture detected");
+                //console.log(event.gesture.direction + " gesture detected");
 
                 if (event.gesture.direction === 2 && displayScore == false) { // right -> left
-                    console.log("gesture right -> left detected");
+                    //console.log("gesture right -> left detected");
 
                     if (currentpage < totalpages) {
                         currentpage += 1;
@@ -47,13 +48,14 @@
                                 $startstop.css("display", "none");
 
                                 $beertap.css("display", "block");
+                                displayTap = true;
                                 //$beertap.removeClass("slideOutLeft");
                                 //$beertap.addClass("slideInRight");
                                 break;
                         };
                     };
                 } else if (event.gesture.direction === 4 && displayScore == false) { // right <- left 
-                    console.log("gesture right <- left detected");
+                    //console.log("gesture right <- left detected");
 
                     if (currentpage > 1) {
                         currentpage -= 1;
@@ -68,14 +70,15 @@
                                 //$beertap.removeClass("slideInRight");
                                 //$beertap.addClass("slideOutLeft");
                                 $beertap.css("display", "none");
+                                displayTap = false;
                                 break;
                             case 1:
                                 window.location.href = "feedbackmenu.html"; // Redirect
                                 break;
                         };
                     };
-                } else if (event.gesture.direction === 8) {
-                    console.log("gesture top -> bottom detected");
+                } else if (event.gesture.direction === 8 && displayTap == false) {
+                    //console.log("gesture top -> bottom detected");
                     displayScore = true;
 
                     //$startstop.removeClass("slideinDown");
@@ -90,7 +93,7 @@
                     //});
                     
                 } else if (event.gesture.direction === 16 && displayScore == true) {
-                    console.log("gesture top <- bottom detected");
+                    //console.log("gesture top <- bottom detected");
                     displayScore = false;
 
                     //$startstop.removeClass("slideOutUp");
