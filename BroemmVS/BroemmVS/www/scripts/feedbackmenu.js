@@ -240,8 +240,8 @@
 
                     pointbarElements +=
                         `<div class="points-bar ` + /*barIndicator + ` ` +*/ assignment + `" style="width: ` + percentage + `%">` +
-                        journey[street].assessor[assignment].translation + `: ` +
-                        score + `/` + max + `</div >`;
+                        journey[street].assessor[assignment].translation + `: ` + 
+                        score + `/` + max + `</div>`;
 
                     //assessorScores[assignment] = [];
                 };
@@ -268,7 +268,7 @@
                 //    indicator = "negative";
                 //} else {
                 //    indicator = "positive";
-                //};
+                //};               
 
                 var streetpointsElements =
                     `<div class="streetpoints">
@@ -306,6 +306,16 @@
                 var assignment = assignments[item];
                 var translation = journey[0].assessor[assignments[item]].translation;
                 var headerIndicator = "";
+
+                console.log(item + " == ( " + assignments.length + " - 1 )");
+                var continueElement = "";
+                if (item == (assignments.length - 1)) {
+                    continueElement =
+                        `<div id="next">
+                            <a class="button" href="mainmenu.html">Verder</a>
+                        </div>`;
+                }
+
                 assessorElements += `
                     <div id="` + assignment + `" class="container assessor" style="display: none">
                         <div class="header header-element` + headerIndicator + `">` + translation + `</div>
@@ -317,8 +327,9 @@
                                 <li><div class="indicator positive"></div>Snel doorschakelen</li>
                                 <li><div class="indicator positive"></div>Constante snelheid aanhouden</li>
                             </ul>
-                        </div>
-                    </div>`;
+                        </div>` +
+                        continueElement +
+                    `</div>`;
             }
             //console.log(assessorElements);
             $app.append(assessorElements);
