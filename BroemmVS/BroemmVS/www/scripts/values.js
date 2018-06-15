@@ -60,7 +60,6 @@
 
         // Functions
         function getMotion() {
-
             // Calibrate the compass of the device by instructing the user to calibrate the compass
             window.addEventListener("compassneedscalibration", function (event) {
                 // ask user to wave device in a figure-eight motion .   
@@ -73,18 +72,10 @@
         }
 
         function setCoords(position) {
-            //if (latitude !== position.coords.latitude || longitude !== position.coords.longitude || record) {
-            //    alert(latitude + " not the same as " + position.coords.latitude);
-                latitude = position.coords.latitude;
-                longitude = position.coords.longitude;
-                //if (record) {
-                    var url = reverseGeocodeQuery(latitude, longitude);
-                    var data = makeRequest(url, yourCallBackFunction);
-                //}
-            //}
-            //else {
-            //    alert("same, skipped!");
-            //}
+            latitude = position.coords.latitude;
+            longitude = position.coords.longitude;
+            var url = reverseGeocodeQuery(latitude, longitude);
+            var data = makeRequest(url, yourCallBackFunction);
 
             speed = position.coords.speed;
             speed *= 3.6;
