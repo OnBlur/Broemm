@@ -116,7 +116,7 @@
                 else {
                     record = true;
                     rides.push(ride);
-                    alert("Started " + ride);
+                    //alert("Started " + ride);
                     startRecord();
                 }
             }
@@ -186,7 +186,7 @@
                 setTimeout(startRecord, 1000);                              // Repeat this function after 1 sec
             }
             else {
-                alert("Finished " + ride + " met " + points + " punten");
+                //alert("Finished " + ride + " met " + points + " punten");
                 record = false;
                 indexLoop = 0;
                 points = 100;
@@ -214,14 +214,14 @@
         function assessor() {
             var leftOrRight;
 
-            for (var i = 0; i < correctTurnRight.length; i++) {
-                if (accelerationX > correctTurnRight[i] && accelerationX < correctTurnRight[i + 1]) {
-                    alert("Juist bocht naar rechts!");
-                }
-                else if (accelerationX < correctTurnLeft[i] && accelerationX > correctTurnLeft[i + 1]) {
-                    alert("Juist bocht naar links!");
-                }
-            }
+            //for (var i = 0; i < correctTurnRight.length; i++) {
+            //    if (accelerationX > correctTurnRight[i] && accelerationX < correctTurnRight[i + 1]) {
+            //        alert("Juist bocht naar rechts!");
+            //    }
+            //    else if (accelerationX < correctTurnLeft[i] && accelerationX > correctTurnLeft[i + 1]) {
+            //        alert("Juist bocht naar links!");
+            //    }
+            //}
 
             if (accelerationX < wrongTurn[0]) {
                 leftOrRight = "links";
@@ -238,7 +238,7 @@
         function assessorAlert(leftOrRight) {
             var d = getDate(d);
             points -= 1;
-            alert("fout bij id: " + indexLoop + " om " + d + " Je stuurt tever naar " + leftOrRight + " met " + accelerationX);
+            //alert("fout bij id: " + indexLoop + " om " + d + " Je stuurt tever naar " + leftOrRight + " met " + accelerationX);
         }
 
         //// Stop recording and save all current values and the number of times driven
