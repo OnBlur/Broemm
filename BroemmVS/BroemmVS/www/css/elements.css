@@ -286,20 +286,28 @@ button,
 
 /* Step # - landingpage.html */
 .explanation {
-    text-align: center;
+    margin: 15px;
 }
-    .explanation *:not(h2) {
+    /*.explanation *:not(h2) {
         font-size: 26px;
-    }
-    .explanation p {
+    }*/
+    /*.explanation p {
         padding-left: 30px;
         padding-right: 30px;
+    }*/
+    .explanation h2,
+    .explanation p {
+        text-align: center;
     }
     .explanation img {
         height: auto;
-        width: 60vw;
+        /*width: 60vw;*/
+        width: 15vw;
     }
-        .explanation img.beercrate {
+        .explanation img.beer {
+            width: 25vw;
+        }
+        /*.explanation img.beercrate {
             margin-top: 10vh;
         }
         .explanation img#beer {
@@ -312,7 +320,117 @@ button,
         margin-top: 0;
         margin-bottom: 0;
         padding-left: 0;
+    }*/
+    .explanation .grid {
+        display: grid;
     }
+        .explanation .grid > div {
+            display: flex;
+            align-self: center;
+            align-items: center;
+        }
+
+#step1 .grid {
+    grid-template: 
+        "feedback   beer    fill"   auto
+        "score      score   score"  auto /
+            auto       auto    auto;
+}
+    #step1 .grid div .trianglearrow {
+        width: auto;
+        height: 2em;
+    }
+    #step1 .grid div:nth-child(1) {
+        grid-area: feedback;
+        justify-self: end;
+    }
+        #step1 .grid div:nth-child(1) .trianglearrow {
+            transform: rotate(180deg);
+        }
+    #step1 .grid div:nth-child(2) {
+        grid-area: beer;
+        display: block;
+        place-self: center;
+    }
+    #step1 .grid div:nth-child(3) {
+        grid-area: score;
+        justify-self: center;
+        flex-direction: column;
+    }
+        #step1 .grid div:nth-child(3) .trianglearrow {
+            transform: rotate(90deg);
+        }
+    #step1 .grid div:nth-child(4) {
+        grid-area: fill;
+        justify-self: start;
+    }
+        #step1 .grid div:nth-child(4) .trianglearrow {
+            transform: rotate(360deg);
+        }
+
+#step2 .grid {
+    grid-template-columns: auto auto;
+    grid-column-gap: 15px;
+}
+    #step2 .grid .previewbutton {
+        box-shadow: 0px 12px 12px #090909;
+        border-radius: 100%;
+        height: 10vh;
+        width: 10vh;
+    }
+        #step2 .grid .previewbutton p {
+            text-align: center;
+            font-size: 1em;
+            line-height: 10vh;
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+    #step2 .grid #start {
+        background: #6ABA36;
+        border: 5px solid #428616; 
+    }
+    #step2 .grid #stop {
+        background: #C81A1A;
+        border: 5px solid #AE1717;
+    }
+
+#step3 .grid {
+    grid-template-columns: auto auto;
+    grid-column-gap: 10px;
+}
+    #step3 .grid img {
+        width: 5vw;
+    }
+        #step3 .grid img.crate {
+            width: 50vw;
+            justify-self: center
+        }
+
+#step4 .grid {
+    grid-template: 
+        "tap    tap     tap"    auto 
+        "beer1   arrow   beer2"   auto / 
+        auto    auto    auto;
+    grid-column-gap: 5px;
+    margin-bottom: 40px;
+}
+    #step4 .grid img {
+        align-self: center;
+    }
+        #step4 .grid img:nth-child(1) {
+            grid-area: tap;
+            justify-self: start;
+            transform: scale(-1, 1);
+        }
+        #step4 .grid img:nth-child(2) {
+            grid-area: beer1;
+        }
+        #step4 .grid img:nth-child(3) {
+            grid-area: arrow;
+        }
+        #step4 .grid img:nth-child(4) {
+            grid-area: beer2;
+        }
 
 /* Start/stopscreen - mainmenu.html */
 #startstopscreen {

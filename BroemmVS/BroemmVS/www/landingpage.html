@@ -28,12 +28,6 @@
     <div class="app">
         <div id="" class="container" style="padding-top: 0;">
             <div class="header header-appname">BROEMM app</div>
-            <!--<div class="stepmenu">
-                <div class="stepcircle stepcircle1 active">1</div>
-                <div class="stepcircle stepcircle2">2</div>
-                <div class="stepcircle stepcircle3">3</div>
-                <div class="stepcircle stepcircle4">4</div>
-            </div>-->
             <div class="stepmenu">
                 <div class="step-box">
                     <div class="stepcircle stepcircle1 active done">1</div>
@@ -44,28 +38,67 @@
             </div>
             <div id="step1" class="explanation" style="/*display: none;*/">
                 <h2>Navigatie</h2>
-                <p>Navigeer door de app door te swipen.</p>
-                <img class="animated infinite shake" src="images/Swipe-icon-wit-01-01.png" />
+                <p>Navigeer door de menuonderdelen door het glas te swipen.</p>
+                <div class="grid">
+                    <div>
+                        <span>Feedback</span>
+                        <img class="trianglearrow" src="images/trianglearrow.svg" />
+                    </div>
+                    <div>
+                        <img class="beer" src="images/bierglas100.png" />
+                    </div>
+                    <div>                        
+                        <img class="trianglearrow" src="images/trianglearrow.svg" />
+                        <span>Score</span>
+                    </div>
+                    <div>
+                        <img class="trianglearrow" src="images/trianglearrow.svg" />
+                        <span>Vul je glas</span>
+                    </div>
+                </div>
             </div>
             <div id="step2" class="explanation" style="/*display: none;*/">
                 <h2>Start een rit</h2>
-                <p>Klik op de startknop in het hoofdmenu om een rit te starten.</p>
-                <h2>Ontvang feedback</h2>
-                <ul>
-                    <li>Acceleratie</li>
-                    <li>Bochten</li>
-                    <li>Snelheid</li>
-                </ul>
+                <div class="grid">
+                    <div class="previewbutton" id="start"><p>Start</p></div>
+                    <p>Klik op de startknop om een rit te starten.</p>
+                    <div class="previewbutton" id="stop"><p>Stop</p></div>
+                    <p>Klik op de stopknop om je rit op te slaan, en je feedback te ontvangen.</p>
+                </div>
+                <p>Bekijk hoeveel drinken je overhoudt na de rit op basis van de feedback.</p>
+                <div class="grid">
+                    <img style="justify-self:end" src="images/bierglas50.png" />
+                    <img src="images/bierglas100.png" />
+                    <span style="color: #FF6B00; justify-self:end;">50%</span>
+                    <span style="color: #6ABA36">100%</span>
+                </div>
             </div>
             <div id="step3" class="explanation" style="/*display: none;*/">
-                <p>Stop het overgebleven in de krat en verdien punten!</p>
-                <img class="beercrate" src="images/BierKrat.png" />
+                <h2>Ontvang feedback op de onderdelen: </h2>
+                <ul>
+                    <li>Vertragen</li>
+                    <li>Bochten</li>
+                    <li>Snelheid regelen</li>
+                </ul>
+                <p>Vul de bierflesjes op het scorescherm met het overgebleven drinken.</p>
+                <div class="grid">
+                    <img style="justify-self:end" src="images/Bottle25.png" />
+                    <img src="images/Bottle100.png" />
+                </div>
+                <p>En sleep ze daarna in het krat voor punten.</p>
+                <div class="grid" style="grid-template-columns: auto">
+                    <img class="crate" src="images/Krat07.png" /> 
+                </div>
             </div>
             <div id="step4" class="explanation" style="/*display: none;*/">
-                <p>Vul je glas met de tap en start een nieuwe rit.</p>
-                <img class="beer" src="images/Bierglas.png" />
-                <p>Door op het glas te tikken kun je van menu's wisselen.</p>
-                <a class="button" href="mainmenu.html">Verder</a>
+                <p>Vul het glas dop het tapscherm en start daarna een nieuwe rit!</p>
+                <div class="grid">
+                    <img src="images/tapfixed.png" />
+                    <img src="images/bierglas50.png" />
+                    <img src="images/arrow.svg" />
+                    <img src="images/bierglas100.png" />
+                </div>
+                <a style="margin-top: 20px;" class="button" href="mainmenu.html">Verder</a>
             </div>
         </div>
         <div id="swipeindicator">
