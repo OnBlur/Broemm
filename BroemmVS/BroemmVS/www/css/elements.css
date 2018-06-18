@@ -79,6 +79,10 @@ button,
     grid-gap: 4px;
     width: 100%;
 }
+#streettracks #trackmoment {
+    text-align: center;
+    margin-bottom: 10px;
+}
 .street {
     background: #4F4F4F;
     border-radius: 15px;
@@ -222,17 +226,39 @@ button,
 }
 .tips {
     justify-self: start;
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-column-gap: 1em;
+    grid-row-gap: 1em;
+    margin: 20px 20px 0;
 }
-    .tips ul li {
-        line-height: 2em;
-        display: flex;
-        align-items: center;
-    }
-    .tips ul li .indicator {
+    .tips .indicator {
         width: 1em;
         height: 1em;
-        margin-right: 10px;
+        place-self: center;
+        /*margin-right: 10px;*/
     }
+    .tips .tip {
+        /*margin-bottom: 1em;*/
+    }
+/*.tips {
+    justify-self: start;
+}
+    .tips ul {
+        list-style-image: url('../images/pluspositive.png'); default
+        padding-left: 2em;
+        padding-right: 1em;
+    }
+        .tips ul li {
+            margin-bottom: 1em;
+            display: flex;
+            align-items: center;
+        }
+        .tips ul li .indicator {
+            width: 1em;
+            height: 1em;
+            margin-right: 10px;
+        }*/
 #next {
     align-self: end;
 }

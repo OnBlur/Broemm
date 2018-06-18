@@ -21,7 +21,7 @@
                 streetName: streetName,
                     assessor: {
                         acceleration: {
-                            translation: "acceleratie",
+                            translation: "vertragen",
                             score: 6,
                             max: 10
                         },
@@ -31,7 +31,7 @@
                             max: 10
                         },
                         speed: {
-                            translation: "snelheid",
+                            translation: "snelheid regelen",
                             score: 1,
                             max: 10
                         }
@@ -63,11 +63,8 @@
             var $swipeindicator = $("#swipeindicator");
             //var toggled = false;
             var displayOverview = false;
-
-            console.log("before function");
+                        
             function toggleOverview() {
-                console.log("toggle!");
-
                 $streettracks.toggle();
                 $overview.toggle();
                 $swipebar.toggle();
@@ -82,7 +79,6 @@
                     displayOverview = false;
                 }
                 $routeviewer.css("padding-top", height);
-                //console.log("toggle: " + toggled);
             };
 
             $burgermenu.click(function () {
@@ -92,9 +88,9 @@
             var swipebarhammer = $swipebar.hammer();
             $swipebar.data('hammer').get('swipe').set({ direction: Hammer.DIRECTION_ALL });
             swipebarhammer.on("swipe", function (event) {
-                console.log("swiped bar!");
+                //console.log("swiped bar!");
                 if (event.gesture.direction === 8) {
-                    console.log("top <- bottom");
+                    //console.log("top <- bottom");
                     toggleOverview();
                 }                
             });
@@ -102,9 +98,9 @@
             var swipeindicatorhammer = $swipeindicator.hammer();
             $swipeindicator.data('hammer').get('swipe').set({ direction: Hammer.DIRECTION_ALL });
             swipeindicatorhammer.on("swipe", function (event) {
-                console.log("swiped indicator!");
+                //console.log("swiped indicator!");
                 if (event.gesture.direction === 8) {
-                    console.log("top <- bottom");
+                    //console.log("top <- bottom");
                     toggleOverview();
                 }                
             });
@@ -134,7 +130,7 @@
                     streetName: "Noordersingel",
                     assessor: {
                         acceleration: {
-                            translation: "acceleratie",
+                            translation: "vertragen",
                             score: 6,
                             max: 10
                         },
@@ -144,7 +140,7 @@
                             max: 10
                         },
                         speed: {
-                            translation: "snelheid",
+                            translation: "snelheid regelen",
                             score: 1,
                             max: 10
                         }
@@ -154,7 +150,7 @@
                     streetName: "Rijksstraatweg/N335",
                     assessor: {
                         acceleration: {
-                            translation: "acceleratie",
+                            translation: "vertragen",
                             score: 2,
                             max: 10
                         },
@@ -164,7 +160,7 @@
                             max: 10
                         },
                         speed: {
-                            translation: "snelheid",
+                            translation: "snelheid regelen",
                             score: 4,
                             max: 10
                         }
@@ -174,7 +170,7 @@
                     streetName: "Groningerstraatweg",
                     assessor: {
                         acceleration: {
-                            translation: "acceleratie",
+                            translation: "vertragen",
                             score: 5,
                             max: 10
                         },
@@ -184,7 +180,7 @@
                             max: 10
                         },
                         speed: {
-                            translation: "snelheid",
+                            translation: "snelheid regelen",
                             score: 7,
                             max: 10
                         }
@@ -194,7 +190,7 @@
                     streetName: "Tweebaksmarkt",
                     assessor: {
                         acceleration: {
-                            translation: "acceleratie",
+                            translation: "vertragen",
                             score: 8,
                             max: 10
                         },
@@ -204,7 +200,7 @@
                             max: 10
                         },
                         speed: {
-                            translation: "snelheid",
+                            translation: "snelheid regelen",
                             score: 10,
                             max: 10
                         }
@@ -248,9 +244,9 @@
                 //console.log(assessorScores);
 
                 var sum = 0;
-                console.log("percentages: " + percentages);
+                //console.log("percentages: " + percentages);
                 for (var p in percentages) {
-                    console.log(percentages[p]);
+                    //console.log(percentages[p]);
                     sum += percentages[p];
                 };
                 var average = restoredSession.motion[street].assessor;
@@ -294,12 +290,28 @@
             //console.log(assignments);
 
             for (var item in assignments) {
-                console.log(assignments);
-                var gifs = ["images/car gifs/acceleration/1.gif", "images/car gifs/turns/1.gif", "images/car gifs/speed/1.gif"];
+                //console.log(assignments);
+                var gifs = [
+                    "images/car gifs/acceleration/1.gif",
+                    "images/car gifs/turns/1.gif",
+                    "images/car gifs/speed/1.gif"
+                ];
 
-                var tipsSnelheid = ["Probeer &eacute;&eacute;n snelheid aan te houden", "Kijk ver vooruit!", "Door eerder je snelheid te regelen, zul je minder stilstaan"];
-                var tipsBochten = ["Regel voor de bocht al je snelheid","Doorzie de bocht. hoe verder je kijkt des te mooier de bocht","Bij het uitrijden van de bocht mag je gas bijgeven"];
-                var tipsVertragen = ["Door eerder te vertragen cre&euml;er je overzicht", "Probeer abrupt remmen te voorkomen", "Probeer de auto meer uit te laten rollen"];
+                var tipsSnelheid = [
+                    "Probeer &eacute;&eacute;n snelheid aan te houden.",
+                    "Kijk ver vooruit!",
+                    "Door eerder je snelheid te regelen, zul je minder stilstaan."
+                ];
+                var tipsBochten = [
+                    "Regel voor de bocht al je snelheid.",
+                    "Doorzie de bocht. Hoe verder je kijkt, des te mooier de bocht.",
+                    "Bij het uitrijden van de bocht mag je gas bijgeven."
+                ];
+                var tipsVertragen = [
+                    "Door eerder te vertragen cre&euml;er je overzicht.",
+                    "Probeer abrupt remmen te voorkomen.",
+                    "Probeer de auto meer uit te laten rollen."
+                ];
 
                 var allTips = [tipsSnelheid, tipsBochten, tipsVertragen];
 
@@ -307,7 +319,7 @@
                 var translation = journey[0].assessor[assignments[item]].translation;
                 var headerIndicator = "";
 
-                console.log(item + " == ( " + assignments.length + " - 1 )");
+                //console.log(item + " == ( " + assignments.length + " - 1 )");
                 var continueElement = "";
                 if (item == (assignments.length - 1)) {
                     continueElement =
@@ -316,20 +328,29 @@
                         </div>`;
                 }
 
+                var tipsElements = "";
+                for (var tip in allTips[item]) {
+                    tipsElements += `<img class="indicator" src="../www/images/pluspositive.png" /><div class="tip">` + allTips[item][tip] + `</div>`;
+                };
+
                 assessorElements += `
                     <div id="` + assignment + `" class="container assessor" style="display: none">
                         <div class="header header-element` + headerIndicator + `">` + translation + `</div>
                         <div class="image"><img src="` + gifs[item] + `" /></div>
                         <div class="header header-tips">Tips</div>
-                        <div class="tips">
-                            <ul>
-                                <li><div class="indicator positive"></div>Rustig optrekken</li>
-                                <li><div class="indicator positive"></div>Snel doorschakelen</li>
-                                <li><div class="indicator positive"></div>Constante snelheid aanhouden</li>
-                            </ul>
-                        </div>` +
+                        <div class="tips">` + tipsElements + `</div>` +
                         continueElement +
                     `</div>`;
+                /*assessorElements += `
+                    <div id="` + assignment + `" class="container assessor" style="display: none">
+                        <div class="header header-element` + headerIndicator + `">` + translation + `</div>
+                        <div class="image"><img src="` + gifs[item] + `" /></div>
+                        <div class="header header-tips">Tips</div>
+                        <div class="tips">
+                            <ul style="list-style-image: url('../www/images/pluspositive.png')">` + tipsElements + `</ul>
+                        </div>` +
+                        continueElement +
+                    `</div>`;*/
             }
             //console.log(assessorElements);
             $app.append(assessorElements);
