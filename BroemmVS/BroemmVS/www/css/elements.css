@@ -1,4 +1,9 @@
 ﻿/* Default */
+@font-face {
+    font-family: broemmFont;
+    src: url(font/Ubuntu-B.ttf);
+}
+
 * {
     -webkit-tap-highlight-color: rgba(0,0,0,0);
 }
@@ -7,7 +12,7 @@ body {
     -webkit-text-size-adjust: none;
     -webkit-user-select: none;
     background-color: #303030;
-    font-family: 'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
+    font-family: broemmFont;
     font-size: 12px;
     height: 100vh;
     margin: 0px;
@@ -20,7 +25,6 @@ body {
 
 /* Main */
 .container {
-    font-family: Ubuntu, sans-serif;
     color: #ffffff;
     font-weight: bold;
     font-size: 22px;
