@@ -471,8 +471,16 @@ button,
         height: 40vh;
     }
 
-#json{
-    display: none;
+#json {
+    position: absolute;
+    font-size: 9px;
+    background-color: gray;
+    opacity: 0.5;
+    pointer-events: none;
+    word-wrap: break-word;
+    width: 50%;
+    margin: 10px;
+    z-index: 1;
 }
 
 #startstop {

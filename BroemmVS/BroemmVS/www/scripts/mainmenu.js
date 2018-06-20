@@ -42,10 +42,6 @@
 
         var jsonId = document.getElementById("json");
         var startRecordId = document.getElementById("startstop");
-        //var stopRecordId = document.getElementById("stopRecord");
-        //var geolocationId = document.getElementById('geolocation');
-        //var accelerationId = document.getElementById('acceleration');
-        //var speedId = document.getElementById('speed');
 
         // Functions
         function getMotion() {
@@ -79,9 +75,6 @@
             accelerationZ = event.accelerationIncludingGravity.z;
 
             roundOff();
-            //fillGeo();
-            //fillSpeed();
-            //fillAcc();
         }
 
         // Push values to precisionRound
@@ -166,7 +159,7 @@
                 assessor();
                 motionJson.motion.push({
                     'id': indexLoop,
-                    'name': rides.slice(-1)[0],
+                    'name': rides[rides.length - 1],
                     'timestamp': d,
                     'latitude': latitude,
                     'longitude': longitude,
@@ -214,15 +207,6 @@
         function assessor() {
             var leftOrRight;
 
-            //for (var i = 0; i < correctTurnRight.length; i++) {
-            //    if (accelerationX > correctTurnRight[i] && accelerationX < correctTurnRight[i + 1]) {
-            //        alert("Juist bocht naar rechts!");
-            //    }
-            //    else if (accelerationX < correctTurnLeft[i] && accelerationX > correctTurnLeft[i + 1]) {
-            //        alert("Juist bocht naar links!");
-            //    }
-            //}
-
             if (accelerationX < wrongTurn[0]) {
                 leftOrRight = "links";
                 assessorAlert(leftOrRight);
@@ -241,53 +225,11 @@
             //alert("fout bij id: " + indexLoop + " om " + d + " Je stuurt tever naar " + leftOrRight + " met " + accelerationX);
         }
 
-        //// Stop recording and save all current values and the number of times driven
-        //function stopRecord() {
-        //    alert("Finished " + ride + " met " + points + " punten");
-        //    record = false;
-        //    indexLoop = 0;
-        //    points = 100;
-
-        //    // Converting the JSON string with JSON.stringify()
-        //    // then saving with localStorage in the name of session
-        //    localStorage.setItem(rides.slice(-1)[0], JSON.stringify(motionJson));
-
-        //    // Clear array
-        //    motionJson = {
-        //        'motion': [],
-        //        'state': true
-        //    };
-
-        //    var d = getDate(d);
-        //    var valueStorage = rides.length;
-        //    localStorage.setItem("amountRides", valueStorage);
-        //}
-
         // Get current year, month, day, hour, minute, second and milisecond
         function getDate(d) {
             d = new Date();
             return d;
         }
-
-        //function fillGeo() {
-        //    geolocationId.innerHTML = 'latitude: ' + latitude + '<br />' +
-        //        'longitude: ' + longitude + '<br />' +
-        //        '<hr />';
-        //}
-
-        //function fillSpeed() {
-        //    speedId.innerHTML =
-        //        'Cordova Speed: ' + speed + 'km/h' + '<br />' +
-        //        '<hr />';
-        //}
-
-        //function fillAcc() {
-        //    accelerationId.innerHTML =
-        //        'Acceleration X: ' + accelerationX + '<br />' +
-        //        'Acceleration Y: ' + accelerationY + '<br />' +
-        //        'Acceleration Z: ' + accelerationZ + '<br />' +
-        //        '<hr />';
-        //}
 
         // onError Callback receives a Error object
         function onError(error) {
@@ -429,7 +371,6 @@
                         clicked = false;
                     };
                 }
-                
             });
 
             /* Beer glass swipe */
