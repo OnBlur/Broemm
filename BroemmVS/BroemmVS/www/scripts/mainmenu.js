@@ -4,8 +4,6 @@
     document.addEventListener('deviceready', onDeviceReady.bind(this), false);
 
     function onDeviceReady() {
-        console.log("works as intended");
-        // Initialize variables
         // Initialize variables
         var permissions = cordova.plugins.permissions;
 
@@ -13,34 +11,36 @@
         var wrongTurn = [-0.5, 0.5];
         var correctTurnRight = [-0.4, -0.2];
         var correctTurnLeft = [0.4, 0.2];
-        var points = 100;
 
         var latitude;
         var longitude;
-        var cityNameJson;
-        var streetNameJson;
+        var currentCityName;
+        var currentStreetName;
         var speed;
         var accelerationX;
         var accelerationY;
         var accelerationZ;
+        var points = 100;
+        var judgement = true;
+
+        var roundOffData = [latitude, longitude, speed, accelerationX, accelerationY, accelerationZ];
+        var roundOffNumber = [7, 7, 1, 3, 3, 3];
 
         var record = false;
-        var jsonStringify;
         var recordLoop;
-        var motionJson = {
+        var motionArray = {
             'motion': [],
             'state': true
         };
 
         var ride;
         var rides = [];
-        var rideCounter = 1;
+        var rideCounter = 0;
         var indexLoop = 0;
-        var judgement = true;
 
         var options = { timeout: 100 }; // Update every second
 
-        var jsonId = document.getElementById("json");
+        var debugId = document.getElementById("debug");
         var startRecordId = document.getElementById("startstop");
 
         // Functions
@@ -56,6 +56,16 @@
             var watchPos = navigator.geolocation.watchPosition(setCoords, onError, options);
         }
 
+        function processEvent(event) {
+
+            //var phonePosition = trackPhonePosition(event.accelerationIncludingGravity.x, event.accelerationIncludingGravity.y);
+            //alert(phonePosition);
+
+            accelerationX = event.accelerationIncludingGravity.x;
+            accelerationY = event.accelerationIncludingGravity.y;
+            accelerationZ = event.accelerationIncludingGravity.z;
+        }
+
         function setCoords(position) {
             latitude = position.coords.latitude;
             longitude = position.coords.longitude;
@@ -65,56 +75,7 @@
             
             speed = position.coords.speed;
             speed *= 3.6;
-
-            roundOff();
         }
-
-        function processEvent(event) {
-            accelerationX = event.accelerationIncludingGravity.x;
-            accelerationY = event.accelerationIncludingGravity.y;
-            accelerationZ = event.accelerationIncludingGravity.z;
-
-            roundOff();
-        }
-
-        // Push values to precisionRound
-        function roundOff() {
-            latitude = precisionRound(latitude, 7);
-            longitude = precisionRound(longitude, 7);
-            speed = precisionRound(speed, 1);
-            accelerationX = precisionRound(accelerationX, 3);
-            accelerationY = precisionRound(accelerationY, 3);
-            accelerationZ = precisionRound(accelerationZ, 3);
-        }
-
-        // Round off function
-        function precisionRound(varName, precision) {
-            var factor = Math.pow(10, precision);
-            return Math.round(varName * factor) / factor;
-        }
-
-        // Onclick buttons with functions
-        startRecordId.onclick = function () {
-            ride = 'ride' + rideCounter;
-
-            if (isNaN(latitude) || isNaN(longitude)) {
-                alert("Laden...");
-            }
-            else {
-                if (record) {
-                    record = false;
-                    rideCounter++;
-                    startRecord();
-                }
-                else {
-                    record = true;
-                    rides.push(ride);
-                    //alert("Started " + ride);
-                    startRecord();
-                }
-            }
-        };
-        //stopRecordId.onclick = function () { stopRecord(); };
 
         // Get URL for reverse geocoding
         function reverseGeocodeQuery(lat, lon) {
@@ -145,90 +106,133 @@
                 //Do something with the error 
             } else {
                 var cityName = JSON.parse(data);
-                cityNameJson = cityName.address.suburb;
-                streetNameJson = cityName.address.road;
+                currentCityName = cityName.address.suburb;
+                currentStreetName = cityName.address.road;
                 //data  is the json response that you recieved from the server
             }
         }
+        
+        //function trackPhonePosition() {
+        //    var negentigGradenRotatie = "";
+        //    var positie = "";
+        //    var currentAcceleration = [x, y];
+
+        //    for (var i = 0; i < currentAcceleration.length; i++) {
+        //        if (currentAcceleration[i] > 9.6 && currentAcceleration[i] < 10) {
+        //            if (i == 0) {
+        //                positie = "gamma links";
+        //                return negentigGradenRotatie = "90 graden naar: " + positie;
+        //            }
+        //            else if (i == 1) {
+        //                positie = "beta boven";
+        //                return negentigGradenRotatie = "90 graden naar: " + positie;
+        //            }
+        //        }
+        //    }
+        //}
+
+        // Onclick buttons with functions
+        startRecordId.onclick = function () {
+            if (isNaN(latitude) || isNaN(longitude)) {
+                alert("GPS locatie inladen");
+            }
+            else {
+                if (record) {
+                    record = false;
+                    startRecord();
+                }
+                else {
+                    rideCounter = localStorage.getItem("amountRides");
+                    rideCounter++;
+                    ride = 'rit' + rideCounter;
+                    localStorage.setItem("amountRides", rideCounter);
+
+                    record = true;
+                    rides.push(ride);
+                    startRecord();
+                }
+            }
+        };
 
         function startRecord() {
-            var d = getDate(d);
+            var d = getDate();
             judgement = true;
 
             if (record) {
                 assessor();
-                motionJson.motion.push({
+
+                roundOffData = [latitude, longitude, speed, accelerationX, accelerationY, accelerationZ];
+                for (var i = 0; i < roundOffData.length; i++) {
+                    precisionRound(roundOffData[i], roundOffNumber[i]);
+                }
+
+                motionArray.motion.push({
                     'id': indexLoop,
                     'name': rides[rides.length - 1],
                     'timestamp': d,
                     'latitude': latitude,
                     'longitude': longitude,
-                    'cityName': cityNameJson,
-                    'streetName': streetNameJson,
+                    'cityName': currentCityName,
+                    'streetName': currentStreetName,
                     'speed': speed,
-                    'accelerationX': accelerationX,
-                    'accelerationY': accelerationY,
-                    'accelerationZ': accelerationZ,
+                    'acceleration': [{
+                        "accelerationX": accelerationX,
+                        "accelerationY": accelerationY,
+                        "accelerationZ": accelerationZ
+                    }],
                     'points': points,
                     'assessor': judgement
                 });
+                
+                debugScreen(motionArray.motion[indexLoop]);
                 indexLoop++;
 
-                jsonStringify = JSON.stringify(motionJson);
-                fillJson(jsonStringify);
                 setTimeout(startRecord, 1000);                              // Repeat this function after 1 sec
             }
             else {
-                //alert("Finished " + ride + " met " + points + " punten");
                 record = false;
                 indexLoop = 0;
                 points = 100;
 
                 // Converting the JSON string with JSON.stringify()
                 // then saving with localStorage in the name of session
-                localStorage.setItem(rides.slice(-1)[0], JSON.stringify(motionJson));
+                localStorage.setItem(rides.slice(-1)[0], JSON.stringify(motionArray));
 
                 // Clear array
-                motionJson = {
+                motionArray = {
                     'motion': [],
                     'state': true
                 };
-                
-                var valueStorage = rides.length;
-                localStorage.setItem("amountRides", valueStorage);
             }
         }
-
-        function fillJson(jsonStringify) {
-            while (json.firstChild) json.removeChild(json.firstChild);      // Removes previous innerHTML, so not to repeat
-            jsonId.innerHTML += 'Json: ' + jsonStringify;
+        
+        function debugScreen(motionIndex) {
+            var motionIndexString = JSON.stringify(motionIndex);
+            debugId.innerHTML = motionIndexString;
         }
 
         function assessor() {
-            var leftOrRight;
-
-            if (accelerationX < wrongTurn[0]) {
-                leftOrRight = "links";
-                assessorAlert(leftOrRight);
+            if (accelerationX < wrongTurn[0] || accelerationX > wrongTurn[1]) {
                 judgement = false;
-            }
-            else if (accelerationX > wrongTurn[1]) {
-                leftOrRight = "rechts";
-                assessorAlert(leftOrRight);
-                judgement = false;
+                points -= 1;
             }
         }
 
-        function assessorAlert(leftOrRight) {
-            var d = getDate(d);
-            points -= 1;
-            //alert("fout bij id: " + indexLoop + " om " + d + " Je stuurt tever naar " + leftOrRight + " met " + accelerationX);
+        // Round off function
+        function precisionRound(varName, precision) {
+            var factor = Math.pow(10, precision);
+            varName = Math.round(varName * factor) / factor;
         }
+        
+        // Retreive day, month and year from Date()
+        function getDate() {
+            var d = new Date();
+            var day = d.getUTCDate();
+            var month = d.getUTCMonth() + 1; //months from 1-12
+            var year = d.getUTCFullYear();
 
-        // Get current year, month, day, hour, minute, second and milisecond
-        function getDate(d) {
-            d = new Date();
-            return d;
+            var newdate = day + "-" + month + "-" + year;
+            return newdate;
         }
 
         // onError Callback receives a Error object
@@ -236,6 +240,7 @@
             console.log('code: ' + error.code + '\n' +
                 'message: ' + error.message + '\n');
         }
+
         permissions.requestPermission(permissions.ACCESS_FINE_LOCATION, getMotion, onError);
 
         $(document).ready(function () {
@@ -347,9 +352,9 @@
 
             $startstop.click(function () {
                 if (isNaN(latitude) || isNaN(longitude)){
-                    alert("Laden...");
                     $startstop.css("background", "#b2b2b2");
                     $startstop.css("border", "5px solid #7f7f7f");
+                    $("#startstop p").html("Laden...");
                 }
                 else {
                     if (clicked == false) {

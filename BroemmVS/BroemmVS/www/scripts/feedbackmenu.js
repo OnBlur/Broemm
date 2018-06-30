@@ -5,12 +5,14 @@
 
     function onDeviceReady() {
         console.log("works as intended");
-        var routeCityId = document.getElementById("routeCity");
         var journey = [];
 
-        // Get last localstorage json
+        var routeCityId = document.getElementById("routeCity");
+        var trackmomentId = document.getElementById("trackmoment");
+
+        // Get last localstorage amount of rides
         var restoredAllRides = JSON.parse(localStorage.getItem("amountRides"));
-        var ride = 'ride' + restoredAllRides;
+        var ride = 'rit' + restoredAllRides;
 
         var restoredSession = JSON.parse(localStorage.getItem(ride));
 
@@ -41,6 +43,7 @@
         }
         var streetNamesLenght = restoredSession.motion.length;
         routeCityId.innerHTML = restoredSession.motion[0].streetName + " &rarr; " + restoredSession.motion[streetNamesLenght - 1].streetName;
+        trackmomentId.innerHTML = restoredSession.motion[0].name + ", " + restoredSession.motion[0].timestamp;
 
         $(document).ready(function () {
             console.log("Document is ready!");

@@ -471,7 +471,7 @@ button,
         height: 40vh;
     }
 
-#json {
+#debug {
     position: absolute;
     font-size: 9px;
     background-color: gray;
