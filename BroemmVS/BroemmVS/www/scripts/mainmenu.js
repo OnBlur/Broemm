@@ -9,9 +9,8 @@
 
         // Acceleration x for turns
         var wrongTurn = [-0.5, 0.5];
-        var correctTurnRight = [-0.4, -0.2];
-        var correctTurnLeft = [0.4, 0.2];
 
+        var indexLoop = 0;
         var latitude;
         var longitude;
         var currentCityName;
@@ -20,12 +19,12 @@
         var accelerationX;
         var accelerationY;
         var accelerationZ;
+        var rotateDegrees;
+        var leftToRight;
+        var frontToBack;
         var points = 100;
         var judgement = true;
-
-        var roundOffData = [latitude, longitude, speed, accelerationX, accelerationY, accelerationZ];
-        var roundOffNumber = [7, 7, 1, 3, 3, 3];
-
+        
         var record = false;
         var recordLoop;
         var motionArray = {
@@ -36,7 +35,6 @@
         var ride;
         var rides = [];
         var rideCounter = 0;
-        var indexLoop = 0;
 
         var options = { timeout: 100 }; // Update every second
 
@@ -45,25 +43,22 @@
 
         // Functions
         function getMotion() {
-            // Calibrate the compass of the device by instructing the user to calibrate the compass
-            window.addEventListener("compassneedscalibration", function (event) {
-                // ask user to wave device in a figure-eight motion .   
-                event.preventDefault();
-            }, true);
-
-            window.addEventListener("devicemotion", processEvent, true);
+            window.addEventListener("devicemotion", motionEvent, true);
+            window.addEventListener("deviceorientation", orientationEvent, true);
 
             var watchPos = navigator.geolocation.watchPosition(setCoords, onError, options);
         }
 
-        function processEvent(event) {
-
-            //var phonePosition = trackPhonePosition(event.accelerationIncludingGravity.x, event.accelerationIncludingGravity.y);
-            //alert(phonePosition);
-
+        function motionEvent(event) {
             accelerationX = event.accelerationIncludingGravity.x;
             accelerationY = event.accelerationIncludingGravity.y;
             accelerationZ = event.accelerationIncludingGravity.z;
+        }
+
+        function orientationEvent(event) {
+            frontToBack = event.beta;           // beta: front back motion
+            leftToRight = event.gamma;          // gamma: left to right
+            rotateDegrees = event.alpha;        // alpha: rotation around z-axis
         }
 
         function setCoords(position) {
@@ -111,25 +106,6 @@
                 //data  is the json response that you recieved from the server
             }
         }
-        
-        //function trackPhonePosition() {
-        //    var negentigGradenRotatie = "";
-        //    var positie = "";
-        //    var currentAcceleration = [x, y];
-
-        //    for (var i = 0; i < currentAcceleration.length; i++) {
-        //        if (currentAcceleration[i] > 9.6 && currentAcceleration[i] < 10) {
-        //            if (i == 0) {
-        //                positie = "gamma links";
-        //                return negentigGradenRotatie = "90 graden naar: " + positie;
-        //            }
-        //            else if (i == 1) {
-        //                positie = "beta boven";
-        //                return negentigGradenRotatie = "90 graden naar: " + positie;
-        //            }
-        //        }
-        //    }
-        //}
 
         // Onclick buttons with functions
         startRecordId.onclick = function () {
@@ -142,6 +118,7 @@
                     startRecord();
                 }
                 else {
+                    wrongTurn = [accelerationX - 0.5, accelerationX + 0.5];
                     rideCounter = localStorage.getItem("amountRides");
                     rideCounter++;
                     ride = 'rit' + rideCounter;
@@ -160,11 +137,7 @@
 
             if (record) {
                 assessor();
-
-                roundOffData = [latitude, longitude, speed, accelerationX, accelerationY, accelerationZ];
-                for (var i = 0; i < roundOffData.length; i++) {
-                    precisionRound(roundOffData[i], roundOffNumber[i]);
-                }
+                roundOff();
 
                 motionArray.motion.push({
                     'id': indexLoop,
@@ -180,13 +153,20 @@
                         "accelerationY": accelerationY,
                         "accelerationZ": accelerationZ
                     }],
+                    'deviceMotion': [{
+                        "beta": frontToBack,
+                        "gamma": leftToRight,
+                        "alpha": rotateDegrees
+                    }],
+                    'wrongTurn': wrongTurn,
                     'points': points,
                     'assessor': judgement
                 });
-                
-                debugScreen(motionArray.motion[indexLoop]);
-                indexLoop++;
 
+                debugScreen(motionArray.motion[indexLoop]);
+                changeInDevicePosition();
+                
+                indexLoop++;
                 setTimeout(startRecord, 1000);                              // Repeat this function after 1 sec
             }
             else {
@@ -206,11 +186,6 @@
             }
         }
         
-        function debugScreen(motionIndex) {
-            var motionIndexString = JSON.stringify(motionIndex);
-            debugId.innerHTML = motionIndexString;
-        }
-
         function assessor() {
             if (accelerationX < wrongTurn[0] || accelerationX > wrongTurn[1]) {
                 judgement = false;
@@ -218,10 +193,46 @@
             }
         }
 
+        function changeInDevicePosition() {
+            var voteToChange = 0;
+
+            if (indexLoop !== 0 && indexLoop > 6) {
+                for (var i = 0; i <= 6; i++) {
+                    if (leftToRight !== motionArray.motion[indexLoop - i].deviceMotion[0].gamma) {
+                        voteToChange++;
+                    }
+                }
+                if (voteToChange == 6) {
+                    wrongTurn = [accelerationX - 0.5, accelerationX + 0.5];
+                }
+            }
+        }
+
+        // Push values to precisionRound
+        function roundOff() {
+            latitude = precisionRound(latitude, 7);
+            longitude = precisionRound(longitude, 7);
+            speed = precisionRound(speed, 1);
+            accelerationX = precisionRound(accelerationX, 3);
+            accelerationY = precisionRound(accelerationY, 3);
+            accelerationZ = precisionRound(accelerationZ, 3);
+            rotateDegrees = precisionRound(rotateDegrees, 3);
+            leftToRight = precisionRound(leftToRight, 3);
+            frontToBack = precisionRound(frontToBack, 3);
+            for (var i = 0; i < wrongTurn.length; i++) {
+                wrongTurn[i] = precisionRound(wrongTurn[i], 3);
+            }
+        }
+        
         // Round off function
         function precisionRound(varName, precision) {
             var factor = Math.pow(10, precision);
-            varName = Math.round(varName * factor) / factor;
+            return Math.round(varName * factor) / factor;
+        }
+        
+        function debugScreen(motionIndex) {
+            var motionIndexString = JSON.stringify(motionIndex);
+            debugId.innerHTML = motionIndexString;
         }
         
         // Retreive day, month and year from Date()
